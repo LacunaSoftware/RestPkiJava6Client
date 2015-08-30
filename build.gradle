@@ -1,0 +1,56 @@
+plugins {
+    id "com.jfrog.bintray" version "1.3.1"
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
+repositories {
+   mavenCentral()
+}
+
+dependencies {
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.6.1'
+    compile 'io.swagger:swagger-annotations:1.5.3'
+}
+
+task fatJar(type: Jar) {
+    manifest {
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+publishing {
+    publications {
+        ClientPublish(MavenPublication) {
+            from components.java
+            groupId 'com.lacunasoftware.restpki'
+            artifactId 'restpki-client'
+            version '0.2.0'
+        }
+    }
+}
+
+bintray {
+    user = 'lacunasoftware'
+    key = System.getenv('BINTRAY_KEY')
+    publications = ['ClientPublish']
+    pkg {
+        repo = 'maven'
+        name = 'restpki-client'
+        userOrg = user
+        licenses = ['Unlicense']
+        vcsUrl = 'https://bitbucket.org/Lacunas/restpki-java-client.git'
+        version {
+            name = '0.2.0'
+            desc = 'Classes to consume Lacuna Software REST PKI'
+            released  = new Date()
+            vcsTag = '0.2.0'
+        }
+    }
+}
