@@ -12,9 +12,15 @@ import java.rmi.server.ExportException;
 class RestClient {
 
     private String endpointUri;
+    private String authToken;
 
     public RestClient(String endpointUri) {
         this.endpointUri = endpointUri;
+    }
+
+    public RestClient(String endpointUri, String authToken) {
+        this.endpointUri = endpointUri;
+        this.authToken = authToken;
     }
 
     public <TResponse> TResponse get(String requestUri, Class<TResponse> responseType) throws RestException {
@@ -29,6 +35,9 @@ class RestClient {
             conn = (HttpURLConnection) urlObj.openConnection();
             conn.setRequestMethod(verb);
             conn.setRequestProperty("Accept", "application/json");
+            if (authToken != null) {
+                conn.setRequestProperty("Authorization", "Bearer " + authToken);
+            }
 
         } catch (Exception e) {
             throw new RestUnreachableException(verb, url, e);
@@ -64,6 +73,9 @@ class RestClient {
             conn.setRequestMethod(verb);
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Accept", "application/json");
+            if (authToken != null) {
+                conn.setRequestProperty("Authorization", "Bearer " + authToken);
+            }
 
             OutputStream outStream = conn.getOutputStream();
             new ObjectMapper().writeValue(outStream, request);

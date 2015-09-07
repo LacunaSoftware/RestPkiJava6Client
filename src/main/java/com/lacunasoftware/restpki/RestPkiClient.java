@@ -1,19 +1,23 @@
 package com.lacunasoftware.restpki;
 
 public class RestPkiClient {
-	
-	private String endpointUrl;
-	
-	public RestPkiClient(String endpointUrl) {
-		this.endpointUrl = endpointUrl;
-	}
 
-	public String getEndpointUrl() {
-		return endpointUrl;
-	}
+    private String endpointUrl;
+    private String authToken;
+
+    public RestPkiClient(String endpointUrl, String authToken) {
+        this.endpointUrl = endpointUrl;
+        this.authToken = authToken;
+    }
+
+    public String getEndpointUrl() {
+        return endpointUrl;
+    }
+
+    public String getAuthToken() { return authToken; }
 
     RestClient getRestClient() {
-        return new RestClient(endpointUrl);
+        return new RestClient(endpointUrl, authToken);
     }
-	
+
 }

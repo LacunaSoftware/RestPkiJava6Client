@@ -1,5 +1,6 @@
 package com.lacunasoftware.restpki;
 
+import com.lacunasoftware.restpki.PadesVisualRepresentationModel;
 
 
 
@@ -8,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-08-30T16:05:17.528-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-07T11:27:36.506-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class PadesSignaturePostRequest   {
   
@@ -17,6 +18,7 @@ class PadesSignaturePostRequest   {
   private String signaturePolicyId = null;
   private String securityContextId = null;
   private String callbackArgument = null;
+  private PadesVisualRepresentationModel visualRepresentation = null;
 
   
   /**
@@ -79,6 +81,18 @@ class PadesSignaturePostRequest   {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("visualRepresentation")
+  public PadesVisualRepresentationModel getVisualRepresentation() {
+    return visualRepresentation;
+  }
+  public void setVisualRepresentation(PadesVisualRepresentationModel visualRepresentation) {
+    this.visualRepresentation = visualRepresentation;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -90,6 +104,7 @@ class PadesSignaturePostRequest   {
     sb.append("  signaturePolicyId: ").append(signaturePolicyId).append("\n");
     sb.append("  securityContextId: ").append(securityContextId).append("\n");
     sb.append("  callbackArgument: ").append(callbackArgument).append("\n");
+    sb.append("  visualRepresentation: ").append(visualRepresentation).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

@@ -10,23 +10,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @ApiModel(description = "")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-07T11:27:36.506-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-class SecurityContextSummary   {
+class ExternalLoginViewModel   {
   
-  private String id = null;
   private String name = null;
-  private Boolean isReadOnly = null;
-
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  @JsonProperty("id")
-  public String getId() {
-    return id;
-  }
-  public void setId(String id) {
-    this.id = id;
-  }
+  private String url = null;
+  private String state = null;
 
   
   /**
@@ -44,12 +32,24 @@ class SecurityContextSummary   {
   /**
    **/
   @ApiModelProperty(value = "")
-  @JsonProperty("isReadOnly")
-  public Boolean getIsReadOnly() {
-    return isReadOnly;
+  @JsonProperty("url")
+  public String getUrl() {
+    return url;
   }
-  public void setIsReadOnly(Boolean isReadOnly) {
-    this.isReadOnly = isReadOnly;
+  public void setUrl(String url) {
+    this.url = url;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("state")
+  public String getState() {
+    return state;
+  }
+  public void setState(String state) {
+    this.state = state;
   }
 
   
@@ -57,11 +57,11 @@ class SecurityContextSummary   {
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SecurityContextSummary {\n");
+    sb.append("class ExternalLoginViewModel {\n");
     
-    sb.append("  id: ").append(id).append("\n");
     sb.append("  name: ").append(name).append("\n");
-    sb.append("  isReadOnly: ").append(isReadOnly).append("\n");
+    sb.append("  url: ").append(url).append("\n");
+    sb.append("  state: ").append(state).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

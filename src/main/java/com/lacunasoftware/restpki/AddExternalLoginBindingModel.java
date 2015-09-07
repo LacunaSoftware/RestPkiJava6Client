@@ -10,20 +10,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @ApiModel(description = "")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-07T11:27:36.506-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-class PadesSignaturePostSignedBytesRequest   {
+class AddExternalLoginBindingModel   {
   
-  private String signature = null;
+  private String externalAccessToken = null;
 
   
   /**
    **/
-  @ApiModelProperty(value = "")
-  @JsonProperty("signature")
-  public String getSignature() {
-    return signature;
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("externalAccessToken")
+  public String getExternalAccessToken() {
+    return externalAccessToken;
   }
-  public void setSignature(String signature) {
-    this.signature = signature;
+  public void setExternalAccessToken(String externalAccessToken) {
+    this.externalAccessToken = externalAccessToken;
   }
 
   
@@ -31,9 +31,9 @@ class PadesSignaturePostSignedBytesRequest   {
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PadesSignaturePostSignedBytesRequest {\n");
+    sb.append("class AddExternalLoginBindingModel {\n");
     
-    sb.append("  signature: ").append(signature).append("\n");
+    sb.append("  externalAccessToken: ").append(externalAccessToken).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

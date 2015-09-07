@@ -8,14 +8,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-08-30T16:05:17.528-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-07T11:27:36.506-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class SecurityContextModel   {
   
+  private String description = null;
   private String id = null;
   private String name = null;
-  private String description = null;
   private Boolean isReadOnly = null;
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("description")
+  public String getDescription() {
+    return description;
+  }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
   
   /**
@@ -45,18 +57,6 @@ class SecurityContextModel   {
   /**
    **/
   @ApiModelProperty(value = "")
-  @JsonProperty("description")
-  public String getDescription() {
-    return description;
-  }
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
   @JsonProperty("isReadOnly")
   public Boolean getIsReadOnly() {
     return isReadOnly;
@@ -72,9 +72,9 @@ class SecurityContextModel   {
     StringBuilder sb = new StringBuilder();
     sb.append("class SecurityContextModel {\n");
     
+    sb.append("  description: ").append(description).append("\n");
     sb.append("  id: ").append(id).append("\n");
     sb.append("  name: ").append(name).append("\n");
-    sb.append("  description: ").append(description).append("\n");
     sb.append("  isReadOnly: ").append(isReadOnly).append("\n");
     sb.append("}\n");
     return sb.toString();

@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-08-30T16:05:17.528-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-07T11:27:36.506-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class CertificateModel   {
   
@@ -26,6 +26,8 @@ class CertificateModel   {
   private CertificateModel issuer = null;
   private PkiBrazilCertificateModel pkiBrazil = null;
   private PkiItalyCertificateModel pkiItaly = null;
+  private String thumbprint = null;
+  private String subjectCommonName = null;
 
   
   /**
@@ -136,6 +138,30 @@ class CertificateModel   {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("thumbprint")
+  public String getThumbprint() {
+    return thumbprint;
+  }
+  public void setThumbprint(String thumbprint) {
+    this.thumbprint = thumbprint;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("subjectCommonName")
+  public String getSubjectCommonName() {
+    return subjectCommonName;
+  }
+  public void setSubjectCommonName(String subjectCommonName) {
+    this.subjectCommonName = subjectCommonName;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -151,6 +177,8 @@ class CertificateModel   {
     sb.append("  issuer: ").append(issuer).append("\n");
     sb.append("  pkiBrazil: ").append(pkiBrazil).append("\n");
     sb.append("  pkiItaly: ").append(pkiItaly).append("\n");
+    sb.append("  thumbprint: ").append(thumbprint).append("\n");
+    sb.append("  subjectCommonName: ").append(subjectCommonName).append("\n");
     sb.append("}\n");
     return sb.toString();
   }
