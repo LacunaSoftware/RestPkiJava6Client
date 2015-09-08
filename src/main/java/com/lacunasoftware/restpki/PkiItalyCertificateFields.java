@@ -1,5 +1,8 @@
 package com.lacunasoftware.restpki;
 
+/**
+ * Class containing the PKI-Italy policy specific certificate fields
+ */
 public class PkiItalyCertificateFields {
 
     private PkiItalyCertificateTypes certificateType;

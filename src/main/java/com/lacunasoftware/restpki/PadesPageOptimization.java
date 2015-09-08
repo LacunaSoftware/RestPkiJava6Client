@@ -1,18 +1,32 @@
 package com.lacunasoftware.restpki;
 
+/**
+ * Page format optimization options for PAdES signature visual representation result.
+ */
 public class PadesPageOptimization {
 
     private PadesPaperSize paperSize;
     private PadesSize customPaperSize;
     private PadesPageOrientation pageOrientation;
 
+    /**
+     * Page optimization with default options
+     */
     public PadesPageOptimization() {
     }
 
+    /**
+     * Page optimization for specific paper size.
+     * @param paperSize Paper size standard.
+     */
     public PadesPageOptimization(PadesPaperSize paperSize) {
         this.paperSize = paperSize;
     }
 
+    /**
+     * Page optimization for custom paper size (that its not covered by PadesPaperSize standard options).
+     * @param customPaperSize Custom paper size width and height
+     */
     public PadesPageOptimization(PadesSize customPaperSize) {
         this.paperSize = PadesPaperSize.Custom;
         this.customPaperSize = customPaperSize;
@@ -30,6 +44,10 @@ public class PadesPageOptimization {
         return customPaperSize;
     }
 
+    /**
+     * Sets a custom paper size (that its not covered by PadesPaperSize standard options)
+     * @param customPaperSize Custom paper size width and height
+     */
     public void setCustomPaperSize(PadesSize customPaperSize) {
         this.customPaperSize = customPaperSize;
         this.paperSize = PadesPaperSize.Custom;

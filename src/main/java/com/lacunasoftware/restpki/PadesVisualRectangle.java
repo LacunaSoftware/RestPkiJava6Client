@@ -1,5 +1,8 @@
 package com.lacunasoftware.restpki;
 
+/**
+ * Rectangle dimensions values
+ */
 public class PadesVisualRectangle {
 
     private Double left;
@@ -16,6 +19,10 @@ public class PadesVisualRectangle {
         return left;
     }
 
+    /**
+     * Sets the left margin length
+     * @param left Left margin length
+     */
     public void setLeft(Double left) {
         this.left = left;
     }
@@ -24,6 +31,10 @@ public class PadesVisualRectangle {
         return top;
     }
 
+    /**
+     * Sets the top margin length
+     * @param top Top margin length
+     */
     public void setTop(Double top) {
         this.top = top;
     }
@@ -32,6 +43,10 @@ public class PadesVisualRectangle {
         return right;
     }
 
+    /**
+     * Sets the right margin length
+     * @param right Right margin length
+     */
     public void setRight(Double right) {
         this.right = right;
     }
@@ -40,6 +55,10 @@ public class PadesVisualRectangle {
         return bottom;
     }
 
+    /**
+     * Sets the bottom margin length
+     * @param bottom Bottom margin length
+     */
     public void setBottom(Double bottom) {
         this.bottom = bottom;
     }
@@ -48,6 +67,10 @@ public class PadesVisualRectangle {
         return width;
     }
 
+    /**
+     * Sets the width length
+     * @param width Width length
+     */
     public void setWidth(Double width) {
         this.width = width;
     }
@@ -56,6 +79,10 @@ public class PadesVisualRectangle {
         return height;
     }
 
+    /**
+     * Sets the Height length
+     * @param height Height length
+     */
     public void setHeight(Double height) {
         this.height = height;
     }

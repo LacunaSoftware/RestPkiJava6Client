@@ -4,6 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Class containing the ICP-Brasil policy specific certificate fields
+ */
 public class PkiBrazilCertificateFields {
 
     private PkiBrazilCertificateTypes certificateType;

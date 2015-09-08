@@ -1,5 +1,8 @@
 package com.lacunasoftware.restpki;
 
+/**
+ * PAdES signature visual representation specifications
+ */
 public class PadesVisualRepresentation {
 
     private PadesVisualText text;
@@ -9,6 +12,12 @@ public class PadesVisualRepresentation {
     public PadesVisualRepresentation() {
     }
 
+    /**
+     * Creates a PAdES signature visual representation options
+     * @param text The text specifications for the signature visual representation
+     * @param image The image specifications for the signature visual representation
+     * @param position The position specifications for the signature visual representation
+     */
     public PadesVisualRepresentation(PadesVisualText text, PadesVisualImage image, PadesVisualPositioning position) {
         this.text = text;
         this.image = image;
@@ -19,6 +28,10 @@ public class PadesVisualRepresentation {
         return text;
     }
 
+    /**
+     * Sets the text specifications for the signature visual representation
+     * @param text The text specifications for the signature visual representation
+     */
     public void setText(PadesVisualText text) {
         this.text = text;
     }
@@ -27,6 +40,10 @@ public class PadesVisualRepresentation {
         return image;
     }
 
+    /**
+     * Sets the image specifications for the signature visual representation
+     * @param image The image spacification for the signature visual representation
+     */
     public void setImage(PadesVisualImage image) {
         this.image = image;
     }
@@ -35,6 +52,10 @@ public class PadesVisualRepresentation {
         return position;
     }
 
+    /**
+     * Sets the position specifications for the signature visual representation
+     * @param position The position specifications for the signature visual representation
+     */
     public void setPosition(PadesVisualPositioning position) {
         this.position = position;
     }

@@ -1,5 +1,8 @@
 package com.lacunasoftware.restpki;
 
+/**
+ * Width and Height sizes for PAdES signature visual representation elements
+ */
 public class PadesSize {
 
     private double height;

@@ -46,7 +46,7 @@ public class ClientSideSignatureInstructions {
      *     to the component's method signHash. You can alternatively call the component's method signData, in which
      *     case you should use the method getToSignData() instead.
      * </p>
-     * @return The "to sign bytes", encoded in Base64.
+     * @return The "to sign precomputed digest of the bytes", encoded in Base64.
      */
     public String getToSignHash() {
         return toSignHash;

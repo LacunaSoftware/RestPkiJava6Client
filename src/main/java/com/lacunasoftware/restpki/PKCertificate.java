@@ -53,10 +53,18 @@ public class PKCertificate {
         return validityEnd;
     }
 
+    /**
+     * Gets the ICP-Brasil specific certificate fields
+     * @return ICP-Brasil specific certificate fields
+     */
     public PkiBrazilCertificateFields getPkiBrazil() {
         return pkiBrazil;
     }
 
+    /**
+     * Gets PKI-Italy specific fields
+     * @return PKI-Italy specific fields
+     */
     public PkiItalyCertificateFields getPkiItaly() {
         return pkiItaly;
     }
