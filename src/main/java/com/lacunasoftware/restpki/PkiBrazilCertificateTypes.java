@@ -1,7 +1,7 @@
 package com.lacunasoftware.restpki;
 
 /**
- * Created by desenv on 27/08/2015.
+ * Types of public key certificates, as defined by the Brazil's PKI (ICP-Brasil)
  */
 public enum PkiBrazilCertificateTypes {
     Unknown,

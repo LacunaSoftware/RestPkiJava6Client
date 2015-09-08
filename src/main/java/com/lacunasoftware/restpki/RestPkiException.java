@@ -1,5 +1,8 @@
 package com.lacunasoftware.restpki;
 
+/**
+ * Thrown to indicate that the REST PKI API returned a specific error defined in the API.
+ */
 public class RestPkiException extends RestException {
 
     private ErrorCodes errorCode;
@@ -19,10 +22,18 @@ public class RestPkiException extends RestException {
         }
     }
 
+    /**
+     * Returns the error code
+     * @return The error code
+     */
     public ErrorCodes getErrorCode() {
         return errorCode;
     }
 
+    /**
+     * Returns details for the error, if any.
+     * @return Details for the error, if any.
+     */
     public String getDetail() {
         return detail;
     }

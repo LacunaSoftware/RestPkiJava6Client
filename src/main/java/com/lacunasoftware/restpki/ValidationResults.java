@@ -3,6 +3,9 @@ package com.lacunasoftware.restpki;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Contains the results of a validation.
+ */
 public class ValidationResults {
 	
 	private List<ValidationItem> passedChecks = new ArrayList<ValidationItem>();
@@ -30,7 +33,12 @@ public class ValidationResults {
 	public int getChecksPerformed() {
 		return passedChecks.size() + warnings.size() + errors.size();
 	}
-	
+
+	/**
+	 * Denotes whether the validation passed all checks without errors. If this method returns true,
+	 * there may be warnings, but not errors.
+	 * @return true if the validation passed all checks without errors, false otherwise.
+	 */
 	public boolean isValid() {
 		return errors.isEmpty();
 	}

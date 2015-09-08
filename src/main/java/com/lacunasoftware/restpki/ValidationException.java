@@ -1,7 +1,7 @@
 package com.lacunasoftware.restpki;
 
 /**
- * Created by desenv on 28/08/2015.
+ * Thrown to indicate that a validation failed while fulfilling an API call.
  */
 public class ValidationException extends RestException {
 

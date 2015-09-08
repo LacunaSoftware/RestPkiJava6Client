@@ -8,6 +8,9 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * Class used to perform the final of the two steps required to perform a PAdES signature.
+ */
 public class PadesSignatureFinisher {
 
     private RestPkiClient client;
@@ -22,14 +25,28 @@ public class PadesSignatureFinisher {
         this.client = client;
     }
 
+    /**
+     * Sets the token previously yielded by the first step.
+     * @param token The token, a 43-character case-sensitive string containing only letters, numbers and the characters
+     * "-" and "_" (therefore URL and HTML safe).
+     */
     public void setToken(String token) {
         this.token = token;
     }
 
+    /**
+     * Sets the signature performed using the user certificate's private key.
+     * @param signature The signature operation output, encoded in Base64 (this is the format returned by the Web PKI component's signData and signHash methods).
+     */
     public void setSignature(String signature) {
         this.signature = signature;
     }
 
+    /**
+     * Performs the step (should only be called after calling setToken() and setSignature()). This method throws
+     * a ValidationException if the validation of the signature or of the user's certificate fails.
+     * @throws RestException If an error occurs while calling the REST PKI API or if validation of the signature or of the user's certificate fails.
+     */
     public void finish() throws RestException {
 
         if (token == null) {
@@ -51,11 +68,20 @@ public class PadesSignatureFinisher {
         this.done = true;
     }
 
+    /**
+     * Returns the signed PDF (must only be called after calling the finish() method).
+     * @return The signed PDF's bytes.
+     */
     public byte[] getSignedPdf() {
         checkDone();
         return signedPdf;
     }
 
+    /**
+     * Returns the callback argument, if one was passed during the first step (must only be called after
+     * calling the finish() method).
+     * @return The callback argument passed previously on the first step, or null if no argument was passed.
+     */
     public String getCallbackArgument() {
         return callbackArgument;
     }

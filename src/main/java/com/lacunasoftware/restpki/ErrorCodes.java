@@ -1,7 +1,7 @@
 package com.lacunasoftware.restpki;
 
 /**
- * Created by desenv on 28/08/2015.
+ * Error codes for the REST PKI API
  */
 public enum ErrorCodes {
     EntityNotFound,

@@ -1,5 +1,8 @@
 package com.lacunasoftware.restpki;
 
+/**
+ * A X.509 Name
+ */
 public class Name {
 
     private String country;

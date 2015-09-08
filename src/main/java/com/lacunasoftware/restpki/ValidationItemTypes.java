@@ -1,5 +1,8 @@
 package com.lacunasoftware.restpki;
 
+/**
+ * Types of validations that can be performed on a certificate or signature.
+ */
 public enum ValidationItemTypes {
 	Success,
 	CertificateNotYetValid,

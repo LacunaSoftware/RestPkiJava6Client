@@ -1,7 +1,7 @@
 package com.lacunasoftware.restpki;
 
 /**
- * Created by desenv on 27/08/2015.
+ * Reference to a signature policy, used to perform and validate digital signatures.
  */
 public class SignaturePolicy {
 
@@ -39,8 +39,8 @@ public class SignaturePolicy {
     private String id;
 
     /**
-     * Creates a standard signature policy from ID
-     * @param id
+     * Creates a reference to a custom signature policy.
+     * @param id The id of the signature policy, as given by the REST PKI website.
      */
     public SignaturePolicy(String id) {
         this.id = id;

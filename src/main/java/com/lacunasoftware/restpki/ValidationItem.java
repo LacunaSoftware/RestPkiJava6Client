@@ -1,5 +1,8 @@
 package com.lacunasoftware.restpki;
 
+/**
+ * An item of validation.
+ */
 public class ValidationItem {
 	
 	private ValidationItemTypes type;

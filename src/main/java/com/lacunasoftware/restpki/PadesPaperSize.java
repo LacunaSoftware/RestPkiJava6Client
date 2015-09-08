@@ -1,10 +1,6 @@
 package com.lacunasoftware.restpki;
 
 /**
- * Created by desenv on 07/09/2015.
- */
-
-/**
  * Paper size standards options for PAdES signature visual representation optimizations.
  */
 public enum PadesPaperSize {

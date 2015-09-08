@@ -1,5 +1,9 @@
 package com.lacunasoftware.restpki;
 
+/**
+ * Thrown to indicate that a REST request returned an HTTP status code indicating error and possibly a message, but
+ * no further information was returned.
+ */
 public class RestErrorException extends RestException {
 
     private int statusCode;

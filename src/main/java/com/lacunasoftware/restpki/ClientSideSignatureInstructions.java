@@ -1,5 +1,8 @@
 package com.lacunasoftware.restpki;
 
+/**
+ * Parameters to perform a client-side signature.
+ */
 public class ClientSideSignatureInstructions {
 
     private String token;

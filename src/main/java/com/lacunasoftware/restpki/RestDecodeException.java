@@ -1,7 +1,7 @@
 package com.lacunasoftware.restpki;
 
 /**
- * Created by desenv on 28/08/2015.
+ * Thrown to indicate that a REST request was successful but an error occurred while decoding its response.
  */
 public class RestDecodeException extends RestException {
 

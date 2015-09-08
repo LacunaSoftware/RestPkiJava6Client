@@ -3,6 +3,9 @@ package com.lacunasoftware.restpki;
 import java.math.BigInteger;
 import java.util.Date;
 
+/**
+ * Contains information about a X.509 public key certificate
+ */
 public class PKCertificate {
 
     private Name subjectName;
