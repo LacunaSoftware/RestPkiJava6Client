@@ -9,16 +9,28 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-07T11:27:36.506-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-19T17:33:14.346-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class PadesSignaturePostRequest   {
   
-  private String certificate = null;
   private String pdfToSign = null;
+  private String certificate = null;
   private String signaturePolicyId = null;
   private String securityContextId = null;
   private String callbackArgument = null;
   private PadesVisualRepresentationModel visualRepresentation = null;
+
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  @JsonProperty("pdfToSign")
+  public String getPdfToSign() {
+    return pdfToSign;
+  }
+  public void setPdfToSign(String pdfToSign) {
+    this.pdfToSign = pdfToSign;
+  }
 
   
   /**
@@ -30,18 +42,6 @@ class PadesSignaturePostRequest   {
   }
   public void setCertificate(String certificate) {
     this.certificate = certificate;
-  }
-
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  @JsonProperty("pdfToSign")
-  public String getPdfToSign() {
-    return pdfToSign;
-  }
-  public void setPdfToSign(String pdfToSign) {
-    this.pdfToSign = pdfToSign;
   }
 
   
@@ -99,8 +99,8 @@ class PadesSignaturePostRequest   {
     StringBuilder sb = new StringBuilder();
     sb.append("class PadesSignaturePostRequest {\n");
     
-    sb.append("  certificate: ").append(certificate).append("\n");
     sb.append("  pdfToSign: ").append(pdfToSign).append("\n");
+    sb.append("  certificate: ").append(certificate).append("\n");
     sb.append("  signaturePolicyId: ").append(signaturePolicyId).append("\n");
     sb.append("  securityContextId: ").append(securityContextId).append("\n");
     sb.append("  callbackArgument: ").append(callbackArgument).append("\n");

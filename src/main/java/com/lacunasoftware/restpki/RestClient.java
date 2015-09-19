@@ -78,7 +78,9 @@ class RestClient {
             }
 
             OutputStream outStream = conn.getOutputStream();
-            new ObjectMapper().writeValue(outStream, request);
+            if (request != null) {
+                new ObjectMapper().writeValue(outStream, request);
+            }
             outStream.close();
 
         } catch (Exception e) {

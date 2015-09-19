@@ -9,14 +9,12 @@ public class ClientSideSignatureInstructions {
     private String toSignData;
     private String toSignHash;
     private String digestAlgorithmOid;
-    private PKCertificate certificateInfo;
 
-    public ClientSideSignatureInstructions(String token, String toSignData, String toSignHash, String digestAlgorithmOid, PKCertificate certificateInfo) {
+    public ClientSideSignatureInstructions(String token, String toSignData, String toSignHash, String digestAlgorithmOid) {
         this.token = token;
         this.toSignData = toSignData;
         this.toSignHash = toSignHash;
         this.digestAlgorithmOid = digestAlgorithmOid;
-        this.certificateInfo = certificateInfo;
     }
 
     /**
@@ -66,15 +64,5 @@ public class ClientSideSignatureInstructions {
      */
     public String getDigestAlgorithmOid() {
         return digestAlgorithmOid;
-    }
-
-    /**
-     * Returns the signer's certificate information. It is not necessary for the client application to use this value,
-     * but it may use it, for instance, to verify that the user selected a certificate for signature that meets certain
-     * criteria.
-     * @return The signer's certificate information.
-     */
-    public PKCertificate getCertificateInfo() {
-        return certificateInfo;
     }
 }

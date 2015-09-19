@@ -38,6 +38,13 @@ public class Authentication {
 		return response.getNonce();
 	}
 
+    public String startWithWebPki(SecurityContext securityContext) throws RestException {
+        AuthenticationsPostRequest request = new AuthenticationsPostRequest();
+        request.setSecurityContextId(securityContext.getId());
+        AuthenticationsPostResponse response = client.getRestClient().post("Api/Authentications", request, AuthenticationsPostResponse.class);
+        return response.getToken();
+    }
+
     /**
      * Performs the final of two steps, receiving (1) the cryptographic nonce previously generated; (2) the user's certificate
      * encoding; (3) the signature of the nonce and (4) a security context and yielding a ValidationResults.
@@ -66,7 +73,7 @@ public class Authentication {
 		request.setSignature(signature);
 		request.setSecurityContextId(securityContext.getId());
 
-        AuthenticationPostResponse response = client.getRestClient().post("Api/Authentication", request,AuthenticationPostResponse.class);
+        AuthenticationPostResponse response = client.getRestClient().post("Api/Authentication", request, AuthenticationPostResponse.class);
 
         ValidationResults vr = new ValidationResults(response.getValidationResults());
         if (response.getCertificate() != null) {
@@ -75,6 +82,16 @@ public class Authentication {
         done = true;
 		return vr;
 	}
+
+    public ValidationResults completeWithWebPki(String token) throws RestException {
+        AuthenticationsPostSignedBytesResponse response = client.getRestClient().post("Api/Authentications/" + token + "/Finalize", null, AuthenticationsPostSignedBytesResponse.class);
+        ValidationResults vr = new ValidationResults(response.getValidationResults());
+        if (response.getCertificate() != null) {
+            this.pkCertificate = new PKCertificate(response.getCertificate());
+        }
+        done = true;
+        return vr;
+    }
 
     /**
      * Returns the user certificate's information (must only be called after calling the complete() method).
@@ -85,14 +102,9 @@ public class Authentication {
      * @return The user certificate's information, or null if it cannot be determined (does not happen if the authentication succeeds).
      */
     public PKCertificate getPKCertificate() {
-        checkDone();
+        if (!done) {
+            throw new RuntimeException("The method getPKCertificate() can only be called after calling one of the complete methods");
+        }
         return this.pkCertificate;
     }
-
-    private void checkDone() {
-        if (!done) {
-            throw new RuntimeException("The method complete() has not been called");
-        }
-    }
-
 }

@@ -31,6 +31,9 @@ public class PadesSignatureStarter {
     private String callbackArgument;
     private PadesVisualRepresentation visualRepresentation;
 
+    private boolean done;
+    private PKCertificate certificateInfo;
+
     /**
      * Create a new instance using the given RestPkiClient.
      *
@@ -38,6 +41,7 @@ public class PadesSignatureStarter {
      */
     public PadesSignatureStarter(RestPkiClient client) {
         this.client = client;
+        this.done = false;
     }
 
     /**
@@ -70,7 +74,8 @@ public class PadesSignatureStarter {
     }
 
     /**
-     * Sets the signer's certificate
+     * Sets the signer's certificate. This is optional if the startWithWebPki() method will be used instead of
+     * the start() method.
      *
      * @param certificate The signer's certificate, encoded in Base64. If you're using the Web PKI component on
      *                    the client-side, this is the format given by the component.
@@ -118,12 +123,17 @@ public class PadesSignatureStarter {
         this.callbackArgument = argument;
     }
 
+    /**
+     * Optional, sets the settings for the signature's visual representation.
+     * @param visualRepresentation The visual representation's settings.
+     */
     public void setVisualRepresentation(PadesVisualRepresentation visualRepresentation) {
         this.visualRepresentation = visualRepresentation;
     }
 
     /**
-     * Performs the first step, should be called after setting the necessary parameters.
+     * Performs the first step, should be called after setting the necessary parameters. If you intend to use
+     * the Web PKI component on the client-side, use the startWithRestPki() method instead.
      *
      * @return An instance of ClientSideSignatureInstructions with the information necessary to perform the client-side
      * signature and later call the server back with the results.
@@ -153,18 +163,68 @@ public class PadesSignatureStarter {
 
         PadesSignaturePostResponse response = client.getRestClient().post("Api/PadesSignatures", request, PadesSignaturePostResponse.class);
 
-        PKCertificate certificateInfo = null;
         if (response.getCertificate() != null) {
-            certificateInfo = new PKCertificate(response.getCertificate());
+            this.certificateInfo = new PKCertificate(response.getCertificate());
         }
 
         ClientSideSignatureInstructions signatureInstructions = new ClientSideSignatureInstructions(
                 response.getToken(),
                 response.getToSignData(),
                 response.getToSignHash(),
-                response.getDigestAlgorithmOid(),
-                certificateInfo
+                response.getDigestAlgorithmOid()
         );
+        this.done = true;
+
         return signatureInstructions;
+    }
+
+    /**
+     * Performs the first step, should be called after setting the necessary parameters. This method should
+     * be used if the Web PKI component is being used on the client-side.
+     *
+     * @return The token that should be passed on the signWithRestPki method of the Web PKI component
+     * (on the client-side logic).
+     * @throws RestException if an error occurs when calling REST PKI
+     */
+    public String startWithWebPki() throws RestException {
+
+        if (pdfContent == null) {
+            throw new RuntimeException("The pdf to sign was not set");
+        }
+        if (signaturePolicyId == null) {
+            throw new RuntimeException("The signature policy was not set");
+        }
+
+        PadesSignaturePostRequest request = new PadesSignaturePostRequest();
+        request.setPdfToSign(new ObjectMapper().convertValue(pdfContent, String.class));
+        request.setCertificate(certificate); // may be null
+        request.setSignaturePolicyId(signaturePolicyId);
+        request.setSecurityContextId(securityContextId);
+        request.setCallbackArgument(callbackArgument);
+        if (visualRepresentation != null) {
+            request.setVisualRepresentation(visualRepresentation.toModel());
+        }
+
+        PadesSignaturePostResponse response = client.getRestClient().post("Api/PadesSignatures", request, PadesSignaturePostResponse.class);
+
+        PKCertificate certificateInfo = null;
+        if (response.getCertificate() != null) {
+            certificateInfo = new PKCertificate(response.getCertificate());
+        }
+        this.done = true;
+
+        return response.getToken();
+    }
+
+    /**
+     * If the signer's certificate was given, this method returns its information (can only be called after calling the
+     * start() or startWithWebPki() methods).
+     * @return The signer's certificate information, or null if no certificate was given.
+     */
+    public PKCertificate getCertificateInfo() {
+        if (!done) {
+            throw new RuntimeException("The method cetCertificateInfo() can only be called after calling one of the start methods");
+        }
+        return certificateInfo;
     }
 }

@@ -1,6 +1,5 @@
 package com.lacunasoftware.restpki;
 
-import com.lacunasoftware.restpki.CertificateModel;
 
 
 
@@ -11,49 +10,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @ApiModel(description = "")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-19T17:33:14.346-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-class PadesSignaturePostResponse   {
+class GetPendingSignatureResponse   {
   
-  private String token = null;
-  private CertificateModel certificate = null;
-  private String toSignData = null;
   private String toSignHash = null;
   private String digestAlgorithmOid = null;
-
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  @JsonProperty("token")
-  public String getToken() {
-    return token;
-  }
-  public void setToken(String token) {
-    this.token = token;
-  }
-
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  @JsonProperty("certificate")
-  public CertificateModel getCertificate() {
-    return certificate;
-  }
-  public void setCertificate(CertificateModel certificate) {
-    this.certificate = certificate;
-  }
-
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  @JsonProperty("toSignData")
-  public String getToSignData() {
-    return toSignData;
-  }
-  public void setToSignData(String toSignData) {
-    this.toSignData = toSignData;
-  }
+  private String certificateThumbprint = null;
 
   
   /**
@@ -80,17 +41,27 @@ class PadesSignaturePostResponse   {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("certificateThumbprint")
+  public String getCertificateThumbprint() {
+    return certificateThumbprint;
+  }
+  public void setCertificateThumbprint(String certificateThumbprint) {
+    this.certificateThumbprint = certificateThumbprint;
+  }
+
+  
 
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PadesSignaturePostResponse {\n");
+    sb.append("class GetPendingSignatureResponse {\n");
     
-    sb.append("  token: ").append(token).append("\n");
-    sb.append("  certificate: ").append(certificate).append("\n");
-    sb.append("  toSignData: ").append(toSignData).append("\n");
     sb.append("  toSignHash: ").append(toSignHash).append("\n");
     sb.append("  digestAlgorithmOid: ").append(digestAlgorithmOid).append("\n");
+    sb.append("  certificateThumbprint: ").append(certificateThumbprint).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

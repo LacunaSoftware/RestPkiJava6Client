@@ -10,33 +10,33 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @ApiModel(description = "")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-19T17:33:14.346-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-class PadesSizeModel   {
+class SettingModel   {
   
-  private Double height = null;
-  private Double width = null;
+  private String key = null;
+  private String value = null;
 
   
   /**
    **/
   @ApiModelProperty(value = "")
-  @JsonProperty("height")
-  public Double getHeight() {
-    return height;
+  @JsonProperty("key")
+  public String getKey() {
+    return key;
   }
-  public void setHeight(Double height) {
-    this.height = height;
+  public void setKey(String key) {
+    this.key = key;
   }
 
   
   /**
    **/
   @ApiModelProperty(value = "")
-  @JsonProperty("width")
-  public Double getWidth() {
-    return width;
+  @JsonProperty("value")
+  public String getValue() {
+    return value;
   }
-  public void setWidth(Double width) {
-    this.width = width;
+  public void setValue(String value) {
+    this.value = value;
   }
 
   
@@ -44,10 +44,10 @@ class PadesSizeModel   {
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PadesSizeModel {\n");
+    sb.append("class SettingModel {\n");
     
-    sb.append("  height: ").append(height).append("\n");
-    sb.append("  width: ").append(width).append("\n");
+    sb.append("  key: ").append(key).append("\n");
+    sb.append("  value: ").append(value).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

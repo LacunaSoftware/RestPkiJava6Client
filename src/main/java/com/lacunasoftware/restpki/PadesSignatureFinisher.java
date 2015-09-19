@@ -18,8 +18,8 @@ public class PadesSignatureFinisher {
     private String signature;
 
     private boolean done = false;
-    private byte[] signedPdf;
     private String callbackArgument;
+    private PKCertificate certificateInfo;
 
     public PadesSignatureFinisher(RestPkiClient client) {
         this.client = client;
@@ -35,7 +35,8 @@ public class PadesSignatureFinisher {
     }
 
     /**
-     * Sets the signature performed using the user certificate's private key.
+     * Sets the signature performed using the user certificate's private key (should not be used if the signature was
+     * started with the method startWithWebPki).
      * @param signature The signature operation output, encoded in Base64 (this is the format returned by the Web PKI component's signData and signHash methods).
      */
     public void setSignature(String signature) {
@@ -43,37 +44,33 @@ public class PadesSignatureFinisher {
     }
 
     /**
-     * Performs the step (should only be called after calling setToken() and setSignature()). This method throws
+     * Performs the step (should only be called after calling setToken()). This method throws
      * a ValidationException if the validation of the signature or of the user's certificate fails.
+     * @return The signed PDF's bytes.
      * @throws RestException If an error occurs while calling the REST PKI API or if validation of the signature or of the user's certificate fails.
      */
-    public void finish() throws RestException {
+    public byte[] finish() throws RestException {
 
         if (token == null) {
             throw new RuntimeException("The token was not set");
         }
+
+        PadesSignaturePostSignedBytesResponse response;
         if (signature == null) {
-            throw new RuntimeException("The signature was not set");
+            String actionUrl = String.format("Api/PadesSignatures/%s/Finalize", token);
+            response = client.getRestClient().post(actionUrl, null, PadesSignaturePostSignedBytesResponse.class);
+        } else {
+            PadesSignaturePostSignedBytesRequest request = new PadesSignaturePostSignedBytesRequest();
+            request.setSignature(signature);
+            String actionUrl = String.format("Api/PadesSignatures/%s/SignedBytes", token);
+            response = client.getRestClient().post(actionUrl, request, PadesSignaturePostSignedBytesResponse.class);
         }
 
-        PadesSignaturePostSignedBytesRequest request = new PadesSignaturePostSignedBytesRequest();
-        request.setSignature(signature);
-
-        String actionUrl = String.format("Api/PadesSignatures/%s/SignedBytes", token);
-        PadesSignaturePostSignedBytesResponse response = client.getRestClient().post(actionUrl, request, PadesSignaturePostSignedBytesResponse.class);
-
-        this.signedPdf = new ObjectMapper().convertValue(response.getSignedPdf(), byte[].class);
+        byte[] signedPdf = new ObjectMapper().convertValue(response.getSignedPdf(), byte[].class);
         this.callbackArgument = response.getCallbackArgument();
-
+        this.certificateInfo = new PKCertificate(response.getCertificate());
         this.done = true;
-    }
 
-    /**
-     * Returns the signed PDF (must only be called after calling the finish() method).
-     * @return The signed PDF's bytes.
-     */
-    public byte[] getSignedPdf() {
-        checkDone();
         return signedPdf;
     }
 
@@ -83,12 +80,22 @@ public class PadesSignatureFinisher {
      * @return The callback argument passed previously on the first step, or null if no argument was passed.
      */
     public String getCallbackArgument() {
+        if (!done) {
+            throw new RuntimeException("The getCallbackArgument() method can only be called after calling the finish() method");
+        }
         return callbackArgument;
     }
 
-    private void checkDone() {
+    /**
+     * Returns information about the signer's certificate (can only be called after calling the
+     * finish() method).
+     * @return The signer's certificate information.
+     */
+    public PKCertificate getCertificateInfo() {
         if (!done) {
-            throw new RuntimeException("The method finish() has not been called");
+            throw new RuntimeException("The getCertificateInfo() method can only be called after calling the finish() method");
         }
+        return certificateInfo;
     }
+
 }
