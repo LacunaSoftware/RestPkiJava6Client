@@ -18,6 +18,7 @@ public class PadesSignatureFinisher {
     private String signature;
 
     private boolean done = false;
+    private byte[] signedPdf;
     private String callbackArgument;
     private PKCertificate certificateInfo;
 
@@ -66,11 +67,22 @@ public class PadesSignatureFinisher {
             response = client.getRestClient().post(actionUrl, request, PadesSignaturePostSignedBytesResponse.class);
         }
 
-        byte[] signedPdf = new ObjectMapper().convertValue(response.getSignedPdf(), byte[].class);
+        this.signedPdf = new ObjectMapper().convertValue(response.getSignedPdf(), byte[].class);
         this.callbackArgument = response.getCallbackArgument();
         this.certificateInfo = new PKCertificate(response.getCertificate());
         this.done = true;
 
+        return this.signedPdf;
+    }
+
+    /**
+     * Returns the signed PDF (must only be called after calling the finish() method).
+     * @return The signed PDF's bytes.
+     */
+    public byte[] getSignedPdf() {
+        if (!done) {
+            throw new RuntimeException("The getSignedPdf() method can only be called after calling the finish() method");
+        }
         return signedPdf;
     }
 
