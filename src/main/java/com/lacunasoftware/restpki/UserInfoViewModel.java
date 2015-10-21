@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-19T17:33:14.346-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-21T14:48:34.437-02:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class UserInfoViewModel   {
   
@@ -16,6 +16,7 @@ class UserInfoViewModel   {
   private Boolean hasRegistered = null;
   private String loginProvider = null;
   private Boolean isAdmin = null;
+  private Boolean hasLocalLogin = null;
 
   
   /**
@@ -66,6 +67,18 @@ class UserInfoViewModel   {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("hasLocalLogin")
+  public Boolean getHasLocalLogin() {
+    return hasLocalLogin;
+  }
+  public void setHasLocalLogin(Boolean hasLocalLogin) {
+    this.hasLocalLogin = hasLocalLogin;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -76,6 +89,7 @@ class UserInfoViewModel   {
     sb.append("  hasRegistered: ").append(hasRegistered).append("\n");
     sb.append("  loginProvider: ").append(loginProvider).append("\n");
     sb.append("  isAdmin: ").append(isAdmin).append("\n");
+    sb.append("  hasLocalLogin: ").append(hasLocalLogin).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

@@ -8,35 +8,100 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-19T17:33:14.346-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-21T14:48:34.437-02:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class SystemStatusModel   {
   
-  private Boolean usingManualMachineKey = null;
-  private String manualMachineKeyHint = null;
+  private Boolean isOnPremises = null;
+  private String machineKeyHint = null;
+  private Boolean logConfigured = null;
+  private String logConfigHint = null;
+  private Boolean sdkLicenseLoaded = null;
+  private String sdkLicenseInfo = null;
+  private String sdkLicenseError = null;
 
   
   /**
    **/
   @ApiModelProperty(value = "")
-  @JsonProperty("usingManualMachineKey")
-  public Boolean getUsingManualMachineKey() {
-    return usingManualMachineKey;
+  @JsonProperty("isOnPremises")
+  public Boolean getIsOnPremises() {
+    return isOnPremises;
   }
-  public void setUsingManualMachineKey(Boolean usingManualMachineKey) {
-    this.usingManualMachineKey = usingManualMachineKey;
+  public void setIsOnPremises(Boolean isOnPremises) {
+    this.isOnPremises = isOnPremises;
   }
 
   
   /**
    **/
   @ApiModelProperty(value = "")
-  @JsonProperty("manualMachineKeyHint")
-  public String getManualMachineKeyHint() {
-    return manualMachineKeyHint;
+  @JsonProperty("machineKeyHint")
+  public String getMachineKeyHint() {
+    return machineKeyHint;
   }
-  public void setManualMachineKeyHint(String manualMachineKeyHint) {
-    this.manualMachineKeyHint = manualMachineKeyHint;
+  public void setMachineKeyHint(String machineKeyHint) {
+    this.machineKeyHint = machineKeyHint;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("logConfigured")
+  public Boolean getLogConfigured() {
+    return logConfigured;
+  }
+  public void setLogConfigured(Boolean logConfigured) {
+    this.logConfigured = logConfigured;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("logConfigHint")
+  public String getLogConfigHint() {
+    return logConfigHint;
+  }
+  public void setLogConfigHint(String logConfigHint) {
+    this.logConfigHint = logConfigHint;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("sdkLicenseLoaded")
+  public Boolean getSdkLicenseLoaded() {
+    return sdkLicenseLoaded;
+  }
+  public void setSdkLicenseLoaded(Boolean sdkLicenseLoaded) {
+    this.sdkLicenseLoaded = sdkLicenseLoaded;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("sdkLicenseInfo")
+  public String getSdkLicenseInfo() {
+    return sdkLicenseInfo;
+  }
+  public void setSdkLicenseInfo(String sdkLicenseInfo) {
+    this.sdkLicenseInfo = sdkLicenseInfo;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("sdkLicenseError")
+  public String getSdkLicenseError() {
+    return sdkLicenseError;
+  }
+  public void setSdkLicenseError(String sdkLicenseError) {
+    this.sdkLicenseError = sdkLicenseError;
   }
 
   
@@ -46,8 +111,13 @@ class SystemStatusModel   {
     StringBuilder sb = new StringBuilder();
     sb.append("class SystemStatusModel {\n");
     
-    sb.append("  usingManualMachineKey: ").append(usingManualMachineKey).append("\n");
-    sb.append("  manualMachineKeyHint: ").append(manualMachineKeyHint).append("\n");
+    sb.append("  isOnPremises: ").append(isOnPremises).append("\n");
+    sb.append("  machineKeyHint: ").append(machineKeyHint).append("\n");
+    sb.append("  logConfigured: ").append(logConfigured).append("\n");
+    sb.append("  logConfigHint: ").append(logConfigHint).append("\n");
+    sb.append("  sdkLicenseLoaded: ").append(sdkLicenseLoaded).append("\n");
+    sb.append("  sdkLicenseInfo: ").append(sdkLicenseInfo).append("\n");
+    sb.append("  sdkLicenseError: ").append(sdkLicenseError).append("\n");
     sb.append("}\n");
     return sb.toString();
   }
