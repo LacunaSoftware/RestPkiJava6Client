@@ -35,6 +35,7 @@ public class PadesVisualText {
 	 * @param includeSigningTime Whether or not to include the signing date in the signature representation
 	 */
 	public PadesVisualText(String text, boolean includeSigningTime) {
+		this();
 		this.text = text;
 		this.includeSigningTime = includeSigningTime;
 	}
@@ -49,6 +50,7 @@ public class PadesVisualText {
 	 *                 rectangle dimensions
 	 */
 	public PadesVisualText(String text, double fontSize) {
+		this();
 		this.text = text;
 		this.fontSize = fontSize;
 	}
@@ -64,6 +66,7 @@ public class PadesVisualText {
 	 *                           rectangle dimensions
 	 */
 	public PadesVisualText(String text, boolean includeSigningTime, double fontSize) {
+		this();
 		this.text = text;
 		this.includeSigningTime = includeSigningTime;
 		this.fontSize = fontSize;
@@ -124,7 +127,9 @@ public class PadesVisualText {
 		model.setFontSize(fontSize);
 		model.setText(text);
 		model.setIncludeSigningTime(includeSigningTime);
-		model.setHorizontalAlign(PadesVisualTextModel.HorizontalAlignEnum.valueOf(horizontalAlign.toString()));
+		if (horizontalAlign != null) {
+			model.setHorizontalAlign(PadesVisualTextModel.HorizontalAlignEnum.valueOf(horizontalAlign.toString()));
+		}
 		return model;
 	}
 }
