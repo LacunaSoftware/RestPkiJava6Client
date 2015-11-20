@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-19T17:33:14.346-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-11-20T17:07:25.480-02:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class EventModel   {
   
@@ -17,7 +17,7 @@ class EventModel   {
   private String id = null;
   private Date date = null;
   public enum OperationEnum {
-     AccessTokenGenerated,  AccessTokensRevoked,  CertAuthStarted,  CertAuthCompleted,  PadesSignatureStarted,  PadesSignatureCompleted, 
+     AccessTokenGenerated,  AccessTokensRevoked,  CertAuthStarted,  CertAuthCompleted,  PadesSignatureStarted,  PadesSignatureCompleted,  CadesSignatureStarted,  CadesSignatureCompleted, 
   };
   private OperationEnum operation = null;
   private Boolean success = null;
