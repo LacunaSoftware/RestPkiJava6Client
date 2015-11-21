@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
@@ -62,7 +63,17 @@ public class CadesSignatureStarter extends SignatureStarter {
 	 * @throws IOException if an error occurs while reading the file.
 	 */
 	public void setFileToSign(String path) throws IOException {
-		this.contentToSign = Files.readAllBytes(Paths.get(path));
+		setFileToSign(Paths.get(path));
+	}
+
+	/**
+	 * Sets the path of the file to be signed
+	 *
+	 * @param path Path of the file to be signed.
+	 * @throws IOException if an error occurs while reading the file.
+	 */
+	public void setFileToSign(Path path) throws IOException {
+		this.contentToSign = Files.readAllBytes(path);
 	}
 
 	/**
@@ -92,7 +103,17 @@ public class CadesSignatureStarter extends SignatureStarter {
 	 * @throws IOException if an error occurs while reading the file.
 	 */
 	public void setCmsToCoSign(String path) throws IOException {
-		this.cmsToCoSign = Files.readAllBytes(Paths.get(path));
+		setCmsToCoSign(Paths.get(path));
+	}
+
+	/**
+	 * Sets the path of the CMS file to be co-signed
+	 *
+	 * @param path Path of the CMS file to be co-signed.
+	 * @throws IOException if an error occurs while reading the file.
+	 */
+	public void setCmsToCoSign(Path path) throws IOException {
+		this.cmsToCoSign = Files.readAllBytes(path);
 	}
 
 	/**

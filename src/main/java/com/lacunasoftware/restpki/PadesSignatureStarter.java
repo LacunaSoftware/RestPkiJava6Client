@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
@@ -61,7 +62,17 @@ public class PadesSignatureStarter extends SignatureStarter {
 	 * @throws IOException if an error occurs while reading the file.
 	 */
 	public void setPdfToSign(String path) throws IOException {
-		this.pdfContent = Files.readAllBytes(Paths.get(path));
+		setPdfToSign(Paths.get(path));
+	}
+
+	/**
+	 * Sets the file path of the PDF to be signed
+	 *
+	 * @param path File path of the PDF to be signed.
+	 * @throws IOException if an error occurs while reading the file.
+	 */
+	public void setPdfToSign(Path path) throws IOException {
+		this.pdfContent = Files.readAllBytes(path);
 	}
 
 	/**
