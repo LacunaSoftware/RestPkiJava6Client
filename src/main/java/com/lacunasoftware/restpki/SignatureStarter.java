@@ -76,7 +76,7 @@ public abstract class SignatureStarter {
 
 	/**
 	 * Performs the first step, should be called after setting the necessary parameters. If you intend to use
-	 * the Web PKI component on the client-side, use the startWithRestPki() method instead.
+	 * the Web PKI component on the client-side, use the startWithWebPki() method instead.
 	 *
 	 * @return An instance of ClientSideSignatureInstructions with the information necessary to perform the client-side
 	 * signature and later call the server back with the results.
