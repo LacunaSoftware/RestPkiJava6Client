@@ -6,172 +6,191 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.Proxy;
 import java.net.URL;
 import java.rmi.server.ExportException;
 
 class RestClient {
 
-    private String endpointUri;
-    private String authToken;
+	private String endpointUri;
+	private String authToken;
+	private Proxy proxy;
 
-    public RestClient(String endpointUri) {
-        this.endpointUri = endpointUri;
-    }
+	public RestClient(String endpointUri) {
+		this(endpointUri, null, null);
+	}
 
-    public RestClient(String endpointUri, String authToken) {
-        this.endpointUri = endpointUri;
-        this.authToken = authToken;
-    }
+	public RestClient(String endpointUri, String authToken) {
+		this(endpointUri, authToken, null);
+	}
 
-    public <TResponse> TResponse get(String requestUri, Class<TResponse> responseType) throws RestException {
+	public RestClient(String endpointUri, Proxy proxy) {
+		this(endpointUri, null, proxy);
+	}
 
-        String verb = "GET";
-        String url = endpointUri + requestUri;
-        HttpURLConnection conn;
+	public RestClient(String endpointUri, String authToken, Proxy proxy) {
+		this.endpointUri = endpointUri;
+		this.authToken = authToken;
+		this.proxy = proxy;
+	}
 
-        try {
+	public <TResponse> TResponse get(String requestUri, Class<TResponse> responseType) throws RestException {
 
-            URL urlObj = new URL(url);
-            conn = (HttpURLConnection) urlObj.openConnection();
-            conn.setRequestMethod(verb);
-            conn.setRequestProperty("Accept", "application/json");
-            if (authToken != null) {
-                conn.setRequestProperty("Authorization", "Bearer " + authToken);
-            }
+		String verb = "GET";
+		String url = endpointUri + requestUri;
+		HttpURLConnection conn;
 
-        } catch (Exception e) {
-            throw new RestUnreachableException(verb, url, e);
-        }
+		try {
 
-        checkResponse(verb, url, conn);
+			URL urlObj = new URL(url);
+			if (proxy != null) {
+				conn = (HttpURLConnection) urlObj.openConnection(proxy);
+			} else {
+				conn = (HttpURLConnection) urlObj.openConnection();
+			}
+			conn.setRequestMethod(verb);
+			conn.setRequestProperty("Accept", "application/json");
+			if (authToken != null) {
+				conn.setRequestProperty("Authorization", "Bearer " + authToken);
+			}
 
-        TResponse response;
+		} catch (Exception e) {
+			throw new RestUnreachableException(verb, url, e);
+		}
 
-        try {
-            InputStream inStream = conn.getInputStream();
-            response = new ObjectMapper().readValue(inStream, responseType);
-            inStream.close();
-        } catch (Exception e) {
-            throw new RestDecodeException(verb, url, e);
-        }
+		checkResponse(verb, url, conn);
 
-        conn.disconnect();
-        return response;
-    }
+		TResponse response;
 
-    public <TRequest, TResponse> TResponse post(String requestUri, TRequest request, Class<TResponse> responseType) throws RestException {
+		try {
+			InputStream inStream = conn.getInputStream();
+			response = new ObjectMapper().readValue(inStream, responseType);
+			inStream.close();
+		} catch (Exception e) {
+			throw new RestDecodeException(verb, url, e);
+		}
 
-        String verb = "POST";
-        String url = endpointUri + requestUri;
-        HttpURLConnection conn;
+		conn.disconnect();
+		return response;
+	}
 
-        try {
+	public <TRequest, TResponse> TResponse post(String requestUri, TRequest request, Class<TResponse> responseType) throws RestException {
 
-            URL urlObj = new URL(url);
-            conn = (HttpURLConnection) urlObj.openConnection();
-            conn.setDoOutput(true);
-            conn.setRequestMethod(verb);
-            conn.setRequestProperty("Content-Type", "application/json");
-            conn.setRequestProperty("Accept", "application/json");
-            if (authToken != null) {
-                conn.setRequestProperty("Authorization", "Bearer " + authToken);
-            }
+		String verb = "POST";
+		String url = endpointUri + requestUri;
+		HttpURLConnection conn;
 
-            OutputStream outStream = conn.getOutputStream();
-            if (request != null) {
-                new ObjectMapper().writeValue(outStream, request);
-            }
-            outStream.close();
+		try {
 
-        } catch (Exception e) {
-            throw new RestUnreachableException(verb, url, e);
-        }
+			URL urlObj = new URL(url);
+			if (proxy != null) {
+				conn = (HttpURLConnection) urlObj.openConnection(proxy);
+			} else {
+				conn = (HttpURLConnection) urlObj.openConnection();
+			}
+			conn.setDoOutput(true);
+			conn.setRequestMethod(verb);
+			conn.setRequestProperty("Content-Type", "application/json");
+			conn.setRequestProperty("Accept", "application/json");
+			if (authToken != null) {
+				conn.setRequestProperty("Authorization", "Bearer " + authToken);
+			}
 
-        checkResponse(verb, url, conn);
+			OutputStream outStream = conn.getOutputStream();
+			if (request != null) {
+				new ObjectMapper().writeValue(outStream, request);
+			}
+			outStream.close();
 
-        TResponse response;
+		} catch (Exception e) {
+			throw new RestUnreachableException(verb, url, e);
+		}
 
-        try {
-            InputStream inStream = conn.getInputStream();
-            response = new ObjectMapper().readValue(inStream, responseType);
-            inStream.close();
-        } catch (Exception e) {
-            throw new RestDecodeException(verb, url, e);
-        }
+		checkResponse(verb, url, conn);
 
-        conn.disconnect();
-        return response;
-    }
+		TResponse response;
 
-    private void checkResponse(String verb, String url, HttpURLConnection conn) throws RestException {
+		try {
+			InputStream inStream = conn.getInputStream();
+			response = new ObjectMapper().readValue(inStream, responseType);
+			inStream.close();
+		} catch (Exception e) {
+			throw new RestDecodeException(verb, url, e);
+		}
 
-        int statusCode;
+		conn.disconnect();
+		return response;
+	}
 
-        try {
-            statusCode = conn.getResponseCode();
-        } catch (Exception e) {
-            throw new RestUnreachableException(verb, url, e);
-        }
+	private void checkResponse(String verb, String url, HttpURLConnection conn) throws RestException {
 
-        if (statusCode < 200 || statusCode > 299) {
+		int statusCode;
 
-            RestException ex = null;
+		try {
+			statusCode = conn.getResponseCode();
+		} catch (Exception e) {
+			throw new RestUnreachableException(verb, url, e);
+		}
 
-            try {
+		if (statusCode < 200 || statusCode > 299) {
 
-                if (statusCode == 404) {
+			RestException ex = null;
 
-                    RestResourceNotFoundModel model = readErrorResponse(conn, RestResourceNotFoundModel.class);
-                    if (model != null) {
-                        if (!Util.isNullOrEmpty(model.resourceName) && !Util.isNullOrEmpty(model.resourceId)) {
-                            ex = new RestResourceNotFoundException(verb, url, model.resourceName, model.resourceId);
-                        } else {
-                            ex = new RestErrorException(verb, url, statusCode, model.message);
-                        }
-                    }
+			try {
 
-                } else if (statusCode == 422) {
+				if (statusCode == 404) {
 
-                    ErrorModel errorModel = readErrorResponse(conn, ErrorModel.class);
-                    ErrorCodes errorCode = ErrorCodes.valueOf(errorModel.code);
-                    if (errorCode.equals(ErrorCodes.ValidationError)) {
-                        ex = new ValidationException(verb, url, new ValidationResults(errorModel.validationResults));
-                    } else {
-                        ex = new RestPkiException(verb, url, errorCode, errorModel.detail);
-                    }
+					RestResourceNotFoundModel model = readErrorResponse(conn, RestResourceNotFoundModel.class);
+					if (model != null) {
+						if (!Util.isNullOrEmpty(model.resourceName) && !Util.isNullOrEmpty(model.resourceId)) {
+							ex = new RestResourceNotFoundException(verb, url, model.resourceName, model.resourceId);
+						} else {
+							ex = new RestErrorException(verb, url, statusCode, model.message);
+						}
+					}
 
-                } else {
+				} else if (statusCode == 422) {
 
-                    RestGeneralErrorModel model = readErrorResponse(conn, RestGeneralErrorModel.class);
-                    if (model != null && !Util.isNullOrEmpty(model.message)) {
-                        ex = new RestErrorException(verb, url, statusCode, model.message);
-                    }
+					ErrorModel errorModel = readErrorResponse(conn, ErrorModel.class);
+					ErrorCodes errorCode = ErrorCodes.valueOf(errorModel.code);
+					if (errorCode.equals(ErrorCodes.ValidationError)) {
+						ex = new ValidationException(verb, url, new ValidationResults(errorModel.validationResults));
+					} else {
+						ex = new RestPkiException(verb, url, errorCode, errorModel.detail);
+					}
 
-                }
+				} else {
 
-            } catch (Exception e) {
-                // do nothing
-                //throw new RuntimeException("Error decoding error", e);
-            }
+					RestGeneralErrorModel model = readErrorResponse(conn, RestGeneralErrorModel.class);
+					if (model != null && !Util.isNullOrEmpty(model.message)) {
+						ex = new RestErrorException(verb, url, statusCode, model.message);
+					}
 
-            if (ex == null) {
-                ex = new RestErrorException(verb, url, statusCode);
-            }
-            throw ex;
-        }
-    }
+				}
 
-    private <T> T readResponse(HttpURLConnection conn, Class<T> valueType) throws IOException {
-        InputStream inStream = conn.getInputStream();
-        T response = new ObjectMapper().readValue(inStream, valueType);
-        inStream.close();
-        return response;
-    }
+			} catch (Exception e) {
+				// do nothing
+				//throw new RuntimeException("Error decoding error", e);
+			}
 
-    private <T> T readErrorResponse(HttpURLConnection conn, Class<T> valueType) throws IOException {
-        InputStream inStream = conn.getErrorStream();
-        T response = new ObjectMapper().readValue(inStream, valueType);
-        inStream.close();
-        return response;
-    }
+			if (ex == null) {
+				ex = new RestErrorException(verb, url, statusCode);
+			}
+			throw ex;
+		}
+	}
+
+	private <T> T readResponse(HttpURLConnection conn, Class<T> valueType) throws IOException {
+		InputStream inStream = conn.getInputStream();
+		T response = new ObjectMapper().readValue(inStream, valueType);
+		inStream.close();
+		return response;
+	}
+
+	private <T> T readErrorResponse(HttpURLConnection conn, Class<T> valueType) throws IOException {
+		InputStream inStream = conn.getErrorStream();
+		T response = new ObjectMapper().readValue(inStream, valueType);
+		inStream.close();
+		return response;
+	}
 }
