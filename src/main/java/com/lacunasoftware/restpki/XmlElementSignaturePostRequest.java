@@ -1,6 +1,7 @@
 package com.lacunasoftware.restpki;
 
-import com.lacunasoftware.restpki.PadesVisualRepresentationModel;
+import com.lacunasoftware.restpki.XmlIdResolutionTableModel;
+import com.lacunasoftware.restpki.XmlElementLocationModel;
 
 
 
@@ -11,10 +12,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @ApiModel(description = "")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-22T14:46:16.160-02:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-class PadesSignaturePostRequest   {
+class XmlElementSignaturePostRequest   {
   
-  private String pdfToSign = null;
-  private PadesVisualRepresentationModel visualRepresentation = null;
+  private String elementToSignId = null;
+  private XmlIdResolutionTableModel idResolutionTable = null;
+  private String xml = null;
+  private String signatureElementId = null;
+  private XmlElementLocationModel signatureElementLocation = null;
   private String certificate = null;
   private String signaturePolicyId = null;
   private String securityContextId = null;
@@ -24,24 +28,60 @@ class PadesSignaturePostRequest   {
   /**
    **/
   @ApiModelProperty(required = true, value = "")
-  @JsonProperty("pdfToSign")
-  public String getPdfToSign() {
-    return pdfToSign;
+  @JsonProperty("elementToSignId")
+  public String getElementToSignId() {
+    return elementToSignId;
   }
-  public void setPdfToSign(String pdfToSign) {
-    this.pdfToSign = pdfToSign;
+  public void setElementToSignId(String elementToSignId) {
+    this.elementToSignId = elementToSignId;
   }
 
   
   /**
    **/
   @ApiModelProperty(value = "")
-  @JsonProperty("visualRepresentation")
-  public PadesVisualRepresentationModel getVisualRepresentation() {
-    return visualRepresentation;
+  @JsonProperty("idResolutionTable")
+  public XmlIdResolutionTableModel getIdResolutionTable() {
+    return idResolutionTable;
   }
-  public void setVisualRepresentation(PadesVisualRepresentationModel visualRepresentation) {
-    this.visualRepresentation = visualRepresentation;
+  public void setIdResolutionTable(XmlIdResolutionTableModel idResolutionTable) {
+    this.idResolutionTable = idResolutionTable;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("xml")
+  public String getXml() {
+    return xml;
+  }
+  public void setXml(String xml) {
+    this.xml = xml;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("signatureElementId")
+  public String getSignatureElementId() {
+    return signatureElementId;
+  }
+  public void setSignatureElementId(String signatureElementId) {
+    this.signatureElementId = signatureElementId;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("signatureElementLocation")
+  public XmlElementLocationModel getSignatureElementLocation() {
+    return signatureElementLocation;
+  }
+  public void setSignatureElementLocation(XmlElementLocationModel signatureElementLocation) {
+    this.signatureElementLocation = signatureElementLocation;
   }
 
   
@@ -97,10 +137,13 @@ class PadesSignaturePostRequest   {
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PadesSignaturePostRequest {\n");
+    sb.append("class XmlElementSignaturePostRequest {\n");
     
-    sb.append("  pdfToSign: ").append(pdfToSign).append("\n");
-    sb.append("  visualRepresentation: ").append(visualRepresentation).append("\n");
+    sb.append("  elementToSignId: ").append(elementToSignId).append("\n");
+    sb.append("  idResolutionTable: ").append(idResolutionTable).append("\n");
+    sb.append("  xml: ").append(xml).append("\n");
+    sb.append("  signatureElementId: ").append(signatureElementId).append("\n");
+    sb.append("  signatureElementLocation: ").append(signatureElementLocation).append("\n");
     sb.append("  certificate: ").append(certificate).append("\n");
     sb.append("  signaturePolicyId: ").append(signaturePolicyId).append("\n");
     sb.append("  securityContextId: ").append(securityContextId).append("\n");

@@ -8,12 +8,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-19T17:33:14.346-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-22T14:46:16.160-02:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class MonthStatisticsModel   {
   
   private String month = null;
   private Integer signatures = null;
+  private Integer cadesSignatures = null;
+  private Integer padesSignatures = null;
   private Integer authentications = null;
   private Integer errors = null;
 
@@ -39,6 +41,30 @@ class MonthStatisticsModel   {
   }
   public void setSignatures(Integer signatures) {
     this.signatures = signatures;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("cadesSignatures")
+  public Integer getCadesSignatures() {
+    return cadesSignatures;
+  }
+  public void setCadesSignatures(Integer cadesSignatures) {
+    this.cadesSignatures = cadesSignatures;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("padesSignatures")
+  public Integer getPadesSignatures() {
+    return padesSignatures;
+  }
+  public void setPadesSignatures(Integer padesSignatures) {
+    this.padesSignatures = padesSignatures;
   }
 
   
@@ -74,6 +100,8 @@ class MonthStatisticsModel   {
     
     sb.append("  month: ").append(month).append("\n");
     sb.append("  signatures: ").append(signatures).append("\n");
+    sb.append("  cadesSignatures: ").append(cadesSignatures).append("\n");
+    sb.append("  padesSignatures: ").append(padesSignatures).append("\n");
     sb.append("  authentications: ").append(authentications).append("\n");
     sb.append("  errors: ").append(errors).append("\n");
     sb.append("}\n");
