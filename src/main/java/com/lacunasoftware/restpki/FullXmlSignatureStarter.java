@@ -44,7 +44,7 @@ public class FullXmlSignatureStarter extends  XmlSignatureStarter {
             throw new RuntimeException("The signature policy was not set");
         }
 
-        XmlElementSignaturePostRequest request = new XmlElementSignaturePostRequest();
+        FullXmlSignaturePostRequest request = new FullXmlSignaturePostRequest();
         // common XML siganture request
         request.setXml(new ObjectMapper().convertValue(this.xml, String.class));
         request.setCallbackArgument(this.callbackArgument);
@@ -88,7 +88,7 @@ public class FullXmlSignatureStarter extends  XmlSignatureStarter {
             throw new RuntimeException("The signature policy was not set");
         }
 
-        XmlElementSignaturePostRequest request = new XmlElementSignaturePostRequest();
+        FullXmlSignaturePostRequest request = new FullXmlSignaturePostRequest();
         // common XML siganture request
         request.setXml(new ObjectMapper().convertValue(this.xml, String.class));
         request.setCallbackArgument(this.callbackArgument);
