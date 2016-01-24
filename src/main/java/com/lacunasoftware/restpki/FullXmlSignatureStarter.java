@@ -3,10 +3,22 @@ package com.lacunasoftware.restpki;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Created by BrunoD on 22/01/2016.
+ * Class used to perform the first of the two steps required to perform a XML element signature.
+ * <p>
+ * Note on confidentiality: the XML for the signature is stored on the server between the first and second steps,
+ * but never unencrypted. The content is encrypted using AES-128 and <b>the key is not stored on the server</b>,
+ * it is instead mixed into the token that is returned and which is necessary on the second step. In other
+ * words, the server stores the XML but is unable to read it on its own, therefore the XML contents cannot be
+ * compromised, even in the event of a complete data leakage.
+ * </p>
  */
 public class FullXmlSignatureStarter extends  XmlSignatureStarter {
 
+    /**
+     * Create a new instance using the given RestPkiClient.
+     *
+     * @param client the RestPkiClient which shall be used.
+     */
     public FullXmlSignatureStarter(RestPkiClient client){
         super(client);
     }

@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * Created by BrunoD on 22/01/2016.
+ * Class used to perform the final of the two steps required to perform XML signatures.
  */
 public class XmlSignatureFinisher extends SignatureFinisher {
 
@@ -30,7 +30,7 @@ public class XmlSignatureFinisher extends SignatureFinisher {
             String actionUrl = String.format("Api/XmlSignatures/%s/Finalize", token);
             response = client.getRestClient().post(actionUrl, null, XmlSignaturePostSignedBytesResponse.class);
         } else {
-            PadesSignaturePostSignedBytesRequest request = new PadesSignaturePostSignedBytesRequest();
+            XmlSignaturePostSignedBytesRequest request = new XmlSignaturePostSignedBytesRequest();
             request.setSignature(signature);
             String actionUrl = String.format("Api/XmlSignatures/%s/SignedBytes", token);
             response = client.getRestClient().post(actionUrl, request, XmlSignaturePostSignedBytesResponse.class);

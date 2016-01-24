@@ -8,26 +8,56 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * Created by BrunoD on 22/01/2016.
+ * Class used to perform the first of the two steps required to perform a XML detached resource signature.
+ * <p>
+ * Note on confidentiality: the XML for the signature and the resource content are stored on the server between
+ * the first and second steps, but never unencrypted.
+ * The content is encrypted using AES-128 and <b>the key is not stored on the server</b>,
+ * it is instead mixed into the token that is returned and which is necessary on the second step. In other
+ * words, the server stores the XML and the resource content but is unable to read it on its own, therefore the XML contents cannot be
+ * compromised, even in the event of a complete data leakage.
+ * </p>
  */
 public class DetachedResourceXmlSignatureStarter extends XmlSignatureStarter {
 
     private String resourceUri;
     private byte[] resourceContent;
 
+    /**
+     * Create a new instance using the given RestPkiClient.
+     *
+     * @param client the RestPkiClient which shall be used.
+     */
     public DetachedResourceXmlSignatureStarter(RestPkiClient client) {
         super(client);
     }
 
+    /**
+     * Sets the detached resource to be signed
+     * @param resourceContent The resource bytes
+     * @param resourceUri The resource URI
+     */
     public void SetToSignDetachedResource(byte[] resourceContent, String resourceUri) {
         this.resourceContent = resourceContent;
         this.resourceUri = resourceUri;
     }
 
+    /**
+     * Sets the detached resource to be signed
+     * @param resourcePath The resource path
+     * @param resourceUri The resource URI
+     * @throws IOException
+     */
     public void SetToSignDetachedResource(String resourcePath, String resourceUri) throws IOException {
         SetToSignDetachedResource(Paths.get(resourcePath), resourceUri);
     }
 
+    /**
+     * Sets the detached resource to be signed
+     * @param resourcePath The resource path
+     * @param resourceUri The resource URI
+     * @throws IOException
+     */
     public void SetToSignDetachedResource(Path resourcePath, String resourceUri) throws IOException {
         SetToSignDetachedResource(Files.readAllBytes(resourcePath), resourceUri);
     }
