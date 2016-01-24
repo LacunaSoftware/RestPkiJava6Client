@@ -51,7 +51,7 @@ public class OnlineResourceXmlSignatureStarter extends XmlSignatureStarter {
         if (signaturePolicyId == null) {
             throw new RuntimeException("The signature policy was not set");
         }
-        if (uri == null || uri == "") {
+        if (uri == null || uri.equals("")) {
             throw new RuntimeException("The online resource URI to sign was not set or is empty");
         }
 
