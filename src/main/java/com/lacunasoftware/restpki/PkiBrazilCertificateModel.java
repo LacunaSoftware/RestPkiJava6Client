@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-19T17:33:14.346-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-30T19:04:19.798-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class PkiBrazilCertificateModel   {
   
@@ -21,6 +21,11 @@ class PkiBrazilCertificateModel   {
   private String responsavel = null;
   private String dateOfBirth = null;
   private String companyName = null;
+  private String oabUF = null;
+  private String oabNumero = null;
+  private String rgEmissor = null;
+  private String rgEmissorUF = null;
+  private String rgNumero = null;
 
   
   /**
@@ -95,6 +100,66 @@ class PkiBrazilCertificateModel   {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("oabUF")
+  public String getOabUF() {
+    return oabUF;
+  }
+  public void setOabUF(String oabUF) {
+    this.oabUF = oabUF;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("oabNumero")
+  public String getOabNumero() {
+    return oabNumero;
+  }
+  public void setOabNumero(String oabNumero) {
+    this.oabNumero = oabNumero;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("rgEmissor")
+  public String getRgEmissor() {
+    return rgEmissor;
+  }
+  public void setRgEmissor(String rgEmissor) {
+    this.rgEmissor = rgEmissor;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("rgEmissorUF")
+  public String getRgEmissorUF() {
+    return rgEmissorUF;
+  }
+  public void setRgEmissorUF(String rgEmissorUF) {
+    this.rgEmissorUF = rgEmissorUF;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("rgNumero")
+  public String getRgNumero() {
+    return rgNumero;
+  }
+  public void setRgNumero(String rgNumero) {
+    this.rgNumero = rgNumero;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -107,6 +172,11 @@ class PkiBrazilCertificateModel   {
     sb.append("  responsavel: ").append(responsavel).append("\n");
     sb.append("  dateOfBirth: ").append(dateOfBirth).append("\n");
     sb.append("  companyName: ").append(companyName).append("\n");
+    sb.append("  oabUF: ").append(oabUF).append("\n");
+    sb.append("  oabNumero: ").append(oabNumero).append("\n");
+    sb.append("  rgEmissor: ").append(rgEmissor).append("\n");
+    sb.append("  rgEmissorUF: ").append(rgEmissorUF).append("\n");
+    sb.append("  rgNumero: ").append(rgNumero).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

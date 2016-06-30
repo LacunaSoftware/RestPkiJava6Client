@@ -1,5 +1,6 @@
 package com.lacunasoftware.restpki;
 
+import com.lacunasoftware.restpki.PadesVisualRectangleModel;
 
 
 
@@ -8,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-21T14:48:34.437-02:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-30T19:04:19.798-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class PadesVisualTextModel   {
   
@@ -19,6 +20,7 @@ class PadesVisualTextModel   {
      Left,  Right, 
   };
   private HorizontalAlignEnum horizontalAlign = null;
+  private PadesVisualRectangleModel container = null;
 
   
   /**
@@ -69,6 +71,18 @@ class PadesVisualTextModel   {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("container")
+  public PadesVisualRectangleModel getContainer() {
+    return container;
+  }
+  public void setContainer(PadesVisualRectangleModel container) {
+    this.container = container;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -79,6 +93,7 @@ class PadesVisualTextModel   {
     sb.append("  text: ").append(text).append("\n");
     sb.append("  includeSigningTime: ").append(includeSigningTime).append("\n");
     sb.append("  horizontalAlign: ").append(horizontalAlign).append("\n");
+    sb.append("  container: ").append(container).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

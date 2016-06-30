@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-21T14:48:34.437-02:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-30T19:04:19.798-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class SystemStatusModel   {
   
@@ -19,6 +19,10 @@ class SystemStatusModel   {
   private Boolean sdkLicenseLoaded = null;
   private String sdkLicenseInfo = null;
   private String sdkLicenseError = null;
+  public enum StorageStateEnum {
+     Disabled,  ReadyAndEmpty,  Ready,  Error, 
+  };
+  private StorageStateEnum storageState = null;
 
   
   /**
@@ -105,6 +109,18 @@ class SystemStatusModel   {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("storageState")
+  public StorageStateEnum getStorageState() {
+    return storageState;
+  }
+  public void setStorageState(StorageStateEnum storageState) {
+    this.storageState = storageState;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -118,6 +134,7 @@ class SystemStatusModel   {
     sb.append("  sdkLicenseLoaded: ").append(sdkLicenseLoaded).append("\n");
     sb.append("  sdkLicenseInfo: ").append(sdkLicenseInfo).append("\n");
     sb.append("  sdkLicenseError: ").append(sdkLicenseError).append("\n");
+    sb.append("  storageState: ").append(storageState).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

@@ -1,6 +1,5 @@
 package com.lacunasoftware.restpki;
 
-import com.lacunasoftware.restpki.StandardArbitratorsModel;
 
 
 
@@ -11,40 +10,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @ApiModel(description = "")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-30T19:04:19.798-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-class SecurityContextModel   {
+class SignaturePolicySummary   {
   
-  private String description = null;
-  private StandardArbitratorsModel additionalStandardArbitrators = null;
   private String id = null;
   private String name = null;
   public enum TypeEnum {
-     Standard,  System,  Custom, 
+     Unknown,  Pades,  Cades,  Xml, 
   };
   private TypeEnum type = null;
-
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  @JsonProperty("description")
-  public String getDescription() {
-    return description;
-  }
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  @JsonProperty("additionalStandardArbitrators")
-  public StandardArbitratorsModel getAdditionalStandardArbitrators() {
-    return additionalStandardArbitrators;
-  }
-  public void setAdditionalStandardArbitrators(StandardArbitratorsModel additionalStandardArbitrators) {
-    this.additionalStandardArbitrators = additionalStandardArbitrators;
-  }
+  private Boolean isReadOnly = null;
 
   
   /**
@@ -83,17 +57,28 @@ class SecurityContextModel   {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("isReadOnly")
+  public Boolean getIsReadOnly() {
+    return isReadOnly;
+  }
+  public void setIsReadOnly(Boolean isReadOnly) {
+    this.isReadOnly = isReadOnly;
+  }
+
+  
 
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SecurityContextModel {\n");
+    sb.append("class SignaturePolicySummary {\n");
     
-    sb.append("  description: ").append(description).append("\n");
-    sb.append("  additionalStandardArbitrators: ").append(additionalStandardArbitrators).append("\n");
     sb.append("  id: ").append(id).append("\n");
     sb.append("  name: ").append(name).append("\n");
     sb.append("  type: ").append(type).append("\n");
+    sb.append("  isReadOnly: ").append(isReadOnly).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

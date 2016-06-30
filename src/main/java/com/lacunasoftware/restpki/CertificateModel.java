@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-19T17:33:14.346-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-30T19:04:19.798-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class CertificateModel   {
   
@@ -26,6 +26,7 @@ class CertificateModel   {
   private CertificateModel issuer = null;
   private PkiBrazilCertificateModel pkiBrazil = null;
   private PkiItalyCertificateModel pkiItaly = null;
+  private String binaryThumbprintSHA256 = null;
   private String thumbprint = null;
   private String subjectCommonName = null;
 
@@ -141,6 +142,18 @@ class CertificateModel   {
   /**
    **/
   @ApiModelProperty(value = "")
+  @JsonProperty("binaryThumbprintSHA256")
+  public String getBinaryThumbprintSHA256() {
+    return binaryThumbprintSHA256;
+  }
+  public void setBinaryThumbprintSHA256(String binaryThumbprintSHA256) {
+    this.binaryThumbprintSHA256 = binaryThumbprintSHA256;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
   @JsonProperty("thumbprint")
   public String getThumbprint() {
     return thumbprint;
@@ -177,6 +190,7 @@ class CertificateModel   {
     sb.append("  issuer: ").append(issuer).append("\n");
     sb.append("  pkiBrazil: ").append(pkiBrazil).append("\n");
     sb.append("  pkiItaly: ").append(pkiItaly).append("\n");
+    sb.append("  binaryThumbprintSHA256: ").append(binaryThumbprintSHA256).append("\n");
     sb.append("  thumbprint: ").append(thumbprint).append("\n");
     sb.append("  subjectCommonName: ").append(subjectCommonName).append("\n");
     sb.append("}\n");
