@@ -15,9 +15,9 @@ public abstract class SignatureExplorer {
     protected RestPkiClient client;
     protected byte[] signatureFileContent;
     protected boolean validate;
-    protected String implicitValidationPolicyId;
-    protected List<String> explicitValidationPolicyIds = new ArrayList<String>();
-    protected String validationSecurityContextId;
+    protected String implicitPolicyId;
+    protected SignaturePolicyCatalog acceptablePolicies;
+    protected String securityContextId;
 
     public SignatureExplorer(RestPkiClient client) {
         this.client = client;
@@ -30,7 +30,6 @@ public abstract class SignatureExplorer {
      */
     public void setSignatureFile(byte[] content) {
         this.signatureFileContent = content;
-        this.explicitValidationPolicyIds = new ArrayList<String>();
     }
 
     /**
@@ -68,18 +67,17 @@ public abstract class SignatureExplorer {
      * @param signaturePolicy The signature policy. Depending on the policy, it might also be necessary to set
      *                        a security context.
      */
-    public void setImplicitValidationPolicy(SignaturePolicy signaturePolicy) {
-        this.implicitValidationPolicyId = signaturePolicy.getId();
+    public void setImplicitPolicy(SignaturePolicy signaturePolicy) {
+        this.implicitPolicyId = signaturePolicy.getId();
     }
 
     /**
-     * Adds a signature policy to the list of acceptable policies for validation.
+     * Sets the catalog of explicit policies that will be accepted during validation.
      *
-     * @param signaturePolicy The signature policy. Depending on the policy, it might also be necessary to set
-     *                        a security context.
+     * @param policyCatalog The signature policy catalog (for instance, SignaturePolicyCatalog.getPkiBrazilCades())
      */
-    public void addExplicitValidationPolicy(SignaturePolicy signaturePolicy) {
-        this.explicitValidationPolicyIds.add(signaturePolicy.getId());
+    public void setAcceptablePolicies(SignaturePolicyCatalog policyCatalog) {
+        this.acceptablePolicies = policyCatalog;
     }
 
     /**
@@ -90,8 +88,8 @@ public abstract class SignatureExplorer {
      *
      * @param securityContext The security context to be used to validate the signatures on the signature file.
      */
-    public void setValidationSecurityContext(SecurityContext securityContext) {
-        this.validationSecurityContextId = securityContext.getId();
+    public void setSecurityContext(SecurityContext securityContext) {
+        this.securityContextId = securityContext.getId();
     }
 
     protected OpenSignatureRequestModel getRequest(String fileMimeType) {
@@ -101,9 +99,15 @@ public abstract class SignatureExplorer {
         file.setMimeType(fileMimeType);
         request.setFile(file);
         request.setValidate(validate);
-        request.setExplicitValidationPolicies(explicitValidationPolicyIds);
-        request.setImplicitValidationPolicy(implicitValidationPolicyId);
-        request.setValidationSecurityContext(validationSecurityContextId);
+        request.setImplicitPolicy(implicitPolicyId);
+        request.setSecurityContext(securityContextId);
+        if (acceptablePolicies != null) {
+            List<String> policyIds = new ArrayList<String>();
+            for (SignaturePolicy policy : acceptablePolicies.getPolicies()) {
+                policyIds.add(policy.getId());
+            }
+            request.setAcceptablePolicies(policyIds);
+        }
         return request;
     }
 }
