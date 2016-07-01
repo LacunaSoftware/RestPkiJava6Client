@@ -15,6 +15,11 @@ public class PkiBrazilCertificateFields {
     private String responsavel;
     private Date dateOfBirth;
     private String companyName;
+    private String rgNumero;
+    private String rgEmissor;
+    private String rgEmissorUF;
+    private String oabNumero;
+    private String oabUF;
 
     PkiBrazilCertificateFields(PkiBrazilCertificateModel model) {
         this.certificateType = PkiBrazilCertificateTypes.valueOf(model.getCertificateType().toString());
@@ -29,6 +34,11 @@ public class PkiBrazilCertificateFields {
             }
         }
         this.companyName = model.getCompanyName();
+        this.rgNumero = model.getRgNumero();
+        this.rgEmissor = model.getRgEmissor();
+        this.rgEmissorUF = model.getRgEmissorUF();
+        this.oabNumero = model.getOabNumero();
+        this.oabUF = model.getOabUF();
     }
 
     public PkiBrazilCertificateTypes getCertificateType() {
@@ -53,5 +63,25 @@ public class PkiBrazilCertificateFields {
 
     public String getCompanyName() {
         return companyName;
+    }
+
+    public String getRGNumero() {
+        return rgNumero;
+    }
+
+    public String getRGEmissor() {
+        return rgEmissor;
+    }
+
+    public String getRGEmissorUF() {
+        return rgEmissorUF;
+    }
+
+    public String getOabNumero() {
+        return oabNumero;
+    }
+
+    public String getOabUF() {
+        return oabUF;
     }
 }
