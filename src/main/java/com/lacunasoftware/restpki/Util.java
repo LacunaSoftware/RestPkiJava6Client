@@ -1,5 +1,7 @@
 package com.lacunasoftware.restpki;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,6 +31,14 @@ class Util {
         }
         buffer.flush();
         return buffer.toByteArray();
+    }
+
+    public static byte[] decodeBase64(String s) {
+        return new ObjectMapper().convertValue(s, byte[].class);
+    }
+
+    public static String encodeBase64(byte[] content) {
+        return new ObjectMapper().convertValue(content, String.class);
     }
 	
 //	public static String joinStrings(String separator, Collection<String> parts) {
