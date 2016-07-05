@@ -11,16 +11,28 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @ApiModel(description = "")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-07-05T18:14:42.102-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-class EventSummary   {
+class TransactionModel   {
   
+  private String details = null;
   private String id = null;
   private Date date = null;
-  public enum OperationEnum {
-     AccessTokenGenerated,  AccessTokensRevoked,  CertAuthStarted,  CertAuthCompleted,  PadesSignatureStarted,  PadesSignatureCompleted,  CadesSignatureStarted,  CadesSignatureCompleted,  XmlSignatureStarted,  XmlSignatureCompleted,  OpenSignature, 
+  public enum TypeEnum {
+     PadesSignature,  CertAuthentication,  CadesSignature,  XmlSignature,  Timestamp,  OpenSignature, 
   };
-  private OperationEnum operation = null;
+  private TypeEnum type = null;
   private Boolean success = null;
-  private Boolean hasDetails = null;
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("details")
+  public String getDetails() {
+    return details;
+  }
+  public void setDetails(String details) {
+    this.details = details;
+  }
 
   
   /**
@@ -50,12 +62,12 @@ class EventSummary   {
   /**
    **/
   @ApiModelProperty(value = "")
-  @JsonProperty("operation")
-  public OperationEnum getOperation() {
-    return operation;
+  @JsonProperty("type")
+  public TypeEnum getType() {
+    return type;
   }
-  public void setOperation(OperationEnum operation) {
-    this.operation = operation;
+  public void setType(TypeEnum type) {
+    this.type = type;
   }
 
   
@@ -71,29 +83,17 @@ class EventSummary   {
   }
 
   
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  @JsonProperty("hasDetails")
-  public Boolean getHasDetails() {
-    return hasDetails;
-  }
-  public void setHasDetails(Boolean hasDetails) {
-    this.hasDetails = hasDetails;
-  }
-
-  
 
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
-    sb.append("class EventSummary {\n");
+    sb.append("class TransactionModel {\n");
     
+    sb.append("  details: ").append(details).append("\n");
     sb.append("  id: ").append(id).append("\n");
     sb.append("  date: ").append(date).append("\n");
-    sb.append("  operation: ").append(operation).append("\n");
+    sb.append("  type: ").append(type).append("\n");
     sb.append("  success: ").append(success).append("\n");
-    sb.append("  hasDetails: ").append(hasDetails).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

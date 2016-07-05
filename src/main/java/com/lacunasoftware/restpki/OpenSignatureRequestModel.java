@@ -11,15 +11,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-07-01T10:55:17.837-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-07-05T18:14:42.102-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class OpenSignatureRequestModel   {
   
   private FileModel file = null;
   private Boolean validate = null;
-  private String implicitPolicy = null;
-  private List<String> acceptablePolicies = new ArrayList<String>();
-  private String securityContext = null;
+  private String defaultSignaturePolicyId = null;
+  private List<String> acceptableExplicitPolicies = new ArrayList<String>();
+  private String securityContextId = null;
   private List<DigestAlgorithmAndValueModel> dataHashes = new ArrayList<DigestAlgorithmAndValueModel>();
 
   
@@ -50,36 +50,36 @@ class OpenSignatureRequestModel   {
   /**
    **/
   @ApiModelProperty(value = "")
-  @JsonProperty("implicitPolicy")
-  public String getImplicitPolicy() {
-    return implicitPolicy;
+  @JsonProperty("defaultSignaturePolicyId")
+  public String getDefaultSignaturePolicyId() {
+    return defaultSignaturePolicyId;
   }
-  public void setImplicitPolicy(String implicitPolicy) {
-    this.implicitPolicy = implicitPolicy;
-  }
-
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  @JsonProperty("acceptablePolicies")
-  public List<String> getAcceptablePolicies() {
-    return acceptablePolicies;
-  }
-  public void setAcceptablePolicies(List<String> acceptablePolicies) {
-    this.acceptablePolicies = acceptablePolicies;
+  public void setDefaultSignaturePolicyId(String defaultSignaturePolicyId) {
+    this.defaultSignaturePolicyId = defaultSignaturePolicyId;
   }
 
   
   /**
    **/
   @ApiModelProperty(value = "")
-  @JsonProperty("securityContext")
-  public String getSecurityContext() {
-    return securityContext;
+  @JsonProperty("acceptableExplicitPolicies")
+  public List<String> getAcceptableExplicitPolicies() {
+    return acceptableExplicitPolicies;
   }
-  public void setSecurityContext(String securityContext) {
-    this.securityContext = securityContext;
+  public void setAcceptableExplicitPolicies(List<String> acceptableExplicitPolicies) {
+    this.acceptableExplicitPolicies = acceptableExplicitPolicies;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("securityContextId")
+  public String getSecurityContextId() {
+    return securityContextId;
+  }
+  public void setSecurityContextId(String securityContextId) {
+    this.securityContextId = securityContextId;
   }
 
   
@@ -103,9 +103,9 @@ class OpenSignatureRequestModel   {
     
     sb.append("  file: ").append(file).append("\n");
     sb.append("  validate: ").append(validate).append("\n");
-    sb.append("  implicitPolicy: ").append(implicitPolicy).append("\n");
-    sb.append("  acceptablePolicies: ").append(acceptablePolicies).append("\n");
-    sb.append("  securityContext: ").append(securityContext).append("\n");
+    sb.append("  defaultSignaturePolicyId: ").append(defaultSignaturePolicyId).append("\n");
+    sb.append("  acceptableExplicitPolicies: ").append(acceptableExplicitPolicies).append("\n");
+    sb.append("  securityContextId: ").append(securityContextId).append("\n");
     sb.append("  dataHashes: ").append(dataHashes).append("\n");
     sb.append("}\n");
     return sb.toString();

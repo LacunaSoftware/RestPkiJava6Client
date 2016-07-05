@@ -8,13 +8,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-10-21T14:48:34.437-02:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-07-05T18:14:42.102-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class UserModel   {
   
   private String email = null;
   private Boolean isAdmin = null;
-  private Boolean hasLocalLogin = null;
+  private Boolean hasPassword = null;
   private Boolean canDelete = null;
   private String id = null;
   private String username = null;
@@ -47,12 +47,12 @@ class UserModel   {
   /**
    **/
   @ApiModelProperty(value = "")
-  @JsonProperty("hasLocalLogin")
-  public Boolean getHasLocalLogin() {
-    return hasLocalLogin;
+  @JsonProperty("hasPassword")
+  public Boolean getHasPassword() {
+    return hasPassword;
   }
-  public void setHasLocalLogin(Boolean hasLocalLogin) {
-    this.hasLocalLogin = hasLocalLogin;
+  public void setHasPassword(Boolean hasPassword) {
+    this.hasPassword = hasPassword;
   }
 
   
@@ -100,7 +100,7 @@ class UserModel   {
     
     sb.append("  email: ").append(email).append("\n");
     sb.append("  isAdmin: ").append(isAdmin).append("\n");
-    sb.append("  hasLocalLogin: ").append(hasLocalLogin).append("\n");
+    sb.append("  hasPassword: ").append(hasPassword).append("\n");
     sb.append("  canDelete: ").append(canDelete).append("\n");
     sb.append("  id: ").append(id).append("\n");
     sb.append("  username: ").append(username).append("\n");
