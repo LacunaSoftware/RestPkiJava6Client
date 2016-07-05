@@ -62,17 +62,23 @@ public abstract class SignatureExplorer {
     }
 
     /**
-     * Sets the signature policy to be used for validating signatures without an explicit policy set.
+     * Sets the default signature policy to be used to validate signature. This value is used to validate signatures
+     * without an explicit validation policy attribute and also signatures with an explicit validation policy attribute
+     * that is not among the policies specified in AcceptableExplicitPolicies. In order to accept only a certain list of
+     * explicit policies, this value should be omitted.
      *
-     * @param signaturePolicy The signature policy. Depending on the policy, it might also be necessary to set
-     *                        a security context.
+     * @param signaturePolicy The default signature policy for validation. Depending on the policy, it might also be
+     *                        necessary to set a security context.
      */
     public void setDefaultSignaturePolicy(SignaturePolicy signaturePolicy) {
         this.defaultSignaturePolicyId = signaturePolicy.getId();
     }
 
     /**
-     * Sets the catalog of explicit policies that will be accepted during validation.
+     * Sets the "catalog" of explicit policies that should be accepted when validating signatures with a explicit validation
+     * policy attribute. If a signature being validated has an explicit validation policy attribute which is not among
+     * the values passed, then the policy specified in DefaultSignaturePolicyId is used. In order to accept only the
+     * given list of explicit policies, omit the value DefaultSignaturePolicyId.
      *
      * @param policyCatalog The signature policy catalog (for instance, SignaturePolicyCatalog.getPkiBrazilCades())
      */
@@ -82,7 +88,7 @@ public abstract class SignatureExplorer {
 
     /**
      * Sets the security context to be used to validate the signatures. Depending on the signature policies passed on the
-     * methods addExplicitValidationPolicy and setImplicitValidationPolicy, this may be mandatory. If a signature
+     * methods setAcceptableExplicitPolicies and setDefaultSignaturePolicy, this may be mandatory. If a signature
      * policy does not require a security context to be set but one is nevertheless passed, the given security context
      * overrides the one that would otherwise be inferred from the policy.
      *

@@ -14,6 +14,13 @@ import java.util.List;
 
 /**
  * Class used to open a CAdES signature file (.p7s file) and optionally validate its signatures.
+ *
+ * CAdES signature files may or may not have embedded the original signed file, which is called "encapsulated
+ * content". Files with the original file embedded are called "attached signatures", whereas files without it
+ * are called "detached signatures". This class supports both kinds of files. However, when opening detached signatures,
+ * it is necessary to provide a path or input stream to the original file that was signed (the "data file").
+ *
+ * Implementation notice: when opening detached signatures, the data file is not uploaded to Rest PKI, only its digest.
  */
 public class CadesSignatureExplorer extends SignatureExplorer {
 
@@ -26,18 +33,38 @@ public class CadesSignatureExplorer extends SignatureExplorer {
         super(client);
     }
 
+    /**
+     * Sets the data file path (needed only for signatures without encapsulated content, aka "detached signatures")
+     *
+     * @param path File path of the data file.
+     */
     public void setDataFile(String path) {
         setDataFile(Paths.get(path));
     }
 
+    /**
+     * Sets the data file path (needed only for signatures without encapsulated content, aka "detached signatures")
+     *
+     * @param path File path of the data file.
+     */
     public void setDataFile(Path path) {
         this.dataFilePath = path;
     }
 
+    /**
+     * Sets the data file input stream (needed only for signatures without encapsulated content, aka "detached signatures")
+     *
+     * @param stream InputStream associated with the data file.
+     */
     public void setDataFile(InputStream stream) {
         this.dataFileStream = stream;
     }
 
+    /**
+     * Performs the open signature operation.
+     * @return information about the signature file.
+     * @throws RestException if an error occurs when calling REST PKI
+     */
     public CadesSignature open() throws RestException, IOException {
 
         if (signatureFileContent == null) {

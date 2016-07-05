@@ -13,6 +13,11 @@ public class PadesSignatureExplorer extends SignatureExplorer {
         super(client);
     }
 
+    /**
+     * Performs the open signature operation.
+     * @return information about the signature file.
+     * @throws RestException if an error occurs when calling REST PKI
+     */
     public PadesSignature open() throws RestException {
 
         if (signatureFileContent == null) {

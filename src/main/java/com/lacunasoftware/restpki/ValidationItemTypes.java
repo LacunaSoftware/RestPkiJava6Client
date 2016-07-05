@@ -42,5 +42,14 @@ public enum ValidationItemTypes {
 	InvalidCrl,
 	CertificateIssuerValid,
 	CertificateIssuerInvalid,
-	CertificateValidationFailed
+	CertificateValidationFailed,
+	SignatureVulnerableToSignerSubstitution,
+	InvalidXmlSignatureSchema,
+	XmlDSigCoreValidationFailed,
+	SignatureTimestampIgnored,
+	InvalidCertificationPathLen,
+	SigningCertificateNotFound,
+	UnauthorizedACIssuer,
+	AlgorithmNotAllowed,
+	UnacceptableSignaturePolicy
 }
