@@ -62,7 +62,7 @@ public abstract class SignatureExplorer {
     }
 
     /**
-     * Sets the default signature policy to be used to validate signature. This value is used to validate signatures
+     * Sets the default signature policy to be used to validate signatures. This value is used to validate signatures
      * without an explicit validation policy attribute and also signatures with an explicit validation policy attribute
      * that is not among the policies specified in AcceptableExplicitPolicies. In order to accept only a certain list of
      * explicit policies, this value should be omitted.
@@ -75,12 +75,13 @@ public abstract class SignatureExplorer {
     }
 
     /**
-     * Sets the "catalog" of explicit policies that should be accepted when validating signatures with a explicit validation
+     * Sets the "catalog" of explicit policies that should be accepted when validating signatures with an explicit validation
      * policy attribute. If a signature being validated has an explicit validation policy attribute which is not among
-     * the values passed, then the policy specified in DefaultSignaturePolicyId is used. In order to accept only the
-     * given list of explicit policies, omit the value DefaultSignaturePolicyId.
+     * the values passed, then the default signature policy is used (specified with the setDefaultSignaturePolicy method).
+     * In order to accept only the given catalog of explicit policies, don't set a default policy.
      *
-     * @param policyCatalog The signature policy catalog (for instance, SignaturePolicyCatalog.getPkiBrazilCades())
+     * @param policyCatalog The signature policy catalog (for instance, SignaturePolicyCatalog.getPkiBrazilCades() or
+     *                      SignaturePolicyCatalog.getPkiBrazilPades())
      */
     public void setAcceptableExplicitPolicies(SignaturePolicyCatalog policyCatalog) {
         this.acceptableExplicitPolicies = policyCatalog;

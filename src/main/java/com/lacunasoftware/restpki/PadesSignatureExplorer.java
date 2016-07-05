@@ -3,7 +3,12 @@ package com.lacunasoftware.restpki;
 import java.io.IOException;
 
 /**
- * Class used to inspect the signatures in a PDF file.
+ * Class used to open the signatures in a PDF file and optionally validate them.
+ * <p>
+ *     By default, the PDF signatures are only inspected but not validated. In order to validate the file, you must
+ *     call the method setValidate and also the methods regarding signature policies, which specify the parameters
+ *     for the validation.
+ * </p>
  */
 public class PadesSignatureExplorer extends SignatureExplorer {
 
@@ -15,7 +20,7 @@ public class PadesSignatureExplorer extends SignatureExplorer {
 
     /**
      * Performs the open signature operation.
-     * @return information about the signature file.
+     * @return information about the PDF signatures.
      * @throws RestException if an error occurs when calling REST PKI
      */
     public PadesSignature open() throws RestException {

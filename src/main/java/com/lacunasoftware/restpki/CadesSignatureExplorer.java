@@ -14,13 +14,21 @@ import java.util.List;
 
 /**
  * Class used to open a CAdES signature file (.p7s file) and optionally validate its signatures.
- *
- * CAdES signature files may or may not have embedded the original signed file, which is called "encapsulated
- * content". Files with the original file embedded are called "attached signatures", whereas files without it
- * are called "detached signatures". This class supports both kinds of files. However, when opening detached signatures,
- * it is necessary to provide a path or input stream to the original file that was signed (the "data file").
- *
- * Implementation notice: when opening detached signatures, the data file is not uploaded to Rest PKI, only its digest.
+ * <p>
+ *     By default, the signature file is only opened but not validated. In order to validate the file, you must
+ *     call the method setValidate and also the methods regarding signature policies, which specify the parameters
+ *     for the validation.
+ * </p>
+ * <p>
+ *     CAdES signature files may or may not have embedded the original file that was signed (the "data file"), which is
+ *     called having an "encapsulated content". Files with the original file embedded are called "attached signatures",
+ *     whereas files without it are called "detached signatures". This class supports both kinds of files. However, when
+ *     opening detached signatures, it is necessary to provide not only the CAdES signature file but also the data file.
+ * </p>
+ * <p>
+ *     Implementation notice: when opening detached signatures, the data file is not uploaded to Rest PKI, only its
+ *     digest(s), which allows for efficient opening of detached CAdES signatures from very large data files.
+ * </p>
  */
 public class CadesSignatureExplorer extends SignatureExplorer {
 
