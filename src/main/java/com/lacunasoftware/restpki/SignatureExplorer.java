@@ -15,8 +15,8 @@ public abstract class SignatureExplorer {
     protected RestPkiClient client;
     protected byte[] signatureFileContent;
     protected boolean validate;
-    protected String implicitPolicyId;
-    protected SignaturePolicyCatalog acceptablePolicies;
+    protected String defaultSignaturePolicyId;
+    protected SignaturePolicyCatalog acceptableExplicitPolicies;
     protected String securityContextId;
 
     public SignatureExplorer(RestPkiClient client) {
@@ -67,8 +67,8 @@ public abstract class SignatureExplorer {
      * @param signaturePolicy The signature policy. Depending on the policy, it might also be necessary to set
      *                        a security context.
      */
-    public void setImplicitPolicy(SignaturePolicy signaturePolicy) {
-        this.implicitPolicyId = signaturePolicy.getId();
+    public void setDefaultSignaturePolicy(SignaturePolicy signaturePolicy) {
+        this.defaultSignaturePolicyId = signaturePolicy.getId();
     }
 
     /**
@@ -76,8 +76,8 @@ public abstract class SignatureExplorer {
      *
      * @param policyCatalog The signature policy catalog (for instance, SignaturePolicyCatalog.getPkiBrazilCades())
      */
-    public void setAcceptablePolicies(SignaturePolicyCatalog policyCatalog) {
-        this.acceptablePolicies = policyCatalog;
+    public void setAcceptableExplicitPolicies(SignaturePolicyCatalog policyCatalog) {
+        this.acceptableExplicitPolicies = policyCatalog;
     }
 
     /**
@@ -99,14 +99,14 @@ public abstract class SignatureExplorer {
         file.setMimeType(fileMimeType);
         request.setFile(file);
         request.setValidate(validate);
-        request.setImplicitPolicy(implicitPolicyId);
-        request.setSecurityContext(securityContextId);
-        if (acceptablePolicies != null) {
+        request.setDefaultSignaturePolicyId(defaultSignaturePolicyId);
+        request.setSecurityContextId(securityContextId);
+        if (acceptableExplicitPolicies != null) {
             List<String> policyIds = new ArrayList<String>();
-            for (SignaturePolicy policy : acceptablePolicies.getPolicies()) {
+            for (SignaturePolicy policy : acceptableExplicitPolicies.getPolicies()) {
                 policyIds.add(policy.getId());
             }
-            request.setAcceptablePolicies(policyIds);
+            request.setAcceptableExplicitPolicies(policyIds);
         }
         return request;
     }

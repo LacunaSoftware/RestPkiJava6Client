@@ -29,9 +29,27 @@ public class SignaturePolicyCatalog {
         ));
     }
 
-    public static SignaturePolicyCatalog getPkiBrazilCadesHavingSignatureTimestamp() {
+    public static SignaturePolicyCatalog getPkiBrazilCadesWithSignerCertificateProtection() {
         return new SignaturePolicyCatalog(Arrays.asList(
                 SignaturePolicy.PkiBrazilAdrTempo, SignaturePolicy.PkiBrazilAdrCompleta
+        ));
+    }
+
+    public static SignaturePolicyCatalog getPkiBrazilCadesWithCACertificateProtection() {
+        return new SignaturePolicyCatalog(Arrays.asList(
+                SignaturePolicy.PkiBrazilAdrCompleta
+        ));
+    }
+
+    public static SignaturePolicyCatalog getPkiBrazilPades() {
+        return new SignaturePolicyCatalog(Arrays.asList(
+                SignaturePolicy.PkiBrazilPadesAdrBasica, SignaturePolicy.PkiBrazilPadesAdrTempo
+        ));
+    }
+
+    public static SignaturePolicyCatalog getPkiBrazilPadesWithSignerCertificateProtection() {
+        return new SignaturePolicyCatalog(Arrays.asList(
+                SignaturePolicy.PkiBrazilPadesAdrTempo
         ));
     }
 }

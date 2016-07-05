@@ -41,7 +41,7 @@ public class CadesSignatureExplorer extends SignatureExplorer {
     public CadesSignature open() throws RestException, IOException {
 
         if (signatureFileContent == null) {
-            throw new RuntimeException("The signature file to open not set");
+            throw new RuntimeException("The signature file to open was not set");
         }
 
         List<DigestAlgorithmAndValueModel> dataHashes = null;

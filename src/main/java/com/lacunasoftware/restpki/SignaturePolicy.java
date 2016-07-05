@@ -21,12 +21,12 @@ public class SignaturePolicy {
     public static final SignaturePolicy PkiBrazilAdrTempo = new SignaturePolicy("a5332ad1-d105-447c-a4bb-b5d02177e439");
 
     /**
-     * ICP-Brasil CAdES (AD-RB)  Assinatura Digital com Referencia para Validacao
+     * ICP-Brasil CAdES (AD-RV)  Assinatura Digital com Referencia para Validacao
      */
     public static final SignaturePolicy PkiBrazilAdrValidacao = new SignaturePolicy("92378630-dddf-45eb-8296-8fee0b73d5bb");
 
     /**
-     * ICP-Brasil CAdES (AD-RB)  Assinatura Digital com Referencias Completas
+     * ICP-Brasil CAdES (AD-RC)  Assinatura Digital com Referencias Completas
      */
     public static final SignaturePolicy PkiBrazilAdrCompleta = new SignaturePolicy("30d881e7-924a-4a14-b5cc-d5a1717d92f6");
 
@@ -35,6 +35,15 @@ public class SignaturePolicy {
      */
     public static final SignaturePolicy PadesBasic = new SignaturePolicy("78d20b33-014d-440e-ad07-929f05d00cdf");
 
+    /**
+     * ICP-Brasil PAdES (AD-RB) Assinatura Digital com Referencia Básica
+     */
+    public static final SignaturePolicy PkiBrazilPadesAdrBasica = new SignaturePolicy("531d5012-4c0d-4b6f-89e8-ebdcc605d7c2");
+
+    /**
+     * ICP-Brasil PAdES (AD-RT) Assinatura Digital com Referencia do Tempo
+     */
+    public static final SignaturePolicy PkiBrazilPadesAdrTempo = new SignaturePolicy("10f0d9a5-a0a9-42e9-9523-e181ce05a25b");
 
     /**
      * XAdES basic signature policy
