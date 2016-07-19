@@ -61,10 +61,17 @@ public class PadesVisualRepresentation {
     }
 
     PadesVisualRepresentationModel toModel() {
+        if (position == null) {
+            throw new RuntimeException("The visual representation position was not set");
+        }
         PadesVisualRepresentationModel model = new PadesVisualRepresentationModel();
-        model.setText(text.toModel());
-        model.setImage(image.toModel());
         model.setPosition(position.toModel());
+        if (text != null) {
+            model.setText(text.toModel());
+        }
+        if (image != null) {
+            model.setImage(image.toModel());
+        }
         return model;
     }
 }
