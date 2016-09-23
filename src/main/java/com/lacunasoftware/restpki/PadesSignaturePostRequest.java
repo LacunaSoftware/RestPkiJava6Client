@@ -1,6 +1,9 @@
 package com.lacunasoftware.restpki;
 
 import com.lacunasoftware.restpki.PadesVisualRepresentationModel;
+import java.util.*;
+import com.lacunasoftware.restpki.PdfMarkModel;
+import com.lacunasoftware.restpki.PadesPageOptimizationModel;
 
 
 
@@ -9,12 +12,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-22T14:46:16.160-02:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-09-23T11:29:56.579-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class PadesSignaturePostRequest   {
   
   private String pdfToSign = null;
   private PadesVisualRepresentationModel visualRepresentation = null;
+  private List<PdfMarkModel> pdfMarks = new ArrayList<PdfMarkModel>();
+  private Boolean bypassMarksIfSigned = null;
+  public enum MeasurementUnitsEnum {
+     Centimeters,  PdfPoints, 
+  };
+  private MeasurementUnitsEnum measurementUnits = null;
+  private PadesPageOptimizationModel pageOptimization = null;
   private String certificate = null;
   private String signaturePolicyId = null;
   private String securityContextId = null;
@@ -42,6 +52,54 @@ class PadesSignaturePostRequest   {
   }
   public void setVisualRepresentation(PadesVisualRepresentationModel visualRepresentation) {
     this.visualRepresentation = visualRepresentation;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("pdfMarks")
+  public List<PdfMarkModel> getPdfMarks() {
+    return pdfMarks;
+  }
+  public void setPdfMarks(List<PdfMarkModel> pdfMarks) {
+    this.pdfMarks = pdfMarks;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("bypassMarksIfSigned")
+  public Boolean getBypassMarksIfSigned() {
+    return bypassMarksIfSigned;
+  }
+  public void setBypassMarksIfSigned(Boolean bypassMarksIfSigned) {
+    this.bypassMarksIfSigned = bypassMarksIfSigned;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("measurementUnits")
+  public MeasurementUnitsEnum getMeasurementUnits() {
+    return measurementUnits;
+  }
+  public void setMeasurementUnits(MeasurementUnitsEnum measurementUnits) {
+    this.measurementUnits = measurementUnits;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("pageOptimization")
+  public PadesPageOptimizationModel getPageOptimization() {
+    return pageOptimization;
+  }
+  public void setPageOptimization(PadesPageOptimizationModel pageOptimization) {
+    this.pageOptimization = pageOptimization;
   }
 
   
@@ -101,6 +159,10 @@ class PadesSignaturePostRequest   {
     
     sb.append("  pdfToSign: ").append(pdfToSign).append("\n");
     sb.append("  visualRepresentation: ").append(visualRepresentation).append("\n");
+    sb.append("  pdfMarks: ").append(pdfMarks).append("\n");
+    sb.append("  bypassMarksIfSigned: ").append(bypassMarksIfSigned).append("\n");
+    sb.append("  measurementUnits: ").append(measurementUnits).append("\n");
+    sb.append("  pageOptimization: ").append(pageOptimization).append("\n");
     sb.append("  certificate: ").append(certificate).append("\n");
     sb.append("  signaturePolicyId: ").append(signaturePolicyId).append("\n");
     sb.append("  securityContextId: ").append(securityContextId).append("\n");
