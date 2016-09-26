@@ -2,6 +2,7 @@ package com.lacunasoftware.restpki;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,6 +40,15 @@ class Util {
 
     public static String encodeBase64(byte[] content) {
         return new ObjectMapper().convertValue(content, String.class);
+    }
+
+    static ColorModel convertColorToModel(Color color) {
+        ColorModel model = new ColorModel();
+        model.setAlpha(color.getAlpha() / 2.55); // alpha in Rest PKI is 0-100
+        model.setRed(color.getRed());
+        model.setGreen(color.getGreen());
+        model.setBlue(color.getBlue());
+        return model;
     }
 	
 //	public static String joinStrings(String separator, Collection<String> parts) {

@@ -8,9 +8,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.awt.Color;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class used to perform the first of the two steps required to perform a PAdES signature.
@@ -26,6 +29,7 @@ public class PadesSignatureStarter extends SignatureStarter {
 
 	private byte[] pdfContent;
 	private PadesVisualRepresentation visualRepresentation;
+	private List<PdfMark> pdfMarks;
 
 	/**
 	 * Create a new instance using the given RestPkiClient.
@@ -85,6 +89,27 @@ public class PadesSignatureStarter extends SignatureStarter {
 	}
 
 	/**
+	 * Optional, sets the setting for to mark the pdf with the signature
+	 *
+	 * @param pdfMarks List with PDF marks
+	 */
+	public void setPdfMarks(List<PdfMark> pdfMarks) {
+		this.pdfMarks = pdfMarks;
+	}
+
+	/**
+	 * Adds a new PDF mark to the list
+	 *
+	 * @param pdfMark PDF mark
+	 */
+	public void addPdfMark(PdfMark pdfMark) {
+		if (pdfMarks == null) {
+			setPdfMarks(new ArrayList<PdfMark>());
+		}
+		pdfMarks.add(pdfMark);
+	}
+
+	/**
 	 * Performs the first step, should be called after setting the necessary parameters. If you intend to use
 	 * the Web PKI component on the client-side, use the startWithRestPki() method instead.
 	 *
@@ -113,6 +138,10 @@ public class PadesSignatureStarter extends SignatureStarter {
 		request.setCallbackArgument(callbackArgument);
 		if (visualRepresentation != null) {
 			request.setVisualRepresentation(visualRepresentation.toModel());
+		}
+		List<PdfMarkModel> pdfMarkModels = getPdfMarksModel();
+		if (pdfMarkModels != null) {
+			request.setPdfMarks(pdfMarkModels);
 		}
 
 		PadesSignaturePostResponse response = client.getRestClient().post("Api/PadesSignatures", request, PadesSignaturePostResponse.class);
@@ -159,6 +188,10 @@ public class PadesSignatureStarter extends SignatureStarter {
 		if (visualRepresentation != null) {
 			request.setVisualRepresentation(visualRepresentation.toModel());
 		}
+		List<PdfMarkModel> pdfMarkModels = getPdfMarksModel();
+		if (pdfMarkModels != null) {
+			request.setPdfMarks(pdfMarkModels);
+		}
 
 		PadesSignaturePostResponse response = client.getRestClient().post("Api/PadesSignatures", request, PadesSignaturePostResponse.class);
 
@@ -168,5 +201,17 @@ public class PadesSignatureStarter extends SignatureStarter {
 		this.done = true;
 
 		return response.getToken();
+	}
+
+	private List<PdfMarkModel> getPdfMarksModel() {
+		if (pdfMarks == null || pdfMarks.size() == 0) {
+			return null;
+		} else {
+			List<PdfMarkModel> pdfMarkModels = new ArrayList<PdfMarkModel>();
+			for(PdfMark mark : pdfMarks) {
+				pdfMarkModels.add(mark.toModel());
+			}
+			return pdfMarkModels;
+		}
 	}
 }
