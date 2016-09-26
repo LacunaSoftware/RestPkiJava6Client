@@ -7,7 +7,7 @@ public abstract class PdfMarkElement {
 
     protected PdfMarkElementType elementType;
     protected PadesVisualRectangle relativeContainer;
-    protected Integer rotation;
+    protected int rotation;
 
     public PdfMarkElement(PdfMarkElementType type) {
         elementType = type;
@@ -45,11 +45,11 @@ public abstract class PdfMarkElement {
         this.relativeContainer = relativeContainer;
     }
 
-    public Integer getRotation() {
+    public int getRotation() {
         return rotation;
     }
 
-    public void setRotation(Integer rotation) {
+    public void setRotation(int rotation) {
         this.rotation = rotation;
     }
 
