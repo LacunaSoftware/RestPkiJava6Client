@@ -9,6 +9,7 @@ public class PadesVisualText {
 	private String text;
 	private Boolean includeSigningTime;
 	private PadesTextHorizontalAlign horizontalAlign;
+	private PadesVisualRectangle container;
 
 	public PadesVisualText() {
 		this.horizontalAlign = PadesTextHorizontalAlign.Left;
@@ -118,9 +119,22 @@ public class PadesVisualText {
 		return horizontalAlign;
 	}
 
+	/**
+	 * Sets the image horizontal alignment inside the signature rectangle
+	 * @param horizontalAlign
+	 */
 	public void setHorizontalAlign(PadesTextHorizontalAlign horizontalAlign) {
 		this.horizontalAlign = horizontalAlign;
 	}
+
+	public PadesVisualRectangle getContainer() { return container; }
+
+	/**
+	 * Sets the inner container, that will control the text's relative position inside the visual representation
+	 *
+	 * @param container Container that will control the text's relative position inside the visual representation
+	 */
+	public void setContainer(PadesVisualRectangle container) { this.container = container; }
 
 	public PadesVisualTextModel toModel() {
 		PadesVisualTextModel model = new PadesVisualTextModel();
@@ -129,6 +143,9 @@ public class PadesVisualText {
 		model.setIncludeSigningTime(includeSigningTime);
 		if (horizontalAlign != null) {
 			model.setHorizontalAlign(PadesVisualTextModel.HorizontalAlignEnum.valueOf(horizontalAlign.toString()));
+		}
+		if (container != null) {
+			model.setContainer(container.toModel());
 		}
 		return model;
 	}

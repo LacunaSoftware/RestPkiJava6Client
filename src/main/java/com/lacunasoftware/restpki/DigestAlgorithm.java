@@ -1,7 +1,5 @@
 package com.lacunasoftware.restpki;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -73,7 +71,7 @@ public enum DigestAlgorithm {
             case SHA512:
                 return DigestAlgorithmAndValueModel.AlgorithmEnum.SHA512;
             default:
-                throw new NotImplementedException(); // should not happen
+                throw new RuntimeException(); // should not happen
         }
     }
 }
