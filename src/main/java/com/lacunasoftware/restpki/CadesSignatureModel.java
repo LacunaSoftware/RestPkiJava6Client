@@ -1,5 +1,6 @@
 package com.lacunasoftware.restpki;
 
+import com.lacunasoftware.restpki.FileModel;
 import java.util.*;
 import com.lacunasoftware.restpki.CadesSignerModel;
 
@@ -10,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-30T19:04:19.798-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-02-17T15:30:21.925-02:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class CadesSignatureModel   {
   
@@ -20,6 +21,7 @@ class CadesSignatureModel   {
   private EncapsulatedContentTypeEnum encapsulatedContentType = null;
   private Boolean hasEncapsulatedContent = null;
   private List<CadesSignerModel> signers = new ArrayList<CadesSignerModel>();
+  private FileModel encapsulatedContent = null;
 
   
   /**
@@ -58,6 +60,18 @@ class CadesSignatureModel   {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("encapsulatedContent")
+  public FileModel getEncapsulatedContent() {
+    return encapsulatedContent;
+  }
+  public void setEncapsulatedContent(FileModel encapsulatedContent) {
+    this.encapsulatedContent = encapsulatedContent;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -67,6 +81,7 @@ class CadesSignatureModel   {
     sb.append("  encapsulatedContentType: ").append(encapsulatedContentType).append("\n");
     sb.append("  hasEncapsulatedContent: ").append(hasEncapsulatedContent).append("\n");
     sb.append("  signers: ").append(signers).append("\n");
+    sb.append("  encapsulatedContent: ").append(encapsulatedContent).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

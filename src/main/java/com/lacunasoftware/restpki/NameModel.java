@@ -1,5 +1,7 @@
 package com.lacunasoftware.restpki;
 
+import java.util.*;
+import java.util.Map;
 
 
 
@@ -8,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-19T17:33:14.346-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-02-17T15:30:21.925-02:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class NameModel   {
   
@@ -27,6 +29,7 @@ class NameModel   {
   private String pseudonym = null;
   private String generationQualifier = null;
   private String emailAddress = null;
+  private Map<String, List<String>> allValues = new HashMap<String, List<String>>();
 
   
   /**
@@ -209,6 +212,18 @@ class NameModel   {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("allValues")
+  public Map<String, List<String>> getAllValues() {
+    return allValues;
+  }
+  public void setAllValues(Map<String, List<String>> allValues) {
+    this.allValues = allValues;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -230,6 +245,7 @@ class NameModel   {
     sb.append("  pseudonym: ").append(pseudonym).append("\n");
     sb.append("  generationQualifier: ").append(generationQualifier).append("\n");
     sb.append("  emailAddress: ").append(emailAddress).append("\n");
+    sb.append("  allValues: ").append(allValues).append("\n");
     sb.append("}\n");
     return sb.toString();
   }
