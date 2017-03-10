@@ -1,32 +1,28 @@
 package com.lacunasoftware.restpki;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class used to perform the first of the two steps required to perform a CAdES signature.
  * <p>
- * Note on confidentiality: the file to be signed is stored on the server between the first and second steps,
- * but never unencrypted. The content is encrypted using AES-128 and <b>the key is not stored on the server</b>,
- * it is instead mixed into the token that is returned and which is necessary on the second step. In other
- * words, the server stores the file but is unable to read it on its own, therefore the file contents cannot be
- * compromised, even in the event of a complete data leakage.
+ * 		Note on confidentiality: the file to be signed is stored on the server between the first and second steps,
+ * 		but never unencrypted. The content is encrypted using AES-128 and <b>the key is not stored on the server</b>,
+ * 		it is instead mixed into the token that is returned and which is necessary on the second step. In other
+ * 		words, the server stores the file but is unable to read it on its own, therefore the file contents cannot be
+ * 		compromised, even in the event of a complete data leakage.
  * </p>
  */
 public class CadesSignatureStarter extends SignatureStarter {
 
-	private byte[] contentToSign;
-	private byte[] cmsToCoSign;
+	private FileReference fileToSign;
+	private FileReference cmsToCoSign;
 	private Boolean encapsulateContent;
+	private List<DigestAlgorithm> digestAlgorithmsForDetachedSignature;
 
 	/**
 	 * Create a new instance using the given RestPkiClient.
@@ -35,16 +31,21 @@ public class CadesSignatureStarter extends SignatureStarter {
 	 */
 	public CadesSignatureStarter(RestPkiClient client) {
 		super(client);
+		digestAlgorithmsForDetachedSignature = new ArrayList<DigestAlgorithm>();
+		digestAlgorithmsForDetachedSignature.add(DigestAlgorithm.SHA1);
+		digestAlgorithmsForDetachedSignature.add(DigestAlgorithm.SHA256);
 	}
+
+	//region setContentToSign / setFileToSign
 
 	/**
 	 * Sets the content to be signed
 	 *
-	 * @param stream a pre-opened InputStream linked to the file that will be signed. The stream is NOT closed by this method.
-	 * @throws IOException if an error occurs while reading the stream.
+	 * @param stream a pre-opened InputStream linked to the file that will be signed. The stream is NOT closed by this
+	 *                  method.
 	 */
-	public void setContentToSign(InputStream stream) throws IOException {
-		this.contentToSign = Util.readStream(stream);
+	public void setContentToSign(InputStream stream) {
+		this.fileToSign = FileReference.fromStream(stream);
 	}
 
 	/**
@@ -53,16 +54,15 @@ public class CadesSignatureStarter extends SignatureStarter {
 	 * @param content Binary content to be signed
 	 */
 	public void setContentToSign(byte[] content) {
-		this.contentToSign = content;
+		this.fileToSign = FileReference.fromContent(content);
 	}
 
 	/**
 	 * Sets the path of the file to be signed
 	 *
 	 * @param path Path of the file to be signed.
-	 * @throws IOException if an error occurs while reading the file.
 	 */
-	public void setFileToSign(String path) throws IOException {
+	public void setFileToSign(String path) {
 		setFileToSign(Paths.get(path));
 	}
 
@@ -70,21 +70,23 @@ public class CadesSignatureStarter extends SignatureStarter {
 	 * Sets the path of the file to be signed
 	 *
 	 * @param path Path of the file to be signed.
-	 * @throws IOException if an error occurs while reading the file.
 	 */
-	public void setFileToSign(Path path) throws IOException {
-		this.contentToSign = Files.readAllBytes(path);
+	public void setFileToSign(Path path) {
+		this.fileToSign = FileReference.fromFile(path);
 	}
+
+	//endregion
+
+	//region setCmsToCoSign
 
 	/**
 	 * Sets the CMS to be co-signed
 	 *
 	 * @param stream a pre-opened InputStream linked to the CMS file that will be co-signed. The stream is NOT closed by
 	 *               this method.
-	 * @throws IOException if an error occurs while reading the stream.
 	 */
-	public void setCmsToCoSign(InputStream stream) throws IOException {
-		this.cmsToCoSign = Util.readStream(stream);
+	public void setCmsToCoSign(InputStream stream) {
+		this.cmsToCoSign = FileReference.fromStream(stream);
 	}
 
 	/**
@@ -93,16 +95,15 @@ public class CadesSignatureStarter extends SignatureStarter {
 	 * @param cmsToCoSign Binary content of the CMS to be co-signed
 	 */
 	public void setCmsToCoSign(byte[] cmsToCoSign) {
-		this.cmsToCoSign = cmsToCoSign;
+		this.cmsToCoSign = FileReference.fromContent(cmsToCoSign);
 	}
 
 	/**
 	 * Sets the path of the CMS file to be co-signed
 	 *
 	 * @param path Path of the CMS file to be co-signed.
-	 * @throws IOException if an error occurs while reading the file.
 	 */
-	public void setCmsToCoSign(String path) throws IOException {
+	public void setCmsToCoSign(String path) {
 		setCmsToCoSign(Paths.get(path));
 	}
 
@@ -110,11 +111,21 @@ public class CadesSignatureStarter extends SignatureStarter {
 	 * Sets the path of the CMS file to be co-signed
 	 *
 	 * @param path Path of the CMS file to be co-signed.
-	 * @throws IOException if an error occurs while reading the file.
 	 */
-	public void setCmsToCoSign(Path path) throws IOException {
-		this.cmsToCoSign = Files.readAllBytes(path);
+	public void setCmsToCoSign(Path path) {
+		this.cmsToCoSign = FileReference.fromFile(path);
 	}
+
+	/**
+	 * Sets the file resulted from a previous signature to be co-signed
+	 *
+	 * @param fileResult FileResult from another signature process
+	 */
+	public void SetCmsToCoSign(FileResult fileResult) {
+		this.cmsToCoSign = FileReference.fromResult(fileResult);
+	}
+
+	//endregion
 
 	/**
 	 * Optionally denotes whether the resulting CMS should include the content signed. If omitted or set to null, the
@@ -127,53 +138,141 @@ public class CadesSignatureStarter extends SignatureStarter {
 		this.encapsulateContent = encapsulateContent;
 	}
 
+	/**
+	 * Performs the first step, should be called after setting the necessary parameters. If you intend to use
+	 * the Web PKI component on the client-side, use the startWithRestPki() method instead.
+	 *
+	 * @return An instance of ClientSideSignatureInstructions with the information necessary to perform the client-side
+	 * signature and later call the server back with the results.
+	 * @throws RestException if an error occurs when calling REST PKI.
+	 * @throws IOException if an error occurs when trying to obtain the file to be signed or be cosign or when trying
+	 * to compute all hashes from this file, both files had to be provided before this method is called.
+	 */
 	@Override
-	public ClientSideSignatureInstructions start() throws RestException {
+	public ClientSideSignatureInstructions start() throws RestException, IOException {
 
-		if (contentToSign == null && cmsToCoSign == null) {
-			throw new RuntimeException("The content to sign was not set and no CMS to be co-signed was given");
-		}
 		if (certificate == null) {
 			throw new RuntimeException("The certificate was not set");
 		}
-		if (signaturePolicyId == null) {
-			throw new RuntimeException("The signature policy was not set");
-		}
 
-		CadesSignaturePostRequest request = new CadesSignaturePostRequest();
-		request.setCertificate(certificate);
-		request.setSignaturePolicyId(signaturePolicyId);
-		request.setSecurityContextId(securityContextId);
-		request.setCallbackArgument(callbackArgument);
-		request.setEncapsulateContent(encapsulateContent);
-		if (contentToSign != null) {
-			request.setContentToSign(new ObjectMapper().convertValue(contentToSign, String.class));
-		}
-		if (cmsToCoSign != null) {
-			request.setCmsToCoSign(new ObjectMapper().convertValue(cmsToCoSign, String.class));
-		}
+		CadesSignaturePostResponse response  = startCommon();
 
-		CadesSignaturePostResponse response = client.getRestClient().post("Api/CadesSignatures", request, CadesSignaturePostResponse.class);
-
+		ClientSideSignatureInstructions signatureInstructions = new ClientSideSignatureInstructions(
+				response.getToken(),
+				response.getToSignData(),
+				response.getToSignHash(),
+				response.getDigestAlgorithmOid()
+		);
 		if (response.getCertificate() != null) {
 			this.certificateInfo = new PKCertificate(response.getCertificate());
 		}
-
-		ClientSideSignatureInstructions signatureInstructions = new ClientSideSignatureInstructions(
-			response.getToken(),
-			response.getToSignData(),
-			response.getToSignHash(),
-			response.getDigestAlgorithmOid()
-		);
 		this.done = true;
 
 		return signatureInstructions;
 	}
 
+	/**
+	 * Performs the first step, should be called after setting the necessary parameters. This method should
+	 * be used if the Web PKI component is being used on the client-side.
+	 *
+	 * @return The token that should be passed on the signWithRestPki method of the Web PKI component
+	 * (on the client-side logic).
+	 * @throws RestException if an error occurs when calling REST PKI.
+	 * @throws IOException if an error occurs when trying to obtain the file to be signed or be cosign or when trying
+	 * to compute all hashes from this file, both files had to be provided before this method is called.
+	 */
 	@Override
-	public String startWithWebPki() throws RestException {
+	public String startWithWebPki() throws RestException, IOException {
 
-		if (contentToSign == null && cmsToCoSign == null) {
+		CadesSignaturePostResponse response = startCommon();
+
+		if (response.getCertificate() != null) {
+			this.certificateInfo = new PKCertificate(response.getCertificate());
+		}
+		this.done = true;
+
+		return response.getToken();
+	}
+
+	private CadesSignaturePostResponse startCommon() throws RestException, IOException {
+
+		int apiVersion = client.getApiVersion(Apis.StartCades);
+
+		switch (apiVersion) {
+			case 1:
+				return startCommonV1();
+			case 2:
+				return startCommonV2();
+			default:
+				return startCommonV3();
+		}
+	}
+
+	private CadesSignaturePostResponse startCommonV3() throws RestException, IOException  {
+
+		if (fileToSign == null && cmsToCoSign == null) {
+			throw new RuntimeException("The content to sign was not set and no CMS to be co-signed was given");
+		}
+		if (signaturePolicyId == null) {
+			throw new RuntimeException("The signature policy was not set");
+		}
+
+		CadesSignaturePostRequestV3 request = new CadesSignaturePostRequestV3();
+		request.setCertificate(certificate);
+		request.setSignaturePolicyId(signaturePolicyId);
+		request.setSecurityContextId(securityContextId);
+		request.setCallbackArgument(callbackArgument);
+		request.setEncapsulateContent(encapsulateContent);
+
+		if (fileToSign != null) {
+			if (!encapsulateContent) {
+				request.setDataHashes(fileToSign.computeDataHashes(digestAlgorithmsForDetachedSignature));
+			} else {
+				request.setFileToSign(fileToSign.uploadOrReference(client));
+			}
+		}
+
+		if (cmsToCoSign != null) {
+			request.setCmsToCoSign(cmsToCoSign.uploadOrReference(client));
+		}
+
+		return client.getRestClient().post("Api/v3/CadesSignatures", request, CadesSignaturePostResponse.class);
+	}
+
+	private CadesSignaturePostResponse startCommonV2() throws RestException, IOException {
+
+		if (fileToSign == null && cmsToCoSign == null) {
+			throw new RuntimeException("The content to sign was not set and no CMS to be co-signed was given");
+		}
+		if (signaturePolicyId == null) {
+			throw new RuntimeException("The signature policy was not set");
+		}
+
+		CadesSignaturePostRequestV2 request = new CadesSignaturePostRequestV2();
+		request.setCertificate(certificate);
+		request.setSignaturePolicyId(signaturePolicyId);
+		request.setSecurityContextId(securityContextId);
+		request.setCallbackArgument(callbackArgument);
+		request.setEncapsulateContent(encapsulateContent);
+
+		if (fileToSign != null) {
+			if (!encapsulateContent) {
+				request.setDataHashes(fileToSign.computeDataHashes(digestAlgorithmsForDetachedSignature));
+			} else {
+				request.setContentToSign(Util.encodeBase64(fileToSign.getContent()));
+			}
+		}
+
+		if (cmsToCoSign != null) {
+			request.setCmsToCoSign(Util.encodeBase64(cmsToCoSign.getContent()));
+		}
+
+		return client.getRestClient().post("Api/v2/CadesSignatures", request, CadesSignaturePostResponse.class);
+	}
+
+	private CadesSignaturePostResponse startCommonV1() throws RestException, IOException {
+
+		if (fileToSign == null && cmsToCoSign == null) {
 			throw new RuntimeException("The content to sign was not set and no CMS to be co-signed was given");
 		}
 		if (signaturePolicyId == null) {
@@ -186,20 +285,15 @@ public class CadesSignatureStarter extends SignatureStarter {
 		request.setSecurityContextId(securityContextId);
 		request.setCallbackArgument(callbackArgument);
 		request.setEncapsulateContent(encapsulateContent);
-		if (contentToSign != null) {
-			request.setContentToSign(new ObjectMapper().convertValue(contentToSign, String.class));
+
+		if (fileToSign != null) {
+			request.setContentToSign(Util.encodeBase64(fileToSign.getContent()));
 		}
+
 		if (cmsToCoSign != null) {
-			request.setCmsToCoSign(new ObjectMapper().convertValue(cmsToCoSign, String.class));
+			request.setCmsToCoSign(Util.encodeBase64(cmsToCoSign.getContent()));
 		}
 
-		CadesSignaturePostResponse response = client.getRestClient().post("Api/CadesSignatures", request, CadesSignaturePostResponse.class);
-
-		if (response.getCertificate() != null) {
-			this.certificateInfo = new PKCertificate(response.getCertificate());
-		}
-		this.done = true;
-
-		return response.getToken();
+		return client.getRestClient().post("Api/CadesSignatures", request, CadesSignaturePostResponse.class);
 	}
 }

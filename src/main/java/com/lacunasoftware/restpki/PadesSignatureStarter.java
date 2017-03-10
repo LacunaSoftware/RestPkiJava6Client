@@ -1,15 +1,6 @@
 package com.lacunasoftware.restpki;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.awt.Color;
-import java.nio.file.Files;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -18,16 +9,16 @@ import java.util.List;
 /**
  * Class used to perform the first of the two steps required to perform a PAdES signature.
  * <p>
- * Note on confidentiality: the PDF to be signed is stored on the server between the first and second steps,
- * but never unencrypted. The content is encrypted using AES-128 and <b>the key is not stored on the server</b>,
- * it is instead mixed into the token that is returned and which is necessary on the second step. In other
- * words, the server stores the PDF but is unable to read it on its own, therefore the PDF contents cannot be
- * compromised, even in the event of a complete data leakage.
+ * 		Note on confidentiality: the PDF to be signed is stored on the server between the first and second steps,
+ * 		but never unencrypted. The content is encrypted using AES-128 and <b>the key is not stored on the server</b>,
+ * 		it is instead mixed into the token that is returned and which is necessary on the second step. In other
+ * 		words, the server stores the PDF but is unable to read it on its own, therefore the PDF contents cannot be
+ * 		compromised, even in the event of a complete data leakage.
  * </p>
  */
 public class PadesSignatureStarter extends SignatureStarter {
 
-	private byte[] pdfContent;
+	private FileReference pdfToSign;
 	private PadesVisualRepresentation visualRepresentation;
 	private List<PdfMark> pdfMarks;
 	private boolean bypassMarksIfSigned;
@@ -46,32 +37,32 @@ public class PadesSignatureStarter extends SignatureStarter {
 		measurementUnits = PadesMeasurementUnits.Centimeters;
 	}
 
+	//region setPdfToSign
+
 	/**
-	 * Sets the PDF to be signed
+	 * Sets the PDF to be signed via a stream object
 	 *
 	 * @param stream a pre-opened InputStream linked to the PDF that will be signed. The stream is NOT closed by this method.
-	 * @throws IOException if an error occurs while reading the stream.
 	 */
-	public void setPdfToSign(InputStream stream) throws IOException {
-		this.pdfContent = Util.readStream(stream);
+	public void setPdfToSign(InputStream stream) {
+		this.pdfToSign = FileReference.fromStream(stream);
 	}
 
 	/**
-	 * Sets the PDF to be signed
+	 * Sets the PDF to be signed via a byte array
 	 *
 	 * @param content Binary content of the PDF
 	 */
 	public void setPdfToSign(byte[] content) {
-		this.pdfContent = content;
+		this.pdfToSign = FileReference.fromContent(content);
 	}
 
 	/**
 	 * Sets the file path of the PDF to be signed
 	 *
 	 * @param path File path of the PDF to be signed.
-	 * @throws IOException if an error occurs while reading the file.
 	 */
-	public void setPdfToSign(String path) throws IOException {
+	public void setPdfToSign(String path) {
 		setPdfToSign(Paths.get(path));
 	}
 
@@ -79,11 +70,21 @@ public class PadesSignatureStarter extends SignatureStarter {
 	 * Sets the file path of the PDF to be signed
 	 *
 	 * @param path File path of the PDF to be signed.
-	 * @throws IOException if an error occurs while reading the file.
 	 */
-	public void setPdfToSign(Path path) throws IOException {
-		this.pdfContent = Files.readAllBytes(path);
+	public void setPdfToSign(Path path) {
+		this.pdfToSign = FileReference.fromFile(path);
 	}
+
+	/**
+	 * Sets the PDF to be signed from a file result from a previous call to Rest PKI
+	 *
+	 * @param pdf FileResult from previous signature with Rest PKI
+	 */
+	public void setPdfToSign(FileResult pdf) {
+		this.pdfToSign = FileReference.fromResult(pdf);
+	}
+
+	//endregion
 
 	/**
 	 * Denotes whether to bypass the PDF marks if the PDF is already signed (default true). PDF marks can
@@ -149,54 +150,30 @@ public class PadesSignatureStarter extends SignatureStarter {
 	 *
 	 * @return An instance of ClientSideSignatureInstructions with the information necessary to perform the client-side
 	 * signature and later call the server back with the results.
-	 * @throws RestException if an error occurs when calling REST PKI
+	 * @throws RestException if an error occurs when calling REST PKI.
+	 * @throws IOException if an error occurs while reading the file.
 	 */
 	@Override
-	public ClientSideSignatureInstructions start() throws RestException {
+	public ClientSideSignatureInstructions start() throws RestException, IOException {
 
-		if (pdfContent == null) {
+		if (pdfToSign == null) {
 			throw new RuntimeException("The pdf to sign was not set");
 		}
 		if (certificate == null) {
 			throw new RuntimeException("The certificate was not set");
 		}
-		if (signaturePolicyId == null) {
-			throw new RuntimeException("The signature policy was not set");
-		}
 
-		PadesSignaturePostRequest request = new PadesSignaturePostRequest();
-		request.setPdfToSign(new ObjectMapper().convertValue(pdfContent, String.class));
-		request.setCertificate(certificate);
-		request.setSignaturePolicyId(signaturePolicyId);
-		request.setSecurityContextId(securityContextId);
-		request.setCallbackArgument(callbackArgument);
-		request.setBypassMarksIfSigned(bypassMarksIfSigned);
-		if (visualRepresentation != null) {
-			request.setVisualRepresentation(visualRepresentation.toModel());
-		}
-		if (measurementUnits != null) {
-			request.setMeasurementUnits(PadesSignaturePostRequest.MeasurementUnitsEnum.valueOf(measurementUnits.toString()));
-		}
-		if (pageOptimization != null) {
-			request.setPageOptimization(pageOptimization.toModel());
-		}
-		List<PdfMarkModel> pdfMarkModels = getPdfMarksModel();
-		if (pdfMarkModels != null) {
-			request.setPdfMarks(pdfMarkModels);
-		}
+		PadesSignaturePostResponse response = startCommon();
 
-		PadesSignaturePostResponse response = client.getRestClient().post("Api/PadesSignatures", request, PadesSignaturePostResponse.class);
-
+		ClientSideSignatureInstructions signatureInstructions = new ClientSideSignatureInstructions(
+				response.getToken(),
+				response.getToSignData(),
+				response.getToSignHash(),
+				response.getDigestAlgorithmOid()
+		);
 		if (response.getCertificate() != null) {
 			this.certificateInfo = new PKCertificate(response.getCertificate());
 		}
-
-		ClientSideSignatureInstructions signatureInstructions = new ClientSideSignatureInstructions(
-			response.getToken(),
-			response.getToSignData(),
-			response.getToSignHash(),
-			response.getDigestAlgorithmOid()
-		);
 		this.done = true;
 
 		return signatureInstructions;
@@ -208,40 +185,17 @@ public class PadesSignatureStarter extends SignatureStarter {
 	 *
 	 * @return The token that should be passed on the signWithRestPki method of the Web PKI component
 	 * (on the client-side logic).
-	 * @throws RestException if an error occurs when calling REST PKI
+	 * @throws RestException if an error occurs when calling REST PKI.
+	 * @throws IOException if an error occurs while reading the PDF file.
 	 */
 	@Override
-	public String startWithWebPki() throws RestException {
+	public String startWithWebPki() throws RestException, IOException {
 
-		if (pdfContent == null) {
+		if (pdfToSign == null) {
 			throw new RuntimeException("The pdf to sign was not set");
 		}
-		if (signaturePolicyId == null) {
-			throw new RuntimeException("The signature policy was not set");
-		}
 
-		PadesSignaturePostRequest request = new PadesSignaturePostRequest();
-		request.setPdfToSign(new ObjectMapper().convertValue(pdfContent, String.class));
-		request.setCertificate(certificate); // may be null
-		request.setSignaturePolicyId(signaturePolicyId);
-		request.setSecurityContextId(securityContextId);
-		request.setCallbackArgument(callbackArgument);
-		request.setBypassMarksIfSigned(bypassMarksIfSigned);
-		if (visualRepresentation != null) {
-			request.setVisualRepresentation(visualRepresentation.toModel());
-		}
-		if (measurementUnits != null) {
-			request.setMeasurementUnits(PadesSignaturePostRequest.MeasurementUnitsEnum.valueOf(measurementUnits.toString()));
-		}
-		if (pageOptimization != null) {
-			request.setPageOptimization(pageOptimization.toModel());
-		}
-		List<PdfMarkModel> pdfMarkModels = getPdfMarksModel();
-		if (pdfMarkModels != null) {
-			request.setPdfMarks(pdfMarkModels);
-		}
-
-		PadesSignaturePostResponse response = client.getRestClient().post("Api/PadesSignatures", request, PadesSignaturePostResponse.class);
+		PadesSignaturePostResponse response = startCommon();
 
 		if (response.getCertificate() != null) {
 			this.certificateInfo = new PKCertificate(response.getCertificate());
@@ -251,11 +205,99 @@ public class PadesSignatureStarter extends SignatureStarter {
 		return response.getToken();
 	}
 
+	private PadesSignaturePostResponse startCommon() throws RestException, IOException {
+
+		int apiVersion = client.getApiVersion(Apis.StartPades);
+
+		switch (apiVersion) {
+			case 1:
+				return startCommonV1();
+			default:
+				return startCommonV2();
+		}
+	}
+
+	private PadesSignaturePostResponse startCommonV2() throws RestException, IOException {
+
+		if (signaturePolicyId == null) {
+			throw new RuntimeException("The signature policy was not set");
+		}
+
+		PadesSignaturePostRequestV2 request = new PadesSignaturePostRequestV2();
+		request.setCertificate(certificate); // may be null
+		request.setSignaturePolicyId(signaturePolicyId);
+		request.setSecurityContextId(securityContextId);
+		request.setCallbackArgument(callbackArgument);
+		request.setBypassMarksIfSigned(bypassMarksIfSigned);
+		if (visualRepresentation != null) {
+			request.setVisualRepresentation(visualRepresentation.toModel());
+		}
+		if (measurementUnits != null) {
+			request.setMeasurementUnits(PadesSignaturePostRequestV2.MeasurementUnitsEnum.valueOf(measurementUnits.toString()));
+		}
+		if (pageOptimization != null) {
+			request.setPageOptimization(pageOptimization.toModel());
+		}
+		List<PdfMarkModel> pdfMarkModels = getPdfMarksModel();
+		if (pdfMarkModels != null) {
+			request.setPdfMarks(pdfMarkModels);
+		}
+
+		request.setPdfToSign(pdfToSign.uploadOrReference(client));
+
+		PadesSignaturePostResponse response = client.getRestClient().post("Api/v2/PadesSignatures", request, PadesSignaturePostResponse.class);
+
+		if (response.getCertificate() != null) {
+			this.certificateInfo = new PKCertificate(response.getCertificate());
+		}
+		this.done = true;
+
+		return response;
+	}
+
+	private PadesSignaturePostResponse startCommonV1() throws RestException, IOException {
+
+		if (signaturePolicyId == null) {
+			throw new RuntimeException("The signature policy was not set");
+		}
+
+		PadesSignaturePostRequestV1 request = new PadesSignaturePostRequestV1();
+		request.setCertificate(certificate); // may be null
+		request.setSignaturePolicyId(signaturePolicyId);
+		request.setSecurityContextId(securityContextId);
+		request.setCallbackArgument(callbackArgument);
+		request.setBypassMarksIfSigned(bypassMarksIfSigned);
+		if (visualRepresentation != null) {
+			request.setVisualRepresentation(visualRepresentation.toModel());
+		}
+		if (measurementUnits != null) {
+			request.setMeasurementUnits(PadesSignaturePostRequestV1.MeasurementUnitsEnum.valueOf(measurementUnits.toString()));
+		}
+		if (pageOptimization != null) {
+			request.setPageOptimization(pageOptimization.toModel());
+		}
+		List<PdfMarkModel> pdfMarkModels = getPdfMarksModel();
+		if (pdfMarkModels != null) {
+			request.setPdfMarks(pdfMarkModels);
+		}
+
+		request.setPdfToSign(Util.encodeBase64(pdfToSign.getContent()));
+
+		PadesSignaturePostResponse response = client.getRestClient().post("Api/PadesSignatures", request, PadesSignaturePostResponse.class);
+
+		if (response.getCertificate() != null) {
+			this.certificateInfo = new PKCertificate(response.getCertificate());
+		}
+		this.done = true;
+
+		return response;
+	}
+
 	private List<PdfMarkModel> getPdfMarksModel() {
 		if (pdfMarks == null || pdfMarks.size() == 0) {
 			return null;
 		} else {
-			List<PdfMarkModel> pdfMarkModels = new ArrayList<PdfMarkModel>();
+			List<PdfMarkModel> pdfMarkModels = new ArrayList<>();
 			for(PdfMark mark : pdfMarks) {
 				pdfMarkModels.add(mark.toModel());
 			}

@@ -13,6 +13,7 @@ public class PadesPageOptimization {
      * Page optimization with default options
      */
     public PadesPageOptimization() {
+        pageOrientation = PadesPageOrientation.Auto;
     }
 
     /**
@@ -20,6 +21,7 @@ public class PadesPageOptimization {
      * @param paperSize Paper size standard.
      */
     public PadesPageOptimization(PadesPaperSize paperSize) {
+        this();
         this.paperSize = paperSize;
     }
 
@@ -28,6 +30,7 @@ public class PadesPageOptimization {
      * @param customPaperSize Custom paper size width and height
      */
     public PadesPageOptimization(PadesSize customPaperSize) {
+        this();
         this.paperSize = PadesPaperSize.Custom;
         this.customPaperSize = customPaperSize;
     }

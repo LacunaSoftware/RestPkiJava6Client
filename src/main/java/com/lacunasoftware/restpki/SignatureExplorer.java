@@ -1,7 +1,7 @@
 package com.lacunasoftware.restpki;
 
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -13,14 +13,49 @@ import java.util.List;
 public abstract class SignatureExplorer {
 
     protected RestPkiClient client;
-    protected byte[] signatureFileContent;
+    FileReference signatureFile;
     protected boolean validate;
+    protected String securityContextId;
     protected String defaultSignaturePolicyId;
     protected SignaturePolicyCatalog acceptableExplicitPolicies;
-    protected String securityContextId;
 
+    /**
+     * Create a new instance using the given RestPkiClient.
+     *
+     * @param client the RestPkiClient which shall be used.
+     */
     public SignatureExplorer(RestPkiClient client) {
         this.client = client;
+    }
+
+    //region setSignatureFile
+
+    /**
+     * Sets the file path of the signature file to be opened
+     *
+     * @param path File path of the signature file to be signed.
+     */
+    public void setSignatureFile(String path) {
+        setSignatureFile(Paths.get(path));
+    }
+
+    /**
+     * Sets the file path of the signature file to be opened
+     *
+     * @param path File path of the signature file to be opened.
+     */
+    public void setSignatureFile(Path path) {
+        this.signatureFile = FileReference.fromFile(path);
+    }
+
+    /**
+     * Sets the PDF to be signed via a stream object
+     *
+     * @param stream a pre-opened InputStream linked to the PDF that will be signed. The stream is NOT closed by this
+     *               method.
+     */
+    public void setSignatureFile(InputStream stream) {
+        this.signatureFile = FileReference.fromStream(stream);
     }
 
     /**
@@ -29,28 +64,19 @@ public abstract class SignatureExplorer {
      * @param content Binary content of the signature file
      */
     public void setSignatureFile(byte[] content) {
-        this.signatureFileContent = content;
+        this.signatureFile = FileReference.fromContent(content);
     }
 
     /**
-     * Sets the file path of the signature file to be opened
+     * Sets the signature to be signed from a file result from a previous call to Rest PKI
      *
-     * @param path File path of the signature file to be signed.
-     * @throws IOException if an error occurs while reading the file.
+     * @param fileResult FileResult from previous call to Rest PKI
      */
-    public void setSignatureFile(String path) throws IOException {
-        setSignatureFile(Paths.get(path));
+    public void setSignatureFile(FileResult fileResult) {
+        this.signatureFile = FileReference.fromResult(fileResult);
     }
 
-    /**
-     * Sets the file path of the signature file to be opened
-     *
-     * @param path File path of the signature file to be opened.
-     * @throws IOException if an error occurs while reading the file.
-     */
-    public void setSignatureFile(Path path) throws IOException {
-        this.signatureFileContent = Files.readAllBytes(path);
-    }
+    //endregion
 
     /**
      * Sets whether the signature file should be validated or just opened
@@ -75,10 +101,11 @@ public abstract class SignatureExplorer {
     }
 
     /**
-     * Sets the "catalog" of explicit policies that should be accepted when validating signatures with an explicit validation
-     * policy attribute. If a signature being validated has an explicit validation policy attribute which is not among
-     * the values passed, then the default signature policy is used (specified with the setDefaultSignaturePolicy method).
-     * In order to accept only the given catalog of explicit policies, don't set a default policy.
+     * Sets the "catalog" of explicit policies that should be accepted when validating signatures with an explicit
+     * validation policy attribute. If a signature being validated has an explicit validation policy attribute which is
+     * not among the values passed, then the default signature policy is used (specified with the
+     * setDefaultSignaturePolicy method). In order to accept only the given catalog of explicit policies, don't set a
+     * default policy.
      *
      * @param policyCatalog The signature policy catalog (for instance, SignaturePolicyCatalog.getPkiBrazilCades() or
      *                      SignaturePolicyCatalog.getPkiBrazilPades())
@@ -99,12 +126,8 @@ public abstract class SignatureExplorer {
         this.securityContextId = securityContext.getId();
     }
 
-    protected OpenSignatureRequestModel getRequest(String fileMimeType) {
-        OpenSignatureRequestModel request = new OpenSignatureRequestModel();
-        FileModel file = new FileModel();
-        file.setContent(Util.encodeBase64(signatureFileContent));
-        file.setMimeType(fileMimeType);
-        request.setFile(file);
+    protected OpenSignatureRequestModel fillRequest(OpenSignatureRequestModel request) throws RestException, IOException {
+
         request.setValidate(validate);
         request.setDefaultSignaturePolicyId(defaultSignaturePolicyId);
         request.setSecurityContextId(securityContextId);
@@ -115,6 +138,7 @@ public abstract class SignatureExplorer {
             }
             request.setAcceptableExplicitPolicies(policyIds);
         }
+        request.setFile(signatureFile.uploadOrReference(client));
         return request;
     }
 }

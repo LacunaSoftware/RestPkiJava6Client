@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URL;
-import java.rmi.server.ExportException;
+import java.util.Map;
 
 class RestClient {
 
@@ -63,15 +63,41 @@ class RestClient {
 		TResponse response;
 
 		try {
-			InputStream inStream = conn.getInputStream();
-			response = new ObjectMapper().readValue(inStream, responseType);
-			inStream.close();
+			response = readResponse(conn, responseType);
 		} catch (Exception e) {
 			throw new RestDecodeException(verb, url, e);
 		}
 
 		conn.disconnect();
 		return response;
+	}
+
+	public byte[] downloadContent(String requestUri) throws RestException {
+
+		String verb = "GET";
+		String url = endpointUri + requestUri;
+		HttpURLConnection conn;
+
+		try {
+
+			URL urlObj = new URL(url);
+			if (proxy != null) {
+				conn = (HttpURLConnection) urlObj.openConnection(proxy);
+			} else {
+				conn = (HttpURLConnection) urlObj.openConnection();
+			}
+			conn.setRequestMethod(verb);
+
+			InputStream inStream = conn.getInputStream();
+			byte[] response = Util.readStream(inStream);
+			inStream.close();
+
+			conn.disconnect();
+			return response;
+
+		} catch (Exception e) {
+			throw new RestUnreachableException(verb, url, e);
+		}
 	}
 
 	public <TRequest, TResponse> TResponse post(String requestUri, TRequest request, Class<TResponse> responseType) throws RestException {
@@ -108,15 +134,57 @@ class RestClient {
 
 		checkResponse(verb, url, conn);
 
-		TResponse response;
+		TResponse response = null;
 
 		try {
-			InputStream inStream = conn.getInputStream();
-			response = new ObjectMapper().readValue(inStream, responseType);
-			inStream.close();
+			if (responseType != null) {
+				response = readResponse(conn, responseType);
+			}
 		} catch (Exception e) {
 			throw new RestDecodeException(verb, url, e);
 		}
+
+		conn.disconnect();
+		return response;
+	}
+
+	public String postAndReturnETag(String requestUri, Map<String, byte[]> headers, byte[] request) throws RestException {
+
+		String verb = "POST";
+		String url = endpointUri + requestUri;
+		HttpURLConnection conn;
+
+		try {
+
+			URL urlObj = new URL(url);
+			if (proxy != null) {
+				conn = (HttpURLConnection) urlObj.openConnection(proxy);
+			} else {
+				conn = (HttpURLConnection) urlObj.openConnection();
+			}
+			conn.setDoOutput(true);
+			conn.setRequestMethod(verb);
+			conn.setRequestProperty("Content-Type", "application/json");
+			for (String property : headers.keySet()) {
+				conn.setRequestProperty(property, Util.encodeBase64(headers.get(property)));
+			}
+			if (authToken != null) {
+				conn.setRequestProperty("Authorization", "Bearer " + authToken);
+			}
+
+			OutputStream outStream = conn.getOutputStream();
+			if (request != null) {
+				outStream.write(request);
+			}
+			outStream.close();
+
+		} catch (Exception e) {
+			throw new RestUnreachableException(verb, url, e);
+		}
+
+		checkResponse(verb, url, conn);
+
+		String response = conn.getHeaderField("ETag");
 
 		conn.disconnect();
 		return response;

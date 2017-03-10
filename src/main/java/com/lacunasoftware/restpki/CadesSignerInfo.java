@@ -26,8 +26,8 @@ public class CadesSignerInfo {
             Date certifiedDateReference,
             SignaturePolicyIdentifierModel signaturePolicy,
             List<CadesTimestampModel> timestamps,
-            ValidationResultsModel validationResults)
-    {
+            ValidationResultsModel validationResults
+    ) {
         this.messageDigest = new DigestAlgorithmAndValue(messageDigest);
         //this.signature = ...; // TODO!
         this.certificate = new PKCertificate(certificate);
