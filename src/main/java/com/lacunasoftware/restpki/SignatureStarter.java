@@ -1,7 +1,5 @@
 package com.lacunasoftware.restpki;
 
-import java.io.IOException;
-
 /**
  * Base class for PadesSignatureStarter and CadesSignatureStarter
  */
@@ -84,7 +82,7 @@ public abstract class SignatureStarter {
 	 * signature and later call the server back with the results.
 	 * @throws RestException if an error occurs when calling REST PKI
 	 */
-	public abstract ClientSideSignatureInstructions start() throws RestException, IOException;
+	public abstract ClientSideSignatureInstructions start() throws RestException;
 
 	/**
 	 * Performs the first step, should be called after setting the necessary parameters. This method should
@@ -94,7 +92,7 @@ public abstract class SignatureStarter {
 	 * (on the client-side logic).
 	 * @throws RestException if an error occurs when calling REST PKI
 	 */
-	public abstract String startWithWebPki() throws RestException, IOException;
+	public abstract String startWithWebPki() throws RestException;
 
 	/**
 	 * If the signer's certificate was given, this method returns its information (can only be called after calling the
@@ -107,5 +105,4 @@ public abstract class SignatureStarter {
 		}
 		return certificateInfo;
 	}
-
 }

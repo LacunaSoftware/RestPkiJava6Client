@@ -2,11 +2,12 @@ package com.lacunasoftware.restpki;
 
 import com.lacunasoftware.restpki.DigestAlgorithmAndValueModel.AlgorithmEnum;
 
-import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.DigestInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,18 +34,12 @@ public class CadesSignatureExplorer extends SignatureExplorer {
 
     private static final String CMS_SIGNATURE_MIME_TYPE = "application/pkcs7-signature";
 
-    private FileReference dataFile;
+    private Path dataFilePath;
+    private InputStream dataFileStream;
 
-    /**
-     * Create a new instance using the given RestPkiClient.
-     *
-     * @param client the RestPkiClient which shall be used.
-     */
     public CadesSignatureExplorer(RestPkiClient client) {
         super(client);
     }
-
-    //region SetDataFile
 
     /**
      * Sets the data file path (needed only for signatures without encapsulated content, aka "detached signatures")
@@ -61,7 +56,7 @@ public class CadesSignatureExplorer extends SignatureExplorer {
      * @param path File path of the data file.
      */
     public void setDataFile(Path path) {
-        this.dataFile = FileReference.fromFile(path);
+        this.dataFilePath = path;
     }
 
     /**
@@ -70,83 +65,84 @@ public class CadesSignatureExplorer extends SignatureExplorer {
      * @param stream InputStream associated with the data file.
      */
     public void setDataFile(InputStream stream) {
-        this.dataFile = FileReference.fromStream(stream);
+        this.dataFileStream = stream;
     }
-
-    /**
-     * Sets the data file byte array (needed only for signatures without encapsulated content, aka "detached signatures")
-     *
-     * @param content byte array associated with the data file.
-     */
-    public void setDataFile(byte[] content) {
-        this.dataFile = FileReference.fromContent(content);
-    }
-
-    //endregion
 
     /**
      * Performs the open signature operation.
-     *
      * @return information about the signature file.
-     * @throws RestException if an error occurs when calling REST PKI.
-     * @throws IOException if an error occurs when trying to open the signature file or when trying to compute all
-     * hashes from the original data file, both files had to be provided before this method is called.
+     * @throws RestException if an error occurs when calling REST PKI
      */
     public CadesSignature open() throws RestException, IOException {
 
-        OpenSignatureRequestModel request = getRequest(false);
-        CadesSignatureModel response = client.getRestClient().post("Api/CadesSignatures/Open", request, CadesSignatureModel.class);
-
-        CadesSignature signature = new CadesSignature(response);
-        return signature;
-    }
-
-    /**
-     * Performs the open signature operation and extracts the encapsulated content.
-     *
-     * @return the signature information along with the extracted encapsulated content.
-     * @throws RestException if an error occurs when calling REST PKI.
-     * @throws IOException if an error occurs when trying to open the signature file or when trying to compute all the
-     * data hashes of the data file, both files had to be provided before this method was called.
-     */
-    public CadesSignatureWithEncapsulatedContent openAndExtractContent() throws RestException, IOException {
-
-        OpenSignatureRequestModel request = getRequest(true);
-        CadesSignatureModel response = client.getRestClient().post("Api/CadesSignatures/Open", request, CadesSignatureModel.class);
-
-        CadesSignature signature = new CadesSignature(response);
-        FileResult encapsulatedContent = new FileResult(client, response.getEncapsulatedContent());
-        return new CadesSignatureWithEncapsulatedContent(signature, encapsulatedContent);
-    }
-
-    private OpenSignatureRequestModel getRequest(boolean extractEncapsulatedContent) throws RestException, IOException {
-
-        if (signatureFile == null) {
+        if (signatureFileContent == null) {
             throw new RuntimeException("The signature file to open was not set");
         }
 
         List<DigestAlgorithmAndValueModel> dataHashes = null;
-        if (dataFile != null) {
+        if (dataFileStream != null || dataFilePath != null) {
             List<DigestAlgorithm> requiredHashes = getRequiredHashes();
-            if (!requiredHashes.isEmpty()) {
-                dataHashes = dataFile.computeDataHashes(requiredHashes);
+            if (requiredHashes.size() > 0) {
+                if (dataFileStream != null) {
+                    dataHashes = computeDataHashes(dataFileStream, requiredHashes);
+                } else {
+                    InputStream fileStream = Files.newInputStream(dataFilePath);
+                    try {
+                        dataHashes = computeDataHashes(fileStream, requiredHashes);
+                    } finally {
+                        fileStream.close();
+                    }
+                }
             }
         }
 
-        OpenCadesSignatureRequestModel request = new OpenCadesSignatureRequestModel();
-        request.setExtractEncapsulatedContent(extractEncapsulatedContent);
+        OpenSignatureRequestModel request = getRequest(CMS_SIGNATURE_MIME_TYPE);
         request.setDataHashes(dataHashes);
-        return fillRequest(request);
+        CadesSignatureModel response = client.getRestClient().post("Api/CadesSignatures/Open", request, CadesSignatureModel.class);
+        CadesSignature signature = new CadesSignature(response);
+        return signature;
     }
 
-    private List<DigestAlgorithm> getRequiredHashes() throws RestException, IOException {
-
-        FileModel request = signatureFile.uploadOrReference(client);
+    private List<DigestAlgorithm> getRequiredHashes() throws RestException {
+        FileModel request = new FileModel();
+        request.setContent(Util.encodeBase64(signatureFileContent));
+        request.setMimeType(CMS_SIGNATURE_MIME_TYPE);
         List<AlgorithmEnum> response = Arrays.asList(client.getRestClient().post("Api/CadesSignatures/RequiredHashes", request, AlgorithmEnum[].class));
         List<DigestAlgorithm> algs = new ArrayList<DigestAlgorithm>();
         for (AlgorithmEnum algModel : response) {
             algs.add(DigestAlgorithm.getInstanceByApiModel(algModel));
         }
         return algs;
+    }
+
+    private List<DigestAlgorithmAndValueModel> computeDataHashes(InputStream dataFileStream, List<DigestAlgorithm> algorithms) throws IOException {
+
+        // http://stackoverflow.com/a/19304310
+
+        List<DigestInputStream> digestStreams = new ArrayList<DigestInputStream>();
+        InputStream outermostStream = dataFileStream;
+        for (DigestAlgorithm digestAlg : algorithms) {
+            DigestInputStream digestStream = new DigestInputStream(outermostStream, digestAlg.getSpi());
+            digestStreams.add(digestStream);
+            outermostStream = digestStream;
+        }
+
+        byte[] buffer = new byte[8192];
+        while (outermostStream.read(buffer) != -1) {
+            // do nothing
+        }
+
+        List<DigestAlgorithmAndValueModel> dataHashes = new ArrayList<DigestAlgorithmAndValueModel>();
+        for (int i = 0; i < algorithms.size(); i++) {
+            DigestAlgorithm digestAlg = algorithms.get(i);
+            DigestInputStream digestStream = digestStreams.get(i);
+            byte[] digestValue = digestStream.getMessageDigest().digest();
+            DigestAlgorithmAndValueModel dataHash = new DigestAlgorithmAndValueModel();
+            dataHash.setAlgorithm(digestAlg.getDigestAlgorithmAndValueModelEnum());
+            dataHash.setValue(Util.encodeBase64(digestValue));
+            dataHashes.add(dataHash);
+        }
+
+        return dataHashes;
     }
 }
