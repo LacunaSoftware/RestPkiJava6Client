@@ -37,7 +37,7 @@ public class FileResult {
     /**
      * Write this file content in some file which has the provided path.
      *
-     * @throws RestException if an error occurs twhen rying to get the file from a url.
+     * @throws RestException if an error occurs when trying to get the file from a url.
      * @throws IOException if an error occurs when trying to create or open the destination file.
      */
     public void writeToFile(Path path) throws RestException, IOException {

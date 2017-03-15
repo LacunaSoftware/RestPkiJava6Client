@@ -33,7 +33,8 @@ public class PadesSignatureStarter2 extends SignatureStarter2 {
     /**
      * Sets the PDF to be signed via a stream object
      *
-     * @param stream a pre-opened InputStream linked to the PDF that will be signed. The stream is NOT closed by this method.
+     * @param stream a pre-opened InputStream linked to the PDF that will be signed. The stream is NOT closed by this
+     * method.
      */
     public void setPdfToSign(InputStream stream) {
         this.pdfToSign = FileReference.fromStream(stream);
@@ -140,7 +141,7 @@ public class PadesSignatureStarter2 extends SignatureStarter2 {
      * the Web PKI component on the client-side, use the startWithWebPki() method instead.
      *
      * @return An instance of SignatureStartResult with the information necessary to perform the client-side
-     * signature or a signature using the Web PKI component and later call the server back with the results.
+     * signature and later call the server back with the results.
      * @throws RestException if an error occurs when calling REST PKI.
      * @throws IOException if an error occurs when trying to obtain the file to be signed or be cosign or when trying
      * to compute all hashes from this file, both files had to be provided before this method is called.
@@ -170,8 +171,8 @@ public class PadesSignatureStarter2 extends SignatureStarter2 {
      * Performs the first step, should be called after setting the necessary parameters. This method should
      * be used if the Web PKI component is being used on the client-side.
      *
-     * @return An instance of SignatureStartWithWebPkiResult containing the token that should be passed on the signWithRestPki method of the Web PKI component
-     * (on the client-side logic) and the signer's certificate.
+     * @return An instance of SignatureStartWithWebPkiResult containing the token that should be passed on the
+     * signWithRestPki() method of the Web PKI component (on the client-side logic) and the signer's certificate.
      * @throws RestException if an error occurs when calling REST PKI.
      * @throws IOException if an error occurs when trying to obtain the file to be signed or be cosign or when trying
      * to compute all hashes from this file, both files had to be provided before this method is called.

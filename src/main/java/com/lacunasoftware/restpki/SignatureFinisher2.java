@@ -29,7 +29,7 @@ public abstract class SignatureFinisher2 {
 
     /**
      * Sets the signature performed using the user certificate's private key (should not be used if the signature was
-     * started with the method startWithWebPki).
+     * started with the method startWithWebPki()).
      *
      * @param signature The signature operation output
      */
