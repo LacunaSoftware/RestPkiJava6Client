@@ -2,12 +2,14 @@ package com.lacunasoftware.restpki;
 
 public class SignatureStartWithWebPkiResult {
 
-    private PKCertificate certificate;
-    private String token;
+    private PKCertificate certificate = null;
+    private String token = null;
 
     public SignatureStartWithWebPkiResult(String token, CertificateModel certificate) {
         this.token = token;
-        this.certificate = new PKCertificate(certificate);
+        if (certificate != null) {
+            this.certificate = new PKCertificate(certificate);
+        }
     }
 
     public String getToken() {
