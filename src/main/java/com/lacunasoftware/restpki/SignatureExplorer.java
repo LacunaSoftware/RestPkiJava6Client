@@ -1,9 +1,7 @@
 package com.lacunasoftware.restpki;
 
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,17 +37,17 @@ public abstract class SignatureExplorer {
      * @throws IOException if an error occurs while reading the file.
      */
     public void setSignatureFile(String path) throws IOException {
-        setSignatureFile(Paths.get(path));
+        setSignatureFile(new File(path));
     }
 
     /**
-     * Sets the file path of the signature file to be opened
+     * Sets the signature file to be opened
      *
-     * @param path File path of the signature file to be opened.
+     * @param file The signature file to be opened.
      * @throws IOException if an error occurs while reading the file.
      */
-    public void setSignatureFile(Path path) throws IOException {
-        this.signatureFileContent = Files.readAllBytes(path);
+    public void setSignatureFile(File file) throws IOException {
+        this.signatureFileContent = Storage.readFile(file);
     }
 
     /**

@@ -3,13 +3,7 @@ package com.lacunasoftware.restpki;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.awt.*;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 
 class Util {
 
@@ -22,17 +16,6 @@ class Util {
 	public static boolean isNullOrEmpty(String s) {
 		return (s == null || s.isEmpty());
 	}
-
-    public static byte[] readStream(InputStream stream) throws IOException {
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        int nRead;
-        byte[] data = new byte[16384];
-        while ((nRead = stream.read(data, 0, data.length)) != -1) {
-            buffer.write(data, 0, nRead);
-        }
-        buffer.flush();
-        return buffer.toByteArray();
-    }
 
     public static byte[] decodeBase64(String s) {
         return new ObjectMapper().convertValue(s, byte[].class);

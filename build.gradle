@@ -8,8 +8,8 @@ apply plugin: 'idea'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
 
 repositories {
    mavenCentral()
@@ -33,8 +33,8 @@ publishing {
         ClientPublish(MavenPublication) {
             from components.java
             groupId 'com.lacunasoftware.restpki'
-            artifactId 'restpki-client'
-            version '1.7.2'
+            artifactId 'restpki-client-java6'
+            version '1.8.0'
         }
     }
 }
@@ -45,14 +45,14 @@ bintray {
     publications = ['ClientPublish']
     pkg {
         repo = 'maven'
-        name = 'restpki-client'
+        name = 'restpki-client-java6'
         userOrg = user
         licenses = ['Unlicense']
-        vcsUrl = 'https://bitbucket.org/Lacunas/restpki-java-client.git'
+        vcsUrl = 'https://github.com/LacunaSoftware/RestPkiJava6Client.git'
         version {
-            name = '1.7.2'
+            name = '1.8.0'
             desc = 'Classes to consume Lacuna Software REST PKI'
-            vcsTag = '1.7.2'
+            vcsTag = '1.8.0'
         }
     }
 }

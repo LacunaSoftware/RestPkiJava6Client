@@ -10,36 +10,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @ApiModel(description = "")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-02-17T15:30:21.925-02:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-class FileModel   {
+class MultipartUploadBeginResponse   {
   
-  private String mimeType = null;
-  private String content = null;
   private String blobToken = null;
-  private String url = null;
-
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  @JsonProperty("mimeType")
-  public String getMimeType() {
-    return mimeType;
-  }
-  public void setMimeType(String mimeType) {
-    this.mimeType = mimeType;
-  }
-
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  @JsonProperty("content")
-  public String getContent() {
-    return content;
-  }
-  public void setContent(String content) {
-    this.content = content;
-  }
+  private Integer partSize = null;
 
   
   /**
@@ -57,12 +31,12 @@ class FileModel   {
   /**
    **/
   @ApiModelProperty(value = "")
-  @JsonProperty("url")
-  public String getUrl() {
-    return url;
+  @JsonProperty("partSize")
+  public Integer getPartSize() {
+    return partSize;
   }
-  public void setUrl(String url) {
-    this.url = url;
+  public void setPartSize(Integer partSize) {
+    this.partSize = partSize;
   }
 
   
@@ -70,12 +44,10 @@ class FileModel   {
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
-    sb.append("class FileModel {\n");
+    sb.append("class MultipartUploadBeginResponse {\n");
     
-    sb.append("  mimeType: ").append(mimeType).append("\n");
-    sb.append("  content: ").append(content).append("\n");
     sb.append("  blobToken: ").append(blobToken).append("\n");
-    sb.append("  url: ").append(url).append("\n");
+    sb.append("  partSize: ").append(partSize).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

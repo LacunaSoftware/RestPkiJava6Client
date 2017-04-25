@@ -2,10 +2,8 @@ package com.lacunasoftware.restpki;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * Class used to perform the first of the two steps required to perform a XML detached resource signature.
@@ -49,17 +47,17 @@ public class DetachedResourceXmlSignatureStarter extends XmlSignatureStarter {
      * @throws IOException
      */
     public void SetToSignDetachedResource(String resourcePath, String resourceUri) throws IOException {
-        SetToSignDetachedResource(Paths.get(resourcePath), resourceUri);
+        SetToSignDetachedResource(new File(resourcePath), resourceUri);
     }
 
     /**
      * Sets the detached resource to be signed
-     * @param resourcePath The resource path
+     * @param resourceFile The resource file
      * @param resourceUri The resource URI
      * @throws IOException
      */
-    public void SetToSignDetachedResource(Path resourcePath, String resourceUri) throws IOException {
-        SetToSignDetachedResource(Files.readAllBytes(resourcePath), resourceUri);
+    public void SetToSignDetachedResource(File resourceFile, String resourceUri) throws IOException {
+        SetToSignDetachedResource(Storage.readFile(resourceFile), resourceUri);
     }
 
     /**

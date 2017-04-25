@@ -2,16 +2,7 @@ package com.lacunasoftware.restpki;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.awt.Color;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +44,7 @@ public class PadesSignatureStarter extends SignatureStarter {
 	 * @throws IOException if an error occurs while reading the stream.
 	 */
 	public void setPdfToSign(InputStream stream) throws IOException {
-		this.pdfContent = Util.readStream(stream);
+		this.pdfContent = Storage.readStream(stream);
 	}
 
 	/**
@@ -72,17 +63,17 @@ public class PadesSignatureStarter extends SignatureStarter {
 	 * @throws IOException if an error occurs while reading the file.
 	 */
 	public void setPdfToSign(String path) throws IOException {
-		setPdfToSign(Paths.get(path));
+		setPdfToSign(new File(path));
 	}
 
 	/**
-	 * Sets the file path of the PDF to be signed
+	 * Sets the PDF to be signed
 	 *
-	 * @param path File path of the PDF to be signed.
+	 * @param file The PDF to be signed.
 	 * @throws IOException if an error occurs while reading the file.
 	 */
-	public void setPdfToSign(Path path) throws IOException {
-		this.pdfContent = Files.readAllBytes(path);
+	public void setPdfToSign(File file) throws IOException {
+		this.pdfContent = Storage.readFile(file);
 	}
 
 	/**

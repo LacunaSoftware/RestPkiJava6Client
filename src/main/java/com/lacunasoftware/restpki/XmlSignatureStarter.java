@@ -1,10 +1,8 @@
 package com.lacunasoftware.restpki;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * Base class for XmlSignatureStarter
@@ -38,7 +36,7 @@ public abstract class XmlSignatureStarter extends SignatureStarter {
      * @throws IOException
      */
     public void setXml(InputStream stream) throws IOException {
-        this.xml = Util.readStream(stream);
+        this.xml = Storage.readStream(stream);
     }
 
     /**
@@ -47,16 +45,16 @@ public abstract class XmlSignatureStarter extends SignatureStarter {
      * @throws IOException
      */
     public void setXml(String path) throws IOException {
-        setXml(Paths.get(path));
+        setXml(new File(path));
     }
 
     /**
      * Sets the XML document path
-     * @param path
+     * @param file
      * @throws IOException
      */
-    public void setXml(Path path) throws IOException {
-        this.xml = Files.readAllBytes(path);
+    public void setXml(File file) throws IOException {
+        this.xml = Storage.readFile(file);
     }
 
     /**

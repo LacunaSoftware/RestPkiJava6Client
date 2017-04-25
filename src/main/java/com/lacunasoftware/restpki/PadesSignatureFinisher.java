@@ -2,14 +2,8 @@ package com.lacunasoftware.restpki;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * Class used to perform the final of the two steps required to perform a PAdES signature.
@@ -66,19 +60,19 @@ public class PadesSignatureFinisher extends SignatureFinisher {
 	 * @throws IOException
 	 */
 	public void writeSignedPdfToFile(String path) throws IOException {
-		writeSignedPdfToFile(Paths.get(path));
+		writeSignedPdfToFile(new File(path));
 	}
 
 	/**
 	 * Writes the signed PDF to a file (must only be called after calling the finish() method).
-	 * @param path The path to the file.
+	 * @param file The destination file.
 	 * @throws IOException
 	 */
-	public void writeSignedPdfToFile(Path path) throws IOException {
+	public void writeSignedPdfToFile(File file) throws IOException {
 		if (!done) {
 			throw new RuntimeException("The writeSignedPdfToFile() method can only be called after calling the finish() method");
 		}
-		Files.write(path, signedPdf);
+		Storage.writeFile(file, signedPdf);
 	}
 
 }

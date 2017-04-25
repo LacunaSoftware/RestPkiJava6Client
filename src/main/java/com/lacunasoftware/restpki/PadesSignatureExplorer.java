@@ -1,7 +1,5 @@
 package com.lacunasoftware.restpki;
 
-import java.io.IOException;
-
 /**
  * Class used to open the signatures in a PDF file and optionally validate them.
  * <p>
@@ -34,5 +32,4 @@ public class PadesSignatureExplorer extends SignatureExplorer {
         PadesSignature signature = new PadesSignature(response);
         return signature;
     }
-
 }

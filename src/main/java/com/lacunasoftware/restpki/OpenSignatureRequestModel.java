@@ -15,12 +15,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class OpenSignatureRequestModel   {
   
-  private FileModel file = null;
-  private Boolean validate = null;
-  private String defaultSignaturePolicyId = null;
-  private List<String> acceptableExplicitPolicies = new ArrayList<String>();
-  private String securityContextId = null;
-  private List<DigestAlgorithmAndValueModel> dataHashes = new ArrayList<DigestAlgorithmAndValueModel>();
+  protected FileModel file = null;
+  protected Boolean validate = null;
+  protected String defaultSignaturePolicyId = null;
+  protected List<String> acceptableExplicitPolicies = new ArrayList<String>();
+  protected String securityContextId = null;
+  protected List<DigestAlgorithmAndValueModel> dataHashes = new ArrayList<DigestAlgorithmAndValueModel>();
 
   
   /**

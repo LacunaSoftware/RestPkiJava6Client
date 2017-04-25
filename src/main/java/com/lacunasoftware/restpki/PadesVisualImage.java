@@ -2,10 +2,9 @@ package com.lacunasoftware.restpki;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 /**
  * Image settings for PAdES signature visual representation
@@ -85,11 +84,11 @@ public class PadesVisualImage {
      * @throws IOException
      */
     public void setContent(InputStream imageStream) throws IOException {
-        this.content = Util.readStream(imageStream);
+        this.content = Storage.readStream(imageStream);
     }
 
     public void setContent(String imagePath) throws IOException {
-        this.content = Files.readAllBytes(Paths.get(imagePath));
+        this.content = Storage.readFile(new File(imagePath));
     }
 
     public String getMimeType() {
