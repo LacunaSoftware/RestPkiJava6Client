@@ -1,10 +1,8 @@
 package com.lacunasoftware.restpki;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class PdfMarkImage {
 
@@ -30,7 +28,7 @@ public class PdfMarkImage {
     }
 
     public void setContentFromFile(InputStream stream) throws IOException {
-        content = Util.encodeBase64(Util.readStream(stream));
+        content = Util.encodeBase64(Storage.readStream(stream));
     }
 
     public void setContentFromFile(byte[] content) {
@@ -38,11 +36,11 @@ public class PdfMarkImage {
     }
 
     public void setContentFromFile(String filePath) throws IOException {
-        content = Util.encodeBase64(Files.readAllBytes(Paths.get(filePath)));
+        content = Util.encodeBase64(Storage.readFile(new File(filePath)));
     }
 
-    public void setContentFromFile(Path path) throws IOException {
-        content = Util.encodeBase64(Files.readAllBytes(path));
+    public void setContentFromFile(File file) throws IOException {
+        content = Util.encodeBase64(Storage.readFile(file));
     }
 
     public PdfMarkImageModel toModel() {

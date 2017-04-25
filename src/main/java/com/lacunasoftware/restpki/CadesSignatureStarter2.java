@@ -1,9 +1,8 @@
 package com.lacunasoftware.restpki;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,16 +52,16 @@ public class CadesSignatureStarter2 extends SignatureStarter2 {
      * @param path Path of the file to be signed.
      */
     public void setFileToSign(String path) {
-        setFileToSign(Paths.get(path));
+        setFileToSign(new File(path));
     }
 
     /**
-     * Sets the path of the file to be signed
+     * Sets the file to be signed
      *
-     * @param path Path of the file to be signed.
+     * @param file The file to be signed.
      */
-    public void setFileToSign(Path path) {
-        this.fileToSign = FileReference.fromFile(path);
+    public void setFileToSign(File file) {
+        this.fileToSign = FileReference.fromFile(file);
     }
 
     //endregion
@@ -94,16 +93,16 @@ public class CadesSignatureStarter2 extends SignatureStarter2 {
      * @param path Path of the CMS file to be co-signed.
      */
     public void setCmsToCoSign(String path) {
-        setCmsToCoSign(Paths.get(path));
+        setCmsToCoSign(new File(path));
     }
 
     /**
-     * Sets the path of the CMS file to be co-signed
+     * Sets the CMS file to be co-signed
      *
-     * @param path Path of the CMS file to be co-signed.
+     * @param file The CMS file to be co-signed.
      */
-    public void setCmsToCoSign(Path path) {
-        this.cmsToCoSign = FileReference.fromFile(path);
+    public void setCmsToCoSign(File file) {
+        this.cmsToCoSign = FileReference.fromFile(file);
     }
 
     /**

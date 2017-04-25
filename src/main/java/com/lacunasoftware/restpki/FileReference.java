@@ -1,22 +1,14 @@
 package com.lacunasoftware.restpki;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.*;
 import java.security.DigestInputStream;
-import java.security.MessageDigest;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 class FileReference {
 
     private InputStream stream;
-    private Path path;
+    private File file;
     private String blobToken;
     private String contentBase64;
 
@@ -29,33 +21,33 @@ class FileReference {
     }
 
     static FileReference fromFile(String path) {
-        return fromFile(Paths.get(path));
+        return fromFile(new File(path));
     }
 
-    static FileReference fromFile(Path path) {
-        FileReference file = new FileReference();
-        file.path = path;
-        return file;
+    static FileReference fromFile(File file) {
+        FileReference reference = new FileReference();
+        reference.file = file;
+        return reference;
     }
 
     static FileReference fromContent(byte[] contentRaw) {
-        FileReference file = new FileReference();
-        file.contentBase64 = Util.encodeBase64(contentRaw);
-        return file;
+        FileReference reference = new FileReference();
+        reference.contentBase64 = Util.encodeBase64(contentRaw);
+        return reference;
     }
 
     static FileReference fromContent(String contentBase64) {
-        FileReference file = new FileReference();
-        file.contentBase64 = contentBase64;
-        return file;
+        FileReference reference = new FileReference();
+        reference.contentBase64 = contentBase64;
+        return reference;
     }
 
     static FileReference fromResult(FileResult result) {
 
         if (result.file.getBlobToken() != null) {
-            FileReference file = new FileReference();
-            file.blobToken = result.file.getBlobToken();
-            return file;
+            FileReference reference = new FileReference();
+            reference.blobToken = result.file.getBlobToken();
+            return reference;
         } else {
             return fromContent(result.file.getContent());
         }
@@ -81,7 +73,7 @@ class FileReference {
             if (s.available() < client.getMultipartUploadThreshold()) {
 
                 FileModel file = new FileModel();
-                file.setContent(Util.encodeBase64(Util.readStream(s)));
+                file.setContent(Util.encodeBase64(Storage.readStream(s)));
                 return file;
 
             } else {
@@ -111,7 +103,7 @@ class FileReference {
             return Util.decodeBase64(contentBase64);
         } else {
             InputStream s = openOrUseExistingStream();
-            return Util.readStream(s);
+            return Storage.readStream(s);
         }
     }
 
@@ -121,7 +113,7 @@ class FileReference {
             return contentBase64;
         } else {
             InputStream s = openOrUseExistingStream();
-            return Util.encodeBase64(Util.readStream(s));
+            return Util.encodeBase64(Storage.readStream(s));
         }
 
     }
@@ -162,8 +154,8 @@ class FileReference {
             return stream;
         } else if (contentBase64 != null) {
             return new ByteArrayInputStream(getContent());
-        } else if (path != null) {
-            return Files.newInputStream(path);
+        } else if (file != null) {
+            return new FileInputStream(file);
         } else {
             throw new RuntimeException();
         }

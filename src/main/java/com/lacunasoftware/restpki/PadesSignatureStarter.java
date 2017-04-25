@@ -3,20 +3,17 @@ package com.lacunasoftware.restpki;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Class used to perform the first of the two steps required to perform a PAdES signature.
  * <p>
- * 		Note on confidentiality: the PDF to be signed is stored on the server between the first and second steps,
- * 		but never unencrypted. The content is encrypted using AES-128 and <b>the key is not stored on the server</b>,
- * 		it is instead mixed into the token that is returned and which is necessary on the second step. In other
- * 		words, the server stores the PDF but is unable to read it on its own, therefore the PDF contents cannot be
- * 		compromised, even in the event of a complete data leakage.
+ * Note on confidentiality: the PDF to be signed is stored on the server between the first and second steps,
+ * but never unencrypted. The content is encrypted using AES-128 and <b>the key is not stored on the server</b>,
+ * it is instead mixed into the token that is returned and which is necessary on the second step. In other
+ * words, the server stores the PDF but is unable to read it on its own, therefore the PDF contents cannot be
+ * compromised, even in the event of a complete data leakage.
  * </p>
  */
 public class PadesSignatureStarter extends SignatureStarter {
@@ -47,7 +44,7 @@ public class PadesSignatureStarter extends SignatureStarter {
 	 * @throws IOException if an error occurs while reading the stream.
 	 */
 	public void setPdfToSign(InputStream stream) throws IOException {
-		this.pdfContent = Util.readStream(stream);
+		this.pdfContent = Storage.readStream(stream);
 	}
 
 	/**
@@ -66,17 +63,17 @@ public class PadesSignatureStarter extends SignatureStarter {
 	 * @throws IOException if an error occurs while reading the file.
 	 */
 	public void setPdfToSign(String path) throws IOException {
-		setPdfToSign(Paths.get(path));
+		setPdfToSign(new File(path));
 	}
 
 	/**
-	 * Sets the file path of the PDF to be signed
+	 * Sets the PDF to be signed
 	 *
-	 * @param path File path of the PDF to be signed.
+	 * @param file The PDF to be signed.
 	 * @throws IOException if an error occurs while reading the file.
 	 */
-	public void setPdfToSign(Path path) throws IOException {
-		this.pdfContent = Files.readAllBytes(path);
+	public void setPdfToSign(File file) throws IOException {
+		this.pdfContent = Storage.readFile(file);
 	}
 
 	/**
@@ -186,10 +183,10 @@ public class PadesSignatureStarter extends SignatureStarter {
 		}
 
 		ClientSideSignatureInstructions signatureInstructions = new ClientSideSignatureInstructions(
-				response.getToken(),
-				response.getToSignData(),
-				response.getToSignHash(),
-				response.getDigestAlgorithmOid()
+			response.getToken(),
+			response.getToSignData(),
+			response.getToSignHash(),
+			response.getDigestAlgorithmOid()
 		);
 		this.done = true;
 

@@ -1,9 +1,8 @@
 package com.lacunasoftware.restpki;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,25 +54,25 @@ public class PadesSignatureStarter2 extends SignatureStarter2 {
      * @param path File path of the PDF to be signed.
      */
     public void setPdfToSign(String path) {
-        setPdfToSign(Paths.get(path));
+        setPdfToSign(new File(path));
     }
 
     /**
-     * Sets the file path of the PDF to be signed
+     * Sets the PDF to be signed
      *
-     * @param path File path of the PDF to be signed.
+     * @param file The PDF to be signed.
      */
-    public void setPdfToSign(Path path) {
-        this.pdfToSign = FileReference.fromFile(path);
+    public void setPdfToSign(File file) {
+        this.pdfToSign = FileReference.fromFile(file);
     }
 
     /**
      * Sets the PDF to be signed from a previous signature's result to be co-signed
      *
-     * @param pdf FileResult from previous signature with Rest PKI
+     * @param fileResult FileResult from previous signature with Rest PKI
      */
-    public void setPdfToSign(FileResult pdf) {
-        this.pdfToSign = FileReference.fromResult(pdf);
+    public void setPdfToSign(FileResult fileResult) {
+        this.pdfToSign = FileReference.fromResult(fileResult);
     }
 
     //endregion
@@ -269,7 +268,7 @@ public class PadesSignatureStarter2 extends SignatureStarter2 {
         if (pdfMarks == null || pdfMarks.size() == 0) {
             return null;
         } else {
-            List<PdfMarkModel> pdfMarkModels = new ArrayList<>();
+            List<PdfMarkModel> pdfMarkModels = new ArrayList<PdfMarkModel>();
             for(PdfMark mark : pdfMarks) {
                 pdfMarkModels.add(mark.toModel());
             }

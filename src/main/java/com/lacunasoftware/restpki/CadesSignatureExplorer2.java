@@ -1,9 +1,8 @@
 package com.lacunasoftware.restpki;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,16 +30,16 @@ public class CadesSignatureExplorer2 extends SignatureExplorer2 {
      * @param path File path of the data file.
      */
     public void setDataFile(String path) {
-        setDataFile(Paths.get(path));
+        setDataFile(new File(path));
     }
 
     /**
-     * Sets the data file path (needed only for signatures without encapsulated content, aka "detached signatures")
+     * Sets the data file (needed only for signatures without encapsulated content, aka "detached signatures")
      *
-     * @param path File path of the data file.
+     * @param file The data file.
      */
-    public void setDataFile(Path path) {
-        this.dataFile = FileReference.fromFile(path);
+    public void setDataFile(File file) {
+        this.dataFile = FileReference.fromFile(file);
     }
 
     /**

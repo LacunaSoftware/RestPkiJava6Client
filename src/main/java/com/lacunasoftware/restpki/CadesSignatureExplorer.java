@@ -2,11 +2,10 @@ package com.lacunasoftware.restpki;
 
 import com.lacunasoftware.restpki.DigestAlgorithmAndValueModel.AlgorithmEnum;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.DigestInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,7 +33,7 @@ public class CadesSignatureExplorer extends SignatureExplorer {
 
     private static final String CMS_SIGNATURE_MIME_TYPE = "application/pkcs7-signature";
 
-    private Path dataFilePath;
+    private File dataFile;
     private InputStream dataFileStream;
 
     public CadesSignatureExplorer(RestPkiClient client) {
@@ -47,16 +46,16 @@ public class CadesSignatureExplorer extends SignatureExplorer {
      * @param path File path of the data file.
      */
     public void setDataFile(String path) {
-        setDataFile(Paths.get(path));
+        setDataFile(new File(path));
     }
 
     /**
-     * Sets the data file path (needed only for signatures without encapsulated content, aka "detached signatures")
+     * Sets the data file (needed only for signatures without encapsulated content, aka "detached signatures")
      *
-     * @param path File path of the data file.
+     * @param file The data file.
      */
-    public void setDataFile(Path path) {
-        this.dataFilePath = path;
+    public void setDataFile(File file) {
+        this.dataFile = file;
     }
 
     /**
@@ -80,13 +79,13 @@ public class CadesSignatureExplorer extends SignatureExplorer {
         }
 
         List<DigestAlgorithmAndValueModel> dataHashes = null;
-        if (dataFileStream != null || dataFilePath != null) {
+        if (dataFileStream != null || dataFile != null) {
             List<DigestAlgorithm> requiredHashes = getRequiredHashes();
             if (requiredHashes.size() > 0) {
                 if (dataFileStream != null) {
                     dataHashes = computeDataHashes(dataFileStream, requiredHashes);
                 } else {
-                    InputStream fileStream = Files.newInputStream(dataFilePath);
+                    InputStream fileStream = new FileInputStream(dataFile);
                     try {
                         dataHashes = computeDataHashes(fileStream, requiredHashes);
                     } finally {

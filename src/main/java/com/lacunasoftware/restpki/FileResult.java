@@ -1,11 +1,6 @@
 package com.lacunasoftware.restpki;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class FileResult {
 
@@ -18,14 +13,12 @@ public class FileResult {
     }
 
     /**
-     * Open the content stream from this file or read the stream from a provided url.
-     * It depends on what information was provided to this file, its url or its
-     * content stream.
+     * Get content stream from this file.
      *
-     * @return byte array from the read file
+     * @return content of the this file
      * @throws RestException if an error occurs when trying to get the file from a url.
      */
-    public byte[] openRead() throws RestException {
+    public byte[] getContent() throws RestException {
 
         if(file.getContent() != null) {
             return Util.decodeBase64(file.getContent());
@@ -40,9 +33,9 @@ public class FileResult {
      * @throws RestException if an error occurs when trying to get the file from a url.
      * @throws IOException if an error occurs when trying to create or open the destination file.
      */
-    public void writeToFile(Path path) throws RestException, IOException {
-        byte[] content = openRead();
-        Files.write(path, content);
+    public void writeToFile(File file) throws RestException, IOException {
+        byte[] content = getContent();
+        Storage.writeFile(file, content);
     }
 
     /**
@@ -54,17 +47,7 @@ public class FileResult {
      */
     public void writeToFile(String path) throws RestException, IOException {
         FileOutputStream outStream = new FileOutputStream(path);
-        outStream.write(openRead());
+        outStream.write(getContent());
         outStream.close();
-    }
-
-    /**
-     * Get content stream from this file.
-     *
-     * @return content of the this file
-     * @throws RestException if an error occurs when trying to get the file from a url.
-     */
-    public byte[] getContent() throws RestException {
-        return openRead();
     }
 }

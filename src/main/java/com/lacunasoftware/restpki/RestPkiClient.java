@@ -113,7 +113,7 @@ public class RestPkiClient {
 	}
 
 	byte[] read(InputStream stream) throws IOException {
-		return Util.readStream(stream);
+		return Storage.readStream(stream);
 	}
 
 	String upload(InputStream stream) throws RestException {

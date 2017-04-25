@@ -2,14 +2,9 @@ package com.lacunasoftware.restpki;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * Class used to perform the final of the two steps required to perform a CAdES signature.
@@ -66,19 +61,19 @@ public class CadesSignatureFinisher extends SignatureFinisher {
 	 * @throws IOException
 	 */
 	public void writeCmsToFile(String path) throws IOException {
-		writeCmsToFile(Paths.get(path));
+		writeCmsToFile(new File(path));
 	}
 
 	/**
 	 * Writes the CMS to a file (must only be called after calling the finish() method).
-	 * @param path The path to the file.
+	 * @param file The file.
 	 * @throws IOException
 	 */
-	public void writeCmsToFile(Path path) throws IOException {
+	public void writeCmsToFile(File file) throws IOException {
 		if (!done) {
 			throw new RuntimeException("The writeCmsToFile() method can only be called after calling the finish() method");
 		}
-		Files.write(path, cms);
+		Storage.writeFile(file, cms);
 	}
 
 }

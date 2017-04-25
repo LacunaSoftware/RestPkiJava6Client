@@ -89,7 +89,7 @@ class RestClient {
 			conn.setRequestMethod(verb);
 
 			InputStream inStream = conn.getInputStream();
-			byte[] response = Util.readStream(inStream);
+			byte[] response = Storage.readStream(inStream);
 			inStream.close();
 
 			conn.disconnect();

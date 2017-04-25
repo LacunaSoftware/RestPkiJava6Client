@@ -11,6 +11,11 @@ public class SignaturePolicy {
     public static final SignaturePolicy CadesBes = new SignaturePolicy("a4522485-c9e5-46c3-950b-0d6e951e17d1");
 
     /**
+     * CAdES Basic Eletronic Signature with signing-time and no CRLs
+     */
+    public static final SignaturePolicy CadesBesWithSigningTimeAndNoCrls = new SignaturePolicy("8108539d-c137-4f45-a1f2-de5305bc0a3");
+
+    /**
      * ICP-Brasil CAdES (AD-RB)  Assinatura Digital com Referencia Básica
      */
     public static final SignaturePolicy PkiBrazilAdrBasica = new SignaturePolicy("3ddd8001-1672-4eb5-a4a2-6e32b17ddc46");
@@ -20,10 +25,10 @@ public class SignaturePolicy {
      */
     public static final SignaturePolicy PkiBrazilAdrTempo = new SignaturePolicy("a5332ad1-d105-447c-a4bb-b5d02177e439");
 
-    /**
-     * ICP-Brasil CAdES (AD-RV)  Assinatura Digital com Referencia para Validacao
-     */
-    public static final SignaturePolicy PkiBrazilAdrValidacao = new SignaturePolicy("92378630-dddf-45eb-8296-8fee0b73d5bb");
+//    /**
+//     * ICP-Brasil CAdES (AD-RV)  Assinatura Digital com Referencia para Validacao
+//     */
+//    public static final SignaturePolicy PkiBrazilAdrValidacao = new SignaturePolicy("92378630-dddf-45eb-8296-8fee0b73d5bb");
 
     /**
      * ICP-Brasil CAdES (AD-RC)  Assinatura Digital com Referencias Completas
@@ -46,12 +51,22 @@ public class SignaturePolicy {
     public static final SignaturePolicy PkiBrazilPadesAdrTempo = new SignaturePolicy("10f0d9a5-a0a9-42e9-9523-e181ce05a25b");
 
     /**
-     * XAdES basic signature policy
+     * Pades basic with ICP-Brasil certificates
      */
-    public static final SignaturePolicy XadesBasic = new SignaturePolicy("1beba282-d1b6-4458-8e46-bd8ad6800b54");
+    public static final SignaturePolicy PadesBasicWithPkiBrazilCerts = new SignaturePolicy("3fec800c-366c-49bf-82c5-2e72154e70f6");
 
     /**
-     * XML-DSig basic siganture policy
+     * PAdES-T with ICP-Brasil certificates
+     */
+    public static final SignaturePolicy PadesTWithPkiBrazilCerts = new SignaturePolicy("6a39aeea-a2d0-4754-bf8c-19da15296ddb");
+
+    /**
+     * XAdES basic signature policy
+     */
+    public static final SignaturePolicy XadesBes = new SignaturePolicy("1beba282-d1b6-4458-8e46-bd8ad6800b54");
+
+    /**
+     * XML-DSig basic signature policy
      */
     public static final SignaturePolicy XmlDSigBasic = new SignaturePolicy("2bb5d8c9-49ba-4c62-8104-8141f6459d08");
 

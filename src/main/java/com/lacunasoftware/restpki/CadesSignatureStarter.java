@@ -2,20 +2,16 @@ package com.lacunasoftware.restpki;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.*;
 
 /**
  * Class used to perform the first of the two steps required to perform a CAdES signature.
  * <p>
- * 		Note on confidentiality: the file to be signed is stored on the server between the first and second steps,
- * 		but never unencrypted. The content is encrypted using AES-128 and <b>the key is not stored on the server</b>,
- * 		it is instead mixed into the token that is returned and which is necessary on the second step. In other
- * 		words, the server stores the file but is unable to read it on its own, therefore the file contents cannot be
- * 		compromised, even in the event of a complete data leakage.
+ * Note on confidentiality: the file to be signed is stored on the server between the first and second steps,
+ * but never unencrypted. The content is encrypted using AES-128 and <b>the key is not stored on the server</b>,
+ * it is instead mixed into the token that is returned and which is necessary on the second step. In other
+ * words, the server stores the file but is unable to read it on its own, therefore the file contents cannot be
+ * compromised, even in the event of a complete data leakage.
  * </p>
  */
 public class CadesSignatureStarter extends SignatureStarter {
@@ -40,7 +36,7 @@ public class CadesSignatureStarter extends SignatureStarter {
 	 * @throws IOException if an error occurs while reading the stream.
 	 */
 	public void setContentToSign(InputStream stream) throws IOException {
-		this.contentToSign = Util.readStream(stream);
+		this.contentToSign = Storage.readStream(stream);
 	}
 
 	/**
@@ -59,17 +55,17 @@ public class CadesSignatureStarter extends SignatureStarter {
 	 * @throws IOException if an error occurs while reading the file.
 	 */
 	public void setFileToSign(String path) throws IOException {
-		setFileToSign(Paths.get(path));
+		setFileToSign(new File(path));
 	}
 
 	/**
-	 * Sets the path of the file to be signed
+	 * Sets the file to be signed
 	 *
-	 * @param path Path of the file to be signed.
+	 * @param file The file to be signed.
 	 * @throws IOException if an error occurs while reading the file.
 	 */
-	public void setFileToSign(Path path) throws IOException {
-		this.contentToSign = Files.readAllBytes(path);
+	public void setFileToSign(File file) throws IOException {
+		this.contentToSign = Storage.readFile(file);
 	}
 
 	/**
@@ -80,7 +76,7 @@ public class CadesSignatureStarter extends SignatureStarter {
 	 * @throws IOException if an error occurs while reading the stream.
 	 */
 	public void setCmsToCoSign(InputStream stream) throws IOException {
-		this.cmsToCoSign = Util.readStream(stream);
+		this.cmsToCoSign = Storage.readStream(stream);
 	}
 
 	/**
@@ -99,17 +95,17 @@ public class CadesSignatureStarter extends SignatureStarter {
 	 * @throws IOException if an error occurs while reading the file.
 	 */
 	public void setCmsToCoSign(String path) throws IOException {
-		setCmsToCoSign(Paths.get(path));
+		setCmsToCoSign(new File(path));
 	}
 
 	/**
-	 * Sets the path of the CMS file to be co-signed
+	 * Sets the CMS file to be co-signed
 	 *
-	 * @param path Path of the CMS file to be co-signed.
+	 * @param path The CMS file to be co-signed.
 	 * @throws IOException if an error occurs while reading the file.
 	 */
-	public void setCmsToCoSign(Path path) throws IOException {
-		this.cmsToCoSign = Files.readAllBytes(path);
+	public void setCmsToCoSign(File path) throws IOException {
+		this.cmsToCoSign = Storage.readFile(path);
 	}
 
 	/**
@@ -156,10 +152,10 @@ public class CadesSignatureStarter extends SignatureStarter {
 		}
 
 		ClientSideSignatureInstructions signatureInstructions = new ClientSideSignatureInstructions(
-				response.getToken(),
-				response.getToSignData(),
-				response.getToSignHash(),
-				response.getDigestAlgorithmOid()
+			response.getToken(),
+			response.getToSignData(),
+			response.getToSignHash(),
+			response.getDigestAlgorithmOid()
 		);
 		this.done = true;
 

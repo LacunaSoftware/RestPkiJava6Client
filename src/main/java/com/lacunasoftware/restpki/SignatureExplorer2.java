@@ -1,9 +1,8 @@
 package com.lacunasoftware.restpki;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,16 +32,16 @@ public abstract class SignatureExplorer2 {
      * @param path File path of the signature file to be signed.
      */
     public void setSignatureFile(String path) {
-        setSignatureFile(Paths.get(path));
+        setSignatureFile(new File(path));
     }
 
     /**
      * Sets the file path of the signature file to be opened
      *
-     * @param path File path of the signature file to be opened.
+     * @param file File path of the signature file to be opened.
      */
-    public void setSignatureFile(Path path) {
-        this.signatureFile = FileReference.fromFile(path);
+    public void setSignatureFile(File file) {
+        this.signatureFile = FileReference.fromFile(file);
     }
 
     /**
