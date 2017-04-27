@@ -148,7 +148,7 @@ class RestClient {
 		return response;
 	}
 
-	public String postAndReturnETag(String requestUri, Map<String, byte[]> headers, byte[] request) throws RestException {
+	public String postAndReturnETag(String requestUri, Map<String, byte[]> headers, byte[] buffer, int nRead) throws RestException {
 
 		String verb = "POST";
 		String url = endpointUri + requestUri;
@@ -173,8 +173,8 @@ class RestClient {
 			}
 
 			OutputStream outStream = conn.getOutputStream();
-			if (request != null) {
-				outStream.write(request);
+			if (buffer != null) {
+				outStream.write(buffer, 0, nRead);
 			}
 			outStream.close();
 

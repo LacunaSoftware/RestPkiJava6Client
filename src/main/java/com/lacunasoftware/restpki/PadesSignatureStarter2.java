@@ -148,9 +148,6 @@ public class PadesSignatureStarter2 extends SignatureStarter2 {
     @Override
     public SignatureStartResult start() throws RestException, IOException {
 
-        if (pdfToSign == null) {
-            throw new RuntimeException("The pdf to sign was not set");
-        }
         if (certificate == null) {
             throw new RuntimeException("The certificate was not set");
         }
@@ -179,10 +176,6 @@ public class PadesSignatureStarter2 extends SignatureStarter2 {
     @Override
     public SignatureStartWithWebPkiResult startWithWebPki() throws RestException, IOException {
 
-        if (pdfToSign == null) {
-            throw new RuntimeException("The pdf to sign was not set");
-        }
-
         PadesSignaturePostResponse response = startCommon();
 
         return new SignatureStartWithWebPkiResult(
@@ -192,6 +185,13 @@ public class PadesSignatureStarter2 extends SignatureStarter2 {
     }
 
     private PadesSignaturePostResponse startCommon() throws RestException, IOException {
+
+        if (pdfToSign == null) {
+            throw new RuntimeException("The pdf to sign was not set");
+        }
+        if (signaturePolicyId == null) {
+            throw new RuntimeException("The signature policy was not set");
+        }
 
         int apiVersion = client.getApiVersion(Apis.StartPades);
         switch (apiVersion) {
@@ -203,10 +203,6 @@ public class PadesSignatureStarter2 extends SignatureStarter2 {
     }
 
     private PadesSignaturePostResponse startCommonV2() throws RestException, IOException {
-
-        if (signaturePolicyId == null) {
-            throw new RuntimeException("The signature policy was not set");
-        }
 
         PadesSignaturePostRequestV2 request = new PadesSignaturePostRequestV2();
         request.setCertificate(certificate); // may be null
@@ -234,10 +230,6 @@ public class PadesSignatureStarter2 extends SignatureStarter2 {
     }
 
     private PadesSignaturePostResponse startCommonV1() throws RestException, IOException {
-
-        if (signaturePolicyId == null) {
-            throw new RuntimeException("The signature policy was not set");
-        }
 
         PadesSignaturePostRequestV1 request = new PadesSignaturePostRequestV1();
         request.setCertificate(certificate); // may be null
