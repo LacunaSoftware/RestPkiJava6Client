@@ -133,20 +133,18 @@ public class RestPkiClient {
 
 		int nRead;
 		int partNumber = 0;
-		MessageDigest partHasher = null;
 		MessageDigest streamHasher = null;
 		DigestInputStream digestStream = null;
 		try {
 
-			partHasher = MessageDigest.getInstance("MD5");
 			streamHasher = MessageDigest.getInstance("MD5");
 			digestStream = new DigestInputStream(stream, streamHasher);
 			while((nRead = digestStream.read(buffer, 0, partSize)) != -1) {
-
 				Map<String, byte[]> headers = new HashMap<String, byte[]>();
-
-				headers.put("Content-MD5", partHasher.digest(buffer));
-				String partETag = getRestClient().postAndReturnETag(String.format("%s/%s", blobUri, partNumber), headers, buffer);
+				MessageDigest partHasher  = MessageDigest.getInstance("MD5");
+				partHasher.update(buffer, 0, nRead);
+				headers.put("Content-MD5", partHasher.digest());
+				String partETag = getRestClient().postAndReturnETag(String.format("%s/%s", blobUri, partNumber), headers, buffer, nRead);
 
 				partETags.add(partETag);
 				partNumber += 1;
@@ -160,9 +158,9 @@ public class RestPkiClient {
 
 		MultipartUploadEndRequest endRequest = new MultipartUploadEndRequest();
 		endRequest.setPartETags(partETags);
-		endRequest.setCompleteMD5(multipartUploadDoubleCheck ? Util.encodeBase64(digestStream.getMessageDigest().digest()) : null);
+		endRequest.setCompleteMD5(multipartUploadDoubleCheck ? Util.encodeBase64(streamHasher.digest()) : null);
 
-		getRestClient().post(String.format("Api/MultipartUploads/%s", blobToken), endRequest, null);
+		getRestClient().post(blobUri, endRequest, null);
 
 		return blobToken;
 	}
