@@ -13,7 +13,7 @@ public class SignaturePolicy {
     /**
      * CAdES Basic Eletronic Signature with signing-time and no CRLs
      */
-    public static final SignaturePolicy CadesBesWithSigningTimeAndNoCrls = new SignaturePolicy("8108539d-c137-4f45-a1f2-de5305bc0a3");
+    public static final SignaturePolicy CadesBesWithSigningTimeAndNoCrls = new SignaturePolicy("8108539d-c137-4f45-a1f2-de5305bc0a37");
 
     /**
      * ICP-Brasil CAdES (AD-RB)  Assinatura Digital com Referencia Básica
