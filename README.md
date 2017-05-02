@@ -6,7 +6,7 @@ This package contains classes that encapsulate the calls to the REST PKI API.
 
 The **Rest PKI Client package** is distributed by [Bintray](https://bintray.com/lacunasoftware/maven/restpki-client-java6)
 
-The recommended way to install is with Gradle:
+The recommended way to install it is with Gradle:
 
     repositories {
         mavenCentral()
@@ -34,4 +34,4 @@ Samples
 -------
 
 Please visit the [REST PKI samples repository](https://github.com/LacunaSoftware/RestPkiSamples/tree/master/Java)
-for examples on how to use this library.
+for examples on how to use this package.
