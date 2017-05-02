@@ -4,7 +4,7 @@ REST PKI client lib for Java
 
 This library contains classes that encapsulate the calls to the REST PKI API.
 
-The recommended way to install **Rest PKI Client lib** is through [Bintray](https://bintray.com/):
+The recommended way to install **Rest PKI Client lib** is through [Bintray](https://bintray.com/lacunasoftware/maven/restpki-client-java6):
 
     repositories {
         mavenCentral()
