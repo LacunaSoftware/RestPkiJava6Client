@@ -1,9 +1,9 @@
 package com.lacunasoftware.restpki;
 
 import com.lacunasoftware.restpki.FileModel;
-import com.lacunasoftware.restpki.PadesSignerModel;
 import com.lacunasoftware.restpki.SignatureBStampModel;
 import java.util.*;
+import com.lacunasoftware.restpki.XmlSignatureModel;
 
 
 
@@ -14,9 +14,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @ApiModel(description = "")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-28T18:31:08.305-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-class PadesSignatureModel   {
+class XmlSignatureResponseModel   {
   
-  private List<PadesSignerModel> signers = new ArrayList<PadesSignerModel>();
+  private List<XmlSignatureModel> signatures = new ArrayList<XmlSignatureModel>();
   private FileModel auditPackage = null;
   private SignatureBStampModel bStamp = null;
 
@@ -24,12 +24,12 @@ class PadesSignatureModel   {
   /**
    **/
   @ApiModelProperty(value = "")
-  @JsonProperty("signers")
-  public List<PadesSignerModel> getSigners() {
-    return signers;
+  @JsonProperty("signatures")
+  public List<XmlSignatureModel> getSignatures() {
+    return signatures;
   }
-  public void setSigners(List<PadesSignerModel> signers) {
-    this.signers = signers;
+  public void setSignatures(List<XmlSignatureModel> signatures) {
+    this.signatures = signatures;
   }
 
   
@@ -61,9 +61,9 @@ class PadesSignatureModel   {
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PadesSignatureModel {\n");
+    sb.append("class XmlSignatureResponseModel {\n");
     
-    sb.append("  signers: ").append(signers).append("\n");
+    sb.append("  signatures: ").append(signatures).append("\n");
     sb.append("  auditPackage: ").append(auditPackage).append("\n");
     sb.append("  bStamp: ").append(bStamp).append("\n");
     sb.append("}\n");

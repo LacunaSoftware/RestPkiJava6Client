@@ -10,25 +10,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @ApiModel(description = "")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-28T18:31:08.305-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-class DigestAlgorithmAndValueModel   {
+class XmlAttributeModel   {
   
-  public enum AlgorithmEnum {
-     MD5,  SHA1,  SHA256,  SHA384,  SHA512,  SHA3_256, 
-  };
-  private AlgorithmEnum algorithm = null;
+  private String localName = null;
   private String value = null;
-  private String hexValue = null;
+  private String namespaceUri = null;
 
   
   /**
    **/
   @ApiModelProperty(value = "")
-  @JsonProperty("algorithm")
-  public AlgorithmEnum getAlgorithm() {
-    return algorithm;
+  @JsonProperty("localName")
+  public String getLocalName() {
+    return localName;
   }
-  public void setAlgorithm(AlgorithmEnum algorithm) {
-    this.algorithm = algorithm;
+  public void setLocalName(String localName) {
+    this.localName = localName;
   }
 
   
@@ -47,12 +44,12 @@ class DigestAlgorithmAndValueModel   {
   /**
    **/
   @ApiModelProperty(value = "")
-  @JsonProperty("hexValue")
-  public String getHexValue() {
-    return hexValue;
+  @JsonProperty("namespaceUri")
+  public String getNamespaceUri() {
+    return namespaceUri;
   }
-  public void setHexValue(String hexValue) {
-    this.hexValue = hexValue;
+  public void setNamespaceUri(String namespaceUri) {
+    this.namespaceUri = namespaceUri;
   }
 
   
@@ -60,11 +57,11 @@ class DigestAlgorithmAndValueModel   {
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
-    sb.append("class DigestAlgorithmAndValueModel {\n");
+    sb.append("class XmlAttributeModel {\n");
     
-    sb.append("  algorithm: ").append(algorithm).append("\n");
+    sb.append("  localName: ").append(localName).append("\n");
     sb.append("  value: ").append(value).append("\n");
-    sb.append("  hexValue: ").append(hexValue).append("\n");
+    sb.append("  namespaceUri: ").append(namespaceUri).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

@@ -8,11 +8,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-19T17:33:14.346-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-28T18:31:08.305-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class AuthenticationsPostRequest   {
   
   private String securityContextId = null;
+  private Boolean ignoreRevocationStatusUnknown = null;
 
   
   /**
@@ -27,6 +28,18 @@ class AuthenticationsPostRequest   {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("ignoreRevocationStatusUnknown")
+  public Boolean getIgnoreRevocationStatusUnknown() {
+    return ignoreRevocationStatusUnknown;
+  }
+  public void setIgnoreRevocationStatusUnknown(Boolean ignoreRevocationStatusUnknown) {
+    this.ignoreRevocationStatusUnknown = ignoreRevocationStatusUnknown;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -34,6 +47,7 @@ class AuthenticationsPostRequest   {
     sb.append("class AuthenticationsPostRequest {\n");
     
     sb.append("  securityContextId: ").append(securityContextId).append("\n");
+    sb.append("  ignoreRevocationStatusUnknown: ").append(ignoreRevocationStatusUnknown).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

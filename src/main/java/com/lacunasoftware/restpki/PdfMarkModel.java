@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-09-23T11:29:56.579-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-28T18:31:08.305-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class PdfMarkModel   {
   
@@ -21,6 +21,11 @@ class PdfMarkModel   {
   private ColorModel borderColor = null;
   private ColorModel backgroundColor = null;
   private List<PdfMarkElementModel> elements = new ArrayList<PdfMarkElementModel>();
+  public enum PageOptionEnum {
+     AllPages,  SinglePage,  SinglePageFromEnd,  NewPage, 
+  };
+  private PageOptionEnum pageOption = null;
+  private Integer pageOptionNumber = null;
 
   
   /**
@@ -83,6 +88,30 @@ class PdfMarkModel   {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("pageOption")
+  public PageOptionEnum getPageOption() {
+    return pageOption;
+  }
+  public void setPageOption(PageOptionEnum pageOption) {
+    this.pageOption = pageOption;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("pageOptionNumber")
+  public Integer getPageOptionNumber() {
+    return pageOptionNumber;
+  }
+  public void setPageOptionNumber(Integer pageOptionNumber) {
+    this.pageOptionNumber = pageOptionNumber;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -94,6 +123,8 @@ class PdfMarkModel   {
     sb.append("  borderColor: ").append(borderColor).append("\n");
     sb.append("  backgroundColor: ").append(backgroundColor).append("\n");
     sb.append("  elements: ").append(elements).append("\n");
+    sb.append("  pageOption: ").append(pageOption).append("\n");
+    sb.append("  pageOptionNumber: ").append(pageOptionNumber).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

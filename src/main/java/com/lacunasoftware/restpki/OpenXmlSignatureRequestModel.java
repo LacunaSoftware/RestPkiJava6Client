@@ -2,6 +2,7 @@ package com.lacunasoftware.restpki;
 
 import com.lacunasoftware.restpki.FileModel;
 import com.lacunasoftware.restpki.DigestAlgorithmAndValueModel;
+import com.lacunasoftware.restpki.XmlIdResolutionTableModel;
 import com.lacunasoftware.restpki.AuditPackageOptions;
 import java.util.*;
 
@@ -14,8 +15,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @ApiModel(description = "")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-28T18:31:08.305-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-class OpenSignatureRequestModel   {
+class OpenXmlSignatureRequestModel   {
   
+  private XmlIdResolutionTableModel idResolutionTable = null;
   private FileModel file = null;
   private Boolean validate = null;
   private AuditPackageOptions auditPackage = null;
@@ -24,6 +26,18 @@ class OpenSignatureRequestModel   {
   private String securityContextId = null;
   private Boolean ignoreRevocationStatusUnknown = null;
   private List<DigestAlgorithmAndValueModel> dataHashes = new ArrayList<DigestAlgorithmAndValueModel>();
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("idResolutionTable")
+  public XmlIdResolutionTableModel getIdResolutionTable() {
+    return idResolutionTable;
+  }
+  public void setIdResolutionTable(XmlIdResolutionTableModel idResolutionTable) {
+    this.idResolutionTable = idResolutionTable;
+  }
 
   
   /**
@@ -126,8 +140,9 @@ class OpenSignatureRequestModel   {
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
-    sb.append("class OpenSignatureRequestModel {\n");
+    sb.append("class OpenXmlSignatureRequestModel {\n");
     
+    sb.append("  idResolutionTable: ").append(idResolutionTable).append("\n");
     sb.append("  file: ").append(file).append("\n");
     sb.append("  validate: ").append(validate).append("\n");
     sb.append("  auditPackage: ").append(auditPackage).append("\n");

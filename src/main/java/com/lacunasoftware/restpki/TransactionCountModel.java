@@ -1,6 +1,6 @@
 package com.lacunasoftware.restpki;
 
-import java.util.*;
+import com.lacunasoftware.restpki.CountEntry;
 
 
 
@@ -11,25 +11,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @ApiModel(description = "")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-28T18:31:08.305-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-class TransactionRequest   {
+class TransactionCountModel   {
   
   public enum TypeEnum {
      PadesSignature,  CertAuthentication,  CadesSignature,  XmlSignature,  Timestamp,  OpenSignature,  AddPdfMarks, 
   };
-
-  private List<TypeEnum> type = new ArrayList<TypeEnum>();
-  private Boolean success = null;
-  private String invoiceId = null;
+  private TypeEnum type = null;
+  private String parameter = null;
+  private CountEntry count = null;
 
   
   /**
    **/
   @ApiModelProperty(value = "")
   @JsonProperty("type")
-  public List<TypeEnum> getType() {
+  public TypeEnum getType() {
     return type;
   }
-  public void setType(List<TypeEnum> type) {
+  public void setType(TypeEnum type) {
     this.type = type;
   }
 
@@ -37,24 +36,24 @@ class TransactionRequest   {
   /**
    **/
   @ApiModelProperty(value = "")
-  @JsonProperty("success")
-  public Boolean getSuccess() {
-    return success;
+  @JsonProperty("parameter")
+  public String getParameter() {
+    return parameter;
   }
-  public void setSuccess(Boolean success) {
-    this.success = success;
+  public void setParameter(String parameter) {
+    this.parameter = parameter;
   }
 
   
   /**
    **/
   @ApiModelProperty(value = "")
-  @JsonProperty("invoiceId")
-  public String getInvoiceId() {
-    return invoiceId;
+  @JsonProperty("count")
+  public CountEntry getCount() {
+    return count;
   }
-  public void setInvoiceId(String invoiceId) {
-    this.invoiceId = invoiceId;
+  public void setCount(CountEntry count) {
+    this.count = count;
   }
 
   
@@ -62,11 +61,11 @@ class TransactionRequest   {
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TransactionRequest {\n");
+    sb.append("class TransactionCountModel {\n");
     
     sb.append("  type: ").append(type).append("\n");
-    sb.append("  success: ").append(success).append("\n");
-    sb.append("  invoiceId: ").append(invoiceId).append("\n");
+    sb.append("  parameter: ").append(parameter).append("\n");
+    sb.append("  count: ").append(count).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

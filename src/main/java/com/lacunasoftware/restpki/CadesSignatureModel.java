@@ -1,6 +1,7 @@
 package com.lacunasoftware.restpki;
 
 import com.lacunasoftware.restpki.FileModel;
+import com.lacunasoftware.restpki.SignatureBStampModel;
 import java.util.*;
 import com.lacunasoftware.restpki.CadesSignerModel;
 
@@ -11,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-02-17T15:30:21.925-02:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-28T18:31:08.305-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class CadesSignatureModel   {
   
@@ -22,6 +23,8 @@ class CadesSignatureModel   {
   private Boolean hasEncapsulatedContent = null;
   private List<CadesSignerModel> signers = new ArrayList<CadesSignerModel>();
   private FileModel encapsulatedContent = null;
+  private FileModel auditPackage = null;
+  private SignatureBStampModel bStamp = null;
 
   
   /**
@@ -72,6 +75,30 @@ class CadesSignatureModel   {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("auditPackage")
+  public FileModel getAuditPackage() {
+    return auditPackage;
+  }
+  public void setAuditPackage(FileModel auditPackage) {
+    this.auditPackage = auditPackage;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("bStamp")
+  public SignatureBStampModel getBStamp() {
+    return bStamp;
+  }
+  public void setBStamp(SignatureBStampModel bStamp) {
+    this.bStamp = bStamp;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -82,6 +109,8 @@ class CadesSignatureModel   {
     sb.append("  hasEncapsulatedContent: ").append(hasEncapsulatedContent).append("\n");
     sb.append("  signers: ").append(signers).append("\n");
     sb.append("  encapsulatedContent: ").append(encapsulatedContent).append("\n");
+    sb.append("  auditPackage: ").append(auditPackage).append("\n");
+    sb.append("  bStamp: ").append(bStamp).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

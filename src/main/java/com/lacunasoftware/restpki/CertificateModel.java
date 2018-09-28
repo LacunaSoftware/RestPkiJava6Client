@@ -13,13 +13,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-30T19:04:19.798-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-28T18:31:08.305-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class CertificateModel   {
   
   private NameModel subjectName = null;
   private String emailAddress = null;
   private NameModel issuerName = null;
+  private String issuerDisplayName = null;
   private String serialNumber = null;
   private Date validityStart = null;
   private Date validityEnd = null;
@@ -29,6 +30,7 @@ class CertificateModel   {
   private String binaryThumbprintSHA256 = null;
   private String thumbprint = null;
   private String subjectCommonName = null;
+  private String subjectDisplayName = null;
 
   
   /**
@@ -64,6 +66,18 @@ class CertificateModel   {
   }
   public void setIssuerName(NameModel issuerName) {
     this.issuerName = issuerName;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("issuerDisplayName")
+  public String getIssuerDisplayName() {
+    return issuerDisplayName;
+  }
+  public void setIssuerDisplayName(String issuerDisplayName) {
+    this.issuerDisplayName = issuerDisplayName;
   }
 
   
@@ -175,6 +189,18 @@ class CertificateModel   {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("subjectDisplayName")
+  public String getSubjectDisplayName() {
+    return subjectDisplayName;
+  }
+  public void setSubjectDisplayName(String subjectDisplayName) {
+    this.subjectDisplayName = subjectDisplayName;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -184,6 +210,7 @@ class CertificateModel   {
     sb.append("  subjectName: ").append(subjectName).append("\n");
     sb.append("  emailAddress: ").append(emailAddress).append("\n");
     sb.append("  issuerName: ").append(issuerName).append("\n");
+    sb.append("  issuerDisplayName: ").append(issuerDisplayName).append("\n");
     sb.append("  serialNumber: ").append(serialNumber).append("\n");
     sb.append("  validityStart: ").append(validityStart).append("\n");
     sb.append("  validityEnd: ").append(validityEnd).append("\n");
@@ -193,6 +220,7 @@ class CertificateModel   {
     sb.append("  binaryThumbprintSHA256: ").append(binaryThumbprintSHA256).append("\n");
     sb.append("  thumbprint: ").append(thumbprint).append("\n");
     sb.append("  subjectCommonName: ").append(subjectCommonName).append("\n");
+    sb.append("  subjectDisplayName: ").append(subjectDisplayName).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

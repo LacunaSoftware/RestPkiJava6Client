@@ -10,24 +10,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @ApiModel(description = "")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-28T18:31:08.305-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
-class TimestampRequesterSummary   {
+class EnumModel   {
   
-  private String id = null;
   private String name = null;
-  private Boolean isAvailable = null;
-  private Boolean isEnabled = null;
-
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  @JsonProperty("id")
-  public String getId() {
-    return id;
-  }
-  public void setId(String id) {
-    this.id = id;
-  }
+  private String code = null;
+  private Boolean showParameter = null;
 
   
   /**
@@ -45,24 +32,24 @@ class TimestampRequesterSummary   {
   /**
    **/
   @ApiModelProperty(value = "")
-  @JsonProperty("isAvailable")
-  public Boolean getIsAvailable() {
-    return isAvailable;
+  @JsonProperty("code")
+  public String getCode() {
+    return code;
   }
-  public void setIsAvailable(Boolean isAvailable) {
-    this.isAvailable = isAvailable;
+  public void setCode(String code) {
+    this.code = code;
   }
 
   
   /**
    **/
   @ApiModelProperty(value = "")
-  @JsonProperty("isEnabled")
-  public Boolean getIsEnabled() {
-    return isEnabled;
+  @JsonProperty("showParameter")
+  public Boolean getShowParameter() {
+    return showParameter;
   }
-  public void setIsEnabled(Boolean isEnabled) {
-    this.isEnabled = isEnabled;
+  public void setShowParameter(Boolean showParameter) {
+    this.showParameter = showParameter;
   }
 
   
@@ -70,12 +57,11 @@ class TimestampRequesterSummary   {
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TimestampRequesterSummary {\n");
+    sb.append("class EnumModel {\n");
     
-    sb.append("  id: ").append(id).append("\n");
     sb.append("  name: ").append(name).append("\n");
-    sb.append("  isAvailable: ").append(isAvailable).append("\n");
-    sb.append("  isEnabled: ").append(isEnabled).append("\n");
+    sb.append("  code: ").append(code).append("\n");
+    sb.append("  showParameter: ").append(showParameter).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

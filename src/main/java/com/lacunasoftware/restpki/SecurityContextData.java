@@ -9,12 +9,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-30T19:04:19.798-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-28T18:31:08.305-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class SecurityContextData   {
   
+  private String userId = null;
   private String name = null;
   private StandardArbitratorsModel additionalStandardArbitrators = null;
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("userId")
+  public String getUserId() {
+    return userId;
+  }
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
 
   
   /**
@@ -47,6 +60,7 @@ class SecurityContextData   {
     StringBuilder sb = new StringBuilder();
     sb.append("class SecurityContextData {\n");
     
+    sb.append("  userId: ").append(userId).append("\n");
     sb.append("  name: ").append(name).append("\n");
     sb.append("  additionalStandardArbitrators: ").append(additionalStandardArbitrators).append("\n");
     sb.append("}\n");

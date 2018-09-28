@@ -8,12 +8,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-09-19T17:33:14.346-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-28T18:31:08.305-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class CertificateSummary   {
   
   private String thumbprint = null;
   private String subjectCommonName = null;
+  private String subjectDisplayName = null;
 
   
   /**
@@ -40,6 +41,18 @@ class CertificateSummary   {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("subjectDisplayName")
+  public String getSubjectDisplayName() {
+    return subjectDisplayName;
+  }
+  public void setSubjectDisplayName(String subjectDisplayName) {
+    this.subjectDisplayName = subjectDisplayName;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -48,6 +61,7 @@ class CertificateSummary   {
     
     sb.append("  thumbprint: ").append(thumbprint).append("\n");
     sb.append("  subjectCommonName: ").append(subjectCommonName).append("\n");
+    sb.append("  subjectDisplayName: ").append(subjectDisplayName).append("\n");
     sb.append("}\n");
     return sb.toString();
   }
