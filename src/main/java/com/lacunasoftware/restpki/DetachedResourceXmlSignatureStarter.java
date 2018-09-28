@@ -89,6 +89,7 @@ public class DetachedResourceXmlSignatureStarter extends XmlSignatureStarter {
         request.setSecurityContextId(this.securityContextId);
         request.setSignaturePolicyId(this.signaturePolicyId);
         request.setSignatureElementLocation(this.signatureElementLocation);
+        request.setIgnoreRevocationStatusUnknown(this.ignoreRevocationStatusUnknown);
 
         // specific values request
         request.setDetachedResourceToSignContent(new ObjectMapper().convertValue(this.resourceContent, String.class));
@@ -137,6 +138,7 @@ public class DetachedResourceXmlSignatureStarter extends XmlSignatureStarter {
         request.setSecurityContextId(this.securityContextId);
         request.setSignaturePolicyId(this.signaturePolicyId);
         request.setSignatureElementLocation(this.signatureElementLocation);
+        request.setIgnoreRevocationStatusUnknown(this.ignoreRevocationStatusUnknown);
 
         // specific values request
         request.setDetachedResourceToSignContent(new ObjectMapper().convertValue(this.resourceContent, String.class));

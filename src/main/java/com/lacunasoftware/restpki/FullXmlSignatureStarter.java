@@ -52,6 +52,7 @@ public class FullXmlSignatureStarter extends  XmlSignatureStarter {
         request.setSecurityContextId(this.securityContextId);
         request.setSignaturePolicyId(this.signaturePolicyId);
         request.setSignatureElementLocation(this.signatureElementLocation);
+        request.setIgnoreRevocationStatusUnknown(this.ignoreRevocationStatusUnknown);
 
         XmlSignaturePostResponse response = client.getRestClient().post("Api/XmlSignatures/FullXmlSignature", request, XmlSignaturePostResponse.class);
 
@@ -96,6 +97,7 @@ public class FullXmlSignatureStarter extends  XmlSignatureStarter {
         request.setSecurityContextId(this.securityContextId);
         request.setSignaturePolicyId(this.signaturePolicyId);
         request.setSignatureElementLocation(this.signatureElementLocation);
+        request.setIgnoreRevocationStatusUnknown(this.ignoreRevocationStatusUnknown);
 
         XmlSignaturePostResponse response = client.getRestClient().post("Api/XmlSignatures/FullXmlSignature", request, XmlSignaturePostResponse.class);
 

@@ -16,6 +16,7 @@ public abstract class SignatureExplorer {
     protected String defaultSignaturePolicyId;
     protected SignaturePolicyCatalog acceptableExplicitPolicies;
     protected String securityContextId;
+    protected boolean ignoreRevocationStatusUnknown = false;
 
     public SignatureExplorer(RestPkiClient client) {
         this.client = client;
@@ -97,6 +98,19 @@ public abstract class SignatureExplorer {
         this.securityContextId = securityContext.getId();
     }
 
+    public boolean getIgnoreRevocationStatusUnknown() {
+        return ignoreRevocationStatusUnknown;
+    }
+
+    /**
+     * Sets the option of "IgnoreRevocationStatusUnknown".
+     *
+     * @param ignoreRevocationStatusUnknown The option of "IgnoreRevocationStatusUnknown".
+     */
+    public void setIgnoreRevocationStatusUnknown(boolean ignoreRevocationStatusUnknown) {
+        this.ignoreRevocationStatusUnknown = ignoreRevocationStatusUnknown;
+    }
+
     protected OpenSignatureRequestModel getRequest(String fileMimeType) {
         OpenSignatureRequestModel request = new OpenSignatureRequestModel();
         FileModel file = new FileModel();
@@ -106,6 +120,7 @@ public abstract class SignatureExplorer {
         request.setValidate(validate);
         request.setDefaultSignaturePolicyId(defaultSignaturePolicyId);
         request.setSecurityContextId(securityContextId);
+        request.setIgnoreRevocationStatusUnknown(ignoreRevocationStatusUnknown);
         if (acceptableExplicitPolicies != null) {
             List<String> policyIds = new ArrayList<String>();
             for (SignaturePolicy policy : acceptableExplicitPolicies.getPolicies()) {

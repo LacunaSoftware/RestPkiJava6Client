@@ -15,12 +15,26 @@ public class Authentication {
 	
 	private RestPkiClient client;
 
+    private boolean ignoreRevocationStatusUnknown = false;
     private boolean done = false;
     private PKCertificate pkCertificate;
 
 	public Authentication(RestPkiClient client) {
 		this.client = client;
 	}
+
+    public boolean getIgnoreRevocationStatusUnknown() {
+        return ignoreRevocationStatusUnknown;
+    }
+
+    /**
+     * Sets the option of "IgnoreRevocationStatusUnknown".
+     *
+     * @param ignoreRevocationStatusUnknown The option of "IgnoreRevocationStatusUnknown".
+     */
+    public void setIgnoreRevocationStatusUnknown(boolean ignoreRevocationStatusUnknown) {
+        this.ignoreRevocationStatusUnknown = ignoreRevocationStatusUnknown;
+    }
 
     /**
      * Performs the first of two steps, yielding a cryptographic nonce that must be signed using the user certificate's
@@ -41,6 +55,7 @@ public class Authentication {
     public String startWithWebPki(SecurityContext securityContext) throws RestException {
         AuthenticationsPostRequest request = new AuthenticationsPostRequest();
         request.setSecurityContextId(securityContext.getId());
+        request.setIgnoreRevocationStatusUnknown(ignoreRevocationStatusUnknown);
         AuthenticationsPostResponse response = client.getRestClient().post("Api/Authentications", request, AuthenticationsPostResponse.class);
         return response.getToken();
     }
@@ -72,6 +87,7 @@ public class Authentication {
 		request.setCertificate(certificate);
 		request.setSignature(signature);
 		request.setSecurityContextId(securityContext.getId());
+        request.setIgnoreRevocationStatusUnknown(ignoreRevocationStatusUnknown);
 
         AuthenticationPostResponse response = client.getRestClient().post("Api/Authentication", request, AuthenticationPostResponse.class);
 
