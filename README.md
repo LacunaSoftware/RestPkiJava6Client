@@ -16,7 +16,7 @@ The recommended way to install it is with Gradle:
     }
 
     dependencies {
-        compile("com.lacunasoftware.restpki:restpki-client-java6:1.8.2")
+        compile("com.lacunasoftware.restpki:restpki-client-java6:1.9.0")
     }
     
 Or with Maven:
@@ -24,7 +24,7 @@ Or with Maven:
     <dependency>
       <groupId>com.lacunasoftware.restpki</groupId>
       <artifactId>restpki-client-java6</artifactId>
-      <version>1.8.2</version>
+      <version>1.9.0</version>
       <type>pom</type>
     </dependency>
     

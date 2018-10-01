@@ -33,7 +33,7 @@ class RestClient {
 		this.endpointUri = endpointUri;
 		this.authToken = authToken;
 		this.proxy = proxy;
-		this.libVersion = "1.8.2";
+		this.libVersion = "1.9.0";
 	}
 
 	public <TResponse> TResponse get(String requestUri, Class<TResponse> responseType) throws RestException {
