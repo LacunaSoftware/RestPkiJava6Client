@@ -9,18 +9,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2017-01-10T18:51:53.435-02:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-28T18:31:08.305-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class BillingSummary   {
   
   private String id = null;
   private String userName = null;
+  private String customerId = null;
   private CountEntry nPADES = null;
   private CountEntry nCADES = null;
   private CountEntry nXADES = null;
   private CountEntry nAuths = null;
   private CountEntry nTimestamps = null;
   private CountEntry nOpenSig = null;
+  private CountEntry nPdfMarks = null;
   private CountEntry total = null;
 
   
@@ -45,6 +47,18 @@ class BillingSummary   {
   }
   public void setUserName(String userName) {
     this.userName = userName;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("customerId")
+  public String getCustomerId() {
+    return customerId;
+  }
+  public void setCustomerId(String customerId) {
+    this.customerId = customerId;
   }
 
   
@@ -123,6 +137,18 @@ class BillingSummary   {
   /**
    **/
   @ApiModelProperty(value = "")
+  @JsonProperty("nPdfMarks")
+  public CountEntry getNPdfMarks() {
+    return nPdfMarks;
+  }
+  public void setNPdfMarks(CountEntry nPdfMarks) {
+    this.nPdfMarks = nPdfMarks;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
   @JsonProperty("total")
   public CountEntry getTotal() {
     return total;
@@ -140,12 +166,14 @@ class BillingSummary   {
     
     sb.append("  id: ").append(id).append("\n");
     sb.append("  userName: ").append(userName).append("\n");
+    sb.append("  customerId: ").append(customerId).append("\n");
     sb.append("  nPADES: ").append(nPADES).append("\n");
     sb.append("  nCADES: ").append(nCADES).append("\n");
     sb.append("  nXADES: ").append(nXADES).append("\n");
     sb.append("  nAuths: ").append(nAuths).append("\n");
     sb.append("  nTimestamps: ").append(nTimestamps).append("\n");
     sb.append("  nOpenSig: ").append(nOpenSig).append("\n");
+    sb.append("  nPdfMarks: ").append(nPdfMarks).append("\n");
     sb.append("  total: ").append(total).append("\n");
     sb.append("}\n");
     return sb.toString();

@@ -14,6 +14,7 @@ public abstract class SignatureExplorer2 {
     protected String securityContextId;
     protected String defaultSignaturePolicyId;
     protected SignaturePolicyCatalog acceptableExplicitPolicies;
+    protected boolean ignoreRevocationStatusUnknown = false;
 
     /**
      * Create a new instance using the given RestPkiClient.
@@ -122,11 +123,25 @@ public abstract class SignatureExplorer2 {
         this.securityContextId = securityContext.getId();
     }
 
+    public boolean getIgnoreRevocationStatusUnknown() {
+        return ignoreRevocationStatusUnknown;
+    }
+
+    /**
+     * Sets the option of "IgnoreRevocationStatusUnknown".
+     *
+     * @param ignoreRevocationStatusUnknown The option of "IgnoreRevocationStatusUnknown".
+     */
+    public void setIgnoreRevocationStatusUnknown(boolean ignoreRevocationStatusUnknown) {
+        this.ignoreRevocationStatusUnknown = ignoreRevocationStatusUnknown;
+    }
+
     protected OpenSignatureRequestModel fillRequest(OpenSignatureRequestModel request) throws RestException, IOException {
 
         request.setValidate(validate);
         request.setDefaultSignaturePolicyId(defaultSignaturePolicyId);
         request.setSecurityContextId(securityContextId);
+        request.setIgnoreRevocationStatusUnknown(ignoreRevocationStatusUnknown);
         if (acceptableExplicitPolicies != null) {
             List<String> policyIds = new ArrayList<String>();
             for (SignaturePolicy policy : acceptableExplicitPolicies.getPolicies()) {

@@ -1,10 +1,12 @@
-REST PKI client lib for Java
+REST PKI client package for Java
 ====================================
-**Legacy version for Java 6 and greater**
+**Legacy version for Java 6**
 
-This library contains classes that encapsulate the calls to the REST PKI API.
+This package contains classes that encapsulate the calls to the REST PKI API.
 
-The recommended way to install **Rest PKI Client lib** is through [Bintray](https://bintray.com/):
+The **Rest PKI Client package** is distributed by [Bintray](https://bintray.com/lacunasoftware/maven/restpki-client-java6)
+
+The recommended way to install it is with Gradle:
 
     repositories {
         mavenCentral()
@@ -14,13 +16,22 @@ The recommended way to install **Rest PKI Client lib** is through [Bintray](http
     }
 
     dependencies {
-        compile("com.lacunasoftware.restpki:restpki-client-six:1.7.2")
+        compile("com.lacunasoftware.restpki:restpki-client-java6:1.9.0")
     }
+    
+Or with Maven:
 
-If you use Java 7 and grater, please see the library [restpki-client](https://bitbucket.org/Lacunas/restpki-java-client).
+    <dependency>
+      <groupId>com.lacunasoftware.restpki</groupId>
+      <artifactId>restpki-client-java6</artifactId>
+      <version>1.9.0</version>
+      <type>pom</type>
+    </dependency>
+    
+If you use Java 7 and greater, please see the package [restpki-client](https://bitbucket.org/Lacunas/restpki-java-client).
 
 Samples
 -------
 
 Please visit the [REST PKI samples repository](https://github.com/LacunaSoftware/RestPkiSamples/tree/master/Java)
-for examples on how to use this library.
+for examples on how to use this package.

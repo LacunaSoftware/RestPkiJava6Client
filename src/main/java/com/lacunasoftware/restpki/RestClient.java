@@ -15,6 +15,7 @@ class RestClient {
 	private String endpointUri;
 	private String authToken;
 	private Proxy proxy;
+	private String libVersion;
 
 	public RestClient(String endpointUri) {
 		this(endpointUri, null, null);
@@ -32,6 +33,7 @@ class RestClient {
 		this.endpointUri = endpointUri;
 		this.authToken = authToken;
 		this.proxy = proxy;
+		this.libVersion = "1.9.0";
 	}
 
 	public <TResponse> TResponse get(String requestUri, Class<TResponse> responseType) throws RestException {
@@ -52,6 +54,7 @@ class RestClient {
 			conn.setRequestProperty("Accept", "application/json");
 			if (authToken != null) {
 				conn.setRequestProperty("Authorization", "Bearer " + authToken);
+				conn.setRequestProperty("X-RestPki-Client", "Java 6 " + this.libVersion);
 			}
 
 		} catch (Exception e) {
@@ -120,6 +123,7 @@ class RestClient {
 			conn.setRequestProperty("Accept", "application/json");
 			if (authToken != null) {
 				conn.setRequestProperty("Authorization", "Bearer " + authToken);
+				conn.setRequestProperty("X-RestPki-Client", "Java 6 " + this.libVersion);
 			}
 
 			OutputStream outStream = conn.getOutputStream();
@@ -170,6 +174,7 @@ class RestClient {
 			}
 			if (authToken != null) {
 				conn.setRequestProperty("Authorization", "Bearer " + authToken);
+				conn.setRequestProperty("X-RestPki-Client", "Java 6 " + this.libVersion);
 			}
 
 			OutputStream outStream = conn.getOutputStream();

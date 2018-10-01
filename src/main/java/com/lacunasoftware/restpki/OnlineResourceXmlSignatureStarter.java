@@ -63,6 +63,7 @@ public class OnlineResourceXmlSignatureStarter extends XmlSignatureStarter {
         request.setSecurityContextId(this.securityContextId);
         request.setSignaturePolicyId(this.signaturePolicyId);
         request.setSignatureElementLocation(this.signatureElementLocation);
+        request.setIgnoreRevocationStatusUnknown(this.ignoreRevocationStatusUnknown);
 
         // specific values request
         request.setResourceToSignUri(uri);

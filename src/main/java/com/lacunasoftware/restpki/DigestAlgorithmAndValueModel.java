@@ -8,12 +8,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-30T19:04:19.798-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-28T18:31:08.305-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class DigestAlgorithmAndValueModel   {
   
   public enum AlgorithmEnum {
-     MD5,  SHA1,  SHA256,  SHA384,  SHA512, 
+     MD5,  SHA1,  SHA256,  SHA384,  SHA512,  SHA3_256, 
   };
   private AlgorithmEnum algorithm = null;
   private String value = null;

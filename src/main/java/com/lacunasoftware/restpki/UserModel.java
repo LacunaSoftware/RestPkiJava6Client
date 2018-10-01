@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-07-05T18:14:42.102-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-28T18:31:08.305-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class UserModel   {
   
@@ -18,6 +18,8 @@ class UserModel   {
   private Boolean canDelete = null;
   private String id = null;
   private String username = null;
+  private Boolean isBlocked = null;
+  private String customerId = null;
 
   
   /**
@@ -92,6 +94,30 @@ class UserModel   {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("isBlocked")
+  public Boolean getIsBlocked() {
+    return isBlocked;
+  }
+  public void setIsBlocked(Boolean isBlocked) {
+    this.isBlocked = isBlocked;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("customerId")
+  public String getCustomerId() {
+    return customerId;
+  }
+  public void setCustomerId(String customerId) {
+    this.customerId = customerId;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -104,6 +130,8 @@ class UserModel   {
     sb.append("  canDelete: ").append(canDelete).append("\n");
     sb.append("  id: ").append(id).append("\n");
     sb.append("  username: ").append(username).append("\n");
+    sb.append("  isBlocked: ").append(isBlocked).append("\n");
+    sb.append("  customerId: ").append(customerId).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

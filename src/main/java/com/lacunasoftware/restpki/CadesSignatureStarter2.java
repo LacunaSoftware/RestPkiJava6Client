@@ -204,6 +204,7 @@ public class CadesSignatureStarter2 extends SignatureStarter2 {
         request.setSecurityContextId(securityContextId);
         request.setCallbackArgument(callbackArgument);
         request.setEncapsulateContent(encapsulateContent);
+        request.setIgnoreRevocationStatusUnknown(ignoreRevocationStatusUnknown);
 
         if (fileToSign != null) {
             if (!encapsulateContent) {
@@ -235,6 +236,7 @@ public class CadesSignatureStarter2 extends SignatureStarter2 {
         request.setSecurityContextId(securityContextId);
         request.setCallbackArgument(callbackArgument);
         request.setEncapsulateContent(encapsulateContent);
+        request.setIgnoreRevocationStatusUnknown(ignoreRevocationStatusUnknown);
 
         if (fileToSign != null) {
             if (!encapsulateContent) {
@@ -260,12 +262,13 @@ public class CadesSignatureStarter2 extends SignatureStarter2 {
             throw new RuntimeException("The signature policy was not set");
         }
 
-        CadesSignaturePostRequest request = new CadesSignaturePostRequest();
+        CadesSignaturePostRequestV1 request = new CadesSignaturePostRequestV1();
         request.setCertificate(certificate); // may be null
         request.setSignaturePolicyId(signaturePolicyId);
         request.setSecurityContextId(securityContextId);
         request.setCallbackArgument(callbackArgument);
         request.setEncapsulateContent(encapsulateContent);
+        request.setIgnoreRevocationStatusUnknown(ignoreRevocationStatusUnknown);
 
         if (fileToSign != null) {
             request.setContentToSign(fileToSign.getContentBase64());

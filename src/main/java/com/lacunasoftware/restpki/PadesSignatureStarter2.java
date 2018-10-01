@@ -210,6 +210,7 @@ public class PadesSignatureStarter2 extends SignatureStarter2 {
         request.setSecurityContextId(securityContextId);
         request.setCallbackArgument(callbackArgument);
         request.setBypassMarksIfSigned(bypassMarksIfSigned);
+        request.setIgnoreRevocationStatusUnknown(ignoreRevocationStatusUnknown);
         if (visualRepresentation != null) {
             request.setVisualRepresentation(visualRepresentation.toModel());
         }
@@ -237,6 +238,7 @@ public class PadesSignatureStarter2 extends SignatureStarter2 {
         request.setSecurityContextId(securityContextId);
         request.setCallbackArgument(callbackArgument);
         request.setBypassMarksIfSigned(bypassMarksIfSigned);
+        request.setIgnoreRevocationStatusUnknown(ignoreRevocationStatusUnknown);
         if (visualRepresentation != null) {
             request.setVisualRepresentation(visualRepresentation.toModel());
         }

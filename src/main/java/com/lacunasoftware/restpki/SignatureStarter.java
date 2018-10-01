@@ -10,7 +10,7 @@ public abstract class SignatureStarter {
 	protected String signaturePolicyId;
 	protected String securityContextId;
 	protected String callbackArgument;
-
+	protected boolean ignoreRevocationStatusUnknown = false;
 	protected boolean done;
 	protected PKCertificate certificateInfo;
 
@@ -72,6 +72,19 @@ public abstract class SignatureStarter {
 	 */
 	public void setCallbackArgument(String argument) {
 		this.callbackArgument = argument;
+	}
+
+	public boolean getIgnoreRevocationStatusUnknown() {
+		return ignoreRevocationStatusUnknown;
+	}
+
+	/**
+	 * Sets the option of "IgnoreRevocationStatusUnknown".
+	 *
+	 * @param ignoreRevocationStatusUnknown The option of "IgnoreRevocationStatusUnknown".
+	 */
+	public void setIgnoreRevocationStatusUnknown(boolean ignoreRevocationStatusUnknown) {
+		this.ignoreRevocationStatusUnknown = ignoreRevocationStatusUnknown;
 	}
 
 	/**

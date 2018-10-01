@@ -8,16 +8,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-30T19:04:19.798-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-28T18:31:08.305-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class TimestampRequesterData   {
   
   private String name = null;
   private String url = null;
+  private String tsaPolicyId = null;
   public enum AuthenticationMethodEnum {
      None,  MutualSSL,  Basic,  OAuthBearerToken, 
   };
   private AuthenticationMethodEnum authenticationMethod = null;
+  private Boolean isEnabled = null;
 
   
   /**
@@ -47,12 +49,36 @@ class TimestampRequesterData   {
   /**
    **/
   @ApiModelProperty(value = "")
+  @JsonProperty("tsaPolicyId")
+  public String getTsaPolicyId() {
+    return tsaPolicyId;
+  }
+  public void setTsaPolicyId(String tsaPolicyId) {
+    this.tsaPolicyId = tsaPolicyId;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
   @JsonProperty("authenticationMethod")
   public AuthenticationMethodEnum getAuthenticationMethod() {
     return authenticationMethod;
   }
   public void setAuthenticationMethod(AuthenticationMethodEnum authenticationMethod) {
     this.authenticationMethod = authenticationMethod;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("isEnabled")
+  public Boolean getIsEnabled() {
+    return isEnabled;
+  }
+  public void setIsEnabled(Boolean isEnabled) {
+    this.isEnabled = isEnabled;
   }
 
   
@@ -64,7 +90,9 @@ class TimestampRequesterData   {
     
     sb.append("  name: ").append(name).append("\n");
     sb.append("  url: ").append(url).append("\n");
+    sb.append("  tsaPolicyId: ").append(tsaPolicyId).append("\n");
     sb.append("  authenticationMethod: ").append(authenticationMethod).append("\n");
+    sb.append("  isEnabled: ").append(isEnabled).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

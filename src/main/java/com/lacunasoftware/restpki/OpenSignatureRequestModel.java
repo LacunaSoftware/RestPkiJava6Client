@@ -2,6 +2,7 @@ package com.lacunasoftware.restpki;
 
 import com.lacunasoftware.restpki.FileModel;
 import com.lacunasoftware.restpki.DigestAlgorithmAndValueModel;
+import com.lacunasoftware.restpki.AuditPackageOptions;
 import java.util.*;
 
 
@@ -11,16 +12,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-07-05T18:14:42.102-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-28T18:31:08.305-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class OpenSignatureRequestModel   {
   
-  protected FileModel file = null;
-  protected Boolean validate = null;
-  protected String defaultSignaturePolicyId = null;
-  protected List<String> acceptableExplicitPolicies = new ArrayList<String>();
-  protected String securityContextId = null;
-  protected List<DigestAlgorithmAndValueModel> dataHashes = new ArrayList<DigestAlgorithmAndValueModel>();
+  private FileModel file = null;
+  private Boolean validate = null;
+  private AuditPackageOptions auditPackage = null;
+  private String defaultSignaturePolicyId = null;
+  private List<String> acceptableExplicitPolicies = new ArrayList<String>();
+  private String securityContextId = null;
+  private Boolean ignoreRevocationStatusUnknown = null;
+  private List<DigestAlgorithmAndValueModel> dataHashes = new ArrayList<DigestAlgorithmAndValueModel>();
 
   
   /**
@@ -44,6 +47,18 @@ class OpenSignatureRequestModel   {
   }
   public void setValidate(Boolean validate) {
     this.validate = validate;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("auditPackage")
+  public AuditPackageOptions getAuditPackage() {
+    return auditPackage;
+  }
+  public void setAuditPackage(AuditPackageOptions auditPackage) {
+    this.auditPackage = auditPackage;
   }
 
   
@@ -86,6 +101,18 @@ class OpenSignatureRequestModel   {
   /**
    **/
   @ApiModelProperty(value = "")
+  @JsonProperty("ignoreRevocationStatusUnknown")
+  public Boolean getIgnoreRevocationStatusUnknown() {
+    return ignoreRevocationStatusUnknown;
+  }
+  public void setIgnoreRevocationStatusUnknown(Boolean ignoreRevocationStatusUnknown) {
+    this.ignoreRevocationStatusUnknown = ignoreRevocationStatusUnknown;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
   @JsonProperty("dataHashes")
   public List<DigestAlgorithmAndValueModel> getDataHashes() {
     return dataHashes;
@@ -103,9 +130,11 @@ class OpenSignatureRequestModel   {
     
     sb.append("  file: ").append(file).append("\n");
     sb.append("  validate: ").append(validate).append("\n");
+    sb.append("  auditPackage: ").append(auditPackage).append("\n");
     sb.append("  defaultSignaturePolicyId: ").append(defaultSignaturePolicyId).append("\n");
     sb.append("  acceptableExplicitPolicies: ").append(acceptableExplicitPolicies).append("\n");
     sb.append("  securityContextId: ").append(securityContextId).append("\n");
+    sb.append("  ignoreRevocationStatusUnknown: ").append(ignoreRevocationStatusUnknown).append("\n");
     sb.append("  dataHashes: ").append(dataHashes).append("\n");
     sb.append("}\n");
     return sb.toString();

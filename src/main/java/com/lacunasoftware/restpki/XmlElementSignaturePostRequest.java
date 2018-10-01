@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-01-22T14:46:16.160-02:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-28T18:31:08.305-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class XmlElementSignaturePostRequest   {
   
@@ -23,6 +23,7 @@ class XmlElementSignaturePostRequest   {
   private String signaturePolicyId = null;
   private String securityContextId = null;
   private String callbackArgument = null;
+  private Boolean ignoreRevocationStatusUnknown = null;
 
   
   /**
@@ -133,6 +134,18 @@ class XmlElementSignaturePostRequest   {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("ignoreRevocationStatusUnknown")
+  public Boolean getIgnoreRevocationStatusUnknown() {
+    return ignoreRevocationStatusUnknown;
+  }
+  public void setIgnoreRevocationStatusUnknown(Boolean ignoreRevocationStatusUnknown) {
+    this.ignoreRevocationStatusUnknown = ignoreRevocationStatusUnknown;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -148,6 +161,7 @@ class XmlElementSignaturePostRequest   {
     sb.append("  signaturePolicyId: ").append(signaturePolicyId).append("\n");
     sb.append("  securityContextId: ").append(securityContextId).append("\n");
     sb.append("  callbackArgument: ").append(callbackArgument).append("\n");
+    sb.append("  ignoreRevocationStatusUnknown: ").append(ignoreRevocationStatusUnknown).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

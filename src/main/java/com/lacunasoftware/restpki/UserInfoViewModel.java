@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-07-05T18:14:42.102-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-28T18:31:08.305-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class UserInfoViewModel   {
   
@@ -17,6 +17,7 @@ class UserInfoViewModel   {
   private String loginProvider = null;
   private Boolean isAdmin = null;
   private Boolean hasPassword = null;
+  private String userId = null;
 
   
   /**
@@ -79,6 +80,18 @@ class UserInfoViewModel   {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("userId")
+  public String getUserId() {
+    return userId;
+  }
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -90,6 +103,7 @@ class UserInfoViewModel   {
     sb.append("  loginProvider: ").append(loginProvider).append("\n");
     sb.append("  isAdmin: ").append(isAdmin).append("\n");
     sb.append("  hasPassword: ").append(hasPassword).append("\n");
+    sb.append("  userId: ").append(userId).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

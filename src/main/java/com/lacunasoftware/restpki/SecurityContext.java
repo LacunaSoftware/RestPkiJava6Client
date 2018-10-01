@@ -22,6 +22,13 @@ public class SecurityContext {
      */
     public static final SecurityContext windowsServer = new SecurityContext("3881384c-a54d-45c5-bbe9-976b674f5ec7");
 
+    /**
+     * Lacuna Test PKI (use for development purposes only!) If you are using an on-premises instance
+     * of Rest PKI (instead of https://pki.rest/), this security context might have to be created
+     * first.
+     */
+    public static final SecurityContext lacunaTest = new SecurityContext("803517ad-3bbc-4169-b085-60053a8f6dbf");
+
     private String id;
 
     /**

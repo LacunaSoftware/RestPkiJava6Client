@@ -74,6 +74,7 @@ public class XmlElementSignatureStarter extends XmlSignatureStarter {
         request.setSecurityContextId(this.securityContextId);
         request.setSignaturePolicyId(this.signaturePolicyId);
         request.setSignatureElementLocation(this.signatureElementLocation);
+        request.setIgnoreRevocationStatusUnknown(this.ignoreRevocationStatusUnknown);
 
         // specific values request
         request.setElementToSignId(this.toSignElementId);
@@ -125,6 +126,8 @@ public class XmlElementSignatureStarter extends XmlSignatureStarter {
         request.setSecurityContextId(this.securityContextId);
         request.setSignaturePolicyId(this.signaturePolicyId);
         request.setSignatureElementLocation(this.signatureElementLocation);
+        request.setIgnoreRevocationStatusUnknown(this.ignoreRevocationStatusUnknown);
+
         // specific values request
         request.setElementToSignId(this.toSignElementId);
         request.setIdResolutionTable(this.idResolutionTable == null ? null : this.idResolutionTable.toModel());

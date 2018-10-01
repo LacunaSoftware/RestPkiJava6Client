@@ -72,7 +72,7 @@ public class CadesSignatureExplorer2 extends SignatureExplorer2 {
      */
     public CadesSignature open() throws RestException, IOException {
 
-        OpenSignatureRequestModel request = getRequest(false);
+        OpenCadesSignatureRequestModel request = getRequest(false);
         CadesSignatureModel response = client.getRestClient().post("Api/CadesSignatures/Open", request, CadesSignatureModel.class);
 
         CadesSignature signature = new CadesSignature(response);
@@ -89,7 +89,7 @@ public class CadesSignatureExplorer2 extends SignatureExplorer2 {
      */
     public CadesSignatureWithEncapsulatedContent openAndExtractContent() throws RestException, IOException {
 
-        OpenSignatureRequestModel request = getRequest(true);
+        OpenCadesSignatureRequestModel request = getRequest(true);
         CadesSignatureModel response = client.getRestClient().post("Api/CadesSignatures/Open", request, CadesSignatureModel.class);
 
         CadesSignature signature = new CadesSignature(response);
@@ -97,7 +97,7 @@ public class CadesSignatureExplorer2 extends SignatureExplorer2 {
         return new CadesSignatureWithEncapsulatedContent(signature, encapsulatedContent);
     }
 
-    private OpenSignatureRequestModel getRequest(boolean extractEncapsulatedContent) throws RestException, IOException {
+    private OpenCadesSignatureRequestModel getRequest(boolean extractEncapsulatedContent) throws RestException, IOException {
 
         if (signatureFile == null) {
             throw new RuntimeException("The signature file to open was not set");
@@ -115,6 +115,23 @@ public class CadesSignatureExplorer2 extends SignatureExplorer2 {
         request.setExtractEncapsulatedContent(extractEncapsulatedContent);
         request.setDataHashes(dataHashes);
         return fillRequest(request);
+    }
+
+    private OpenCadesSignatureRequestModel fillRequest(OpenCadesSignatureRequestModel request) throws RestException, IOException {
+
+        request.setValidate(validate);
+        request.setDefaultSignaturePolicyId(defaultSignaturePolicyId);
+        request.setSecurityContextId(securityContextId);
+        request.setIgnoreRevocationStatusUnknown(ignoreRevocationStatusUnknown);
+        if (acceptableExplicitPolicies != null) {
+            List<String> policyIds = new ArrayList<String>();
+            for (SignaturePolicy policy : acceptableExplicitPolicies.getPolicies()) {
+                policyIds.add(policy.getId());
+            }
+            request.setAcceptableExplicitPolicies(policyIds);
+        }
+        request.setFile(signatureFile.uploadOrReference(client));
+        return request;
     }
 
     private List<DigestAlgorithm> getRequiredHashes() throws RestException, IOException {

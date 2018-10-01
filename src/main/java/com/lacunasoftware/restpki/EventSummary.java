@@ -9,18 +9,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-07-05T18:14:42.102-03:00")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2018-09-28T18:31:08.305-03:00")
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 class EventSummary   {
   
   private String id = null;
   private Date date = null;
   public enum OperationEnum {
-     AccessTokenGenerated,  AccessTokensRevoked,  CertAuthStarted,  CertAuthCompleted,  PadesSignatureStarted,  PadesSignatureCompleted,  CadesSignatureStarted,  CadesSignatureCompleted,  XmlSignatureStarted,  XmlSignatureCompleted,  OpenSignature, 
+     AccessTokenGenerated,  AccessTokensRevoked,  CertAuthStarted,  CertAuthCompleted,  PadesSignatureStarted,  PadesSignatureCompleted,  CadesSignatureStarted,  CadesSignatureCompleted,  XmlSignatureStarted,  XmlSignatureCompleted,  OpenSignature,  IssueTimestamp,  AddPdfMarks,  GetPendingSignature,  SetPendingSignature, 
   };
   private OperationEnum operation = null;
   private Boolean success = null;
   private Boolean hasDetails = null;
+  private String clientLibId = null;
+  private String clientLibVersion = null;
 
   
   /**
@@ -83,6 +85,30 @@ class EventSummary   {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("clientLibId")
+  public String getClientLibId() {
+    return clientLibId;
+  }
+  public void setClientLibId(String clientLibId) {
+    this.clientLibId = clientLibId;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("clientLibVersion")
+  public String getClientLibVersion() {
+    return clientLibVersion;
+  }
+  public void setClientLibVersion(String clientLibVersion) {
+    this.clientLibVersion = clientLibVersion;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -94,6 +120,8 @@ class EventSummary   {
     sb.append("  operation: ").append(operation).append("\n");
     sb.append("  success: ").append(success).append("\n");
     sb.append("  hasDetails: ").append(hasDetails).append("\n");
+    sb.append("  clientLibId: ").append(clientLibId).append("\n");
+    sb.append("  clientLibVersion: ").append(clientLibVersion).append("\n");
     sb.append("}\n");
     return sb.toString();
   }
