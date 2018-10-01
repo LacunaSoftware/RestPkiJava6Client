@@ -5,26 +5,34 @@ package com.lacunasoftware.restpki;
  */
 public class PadesSize {
 
-    private double height;
-    private double width;
+	private double height;
+	private double width;
 
-    public PadesSize(double width, double height) {
-        this.height = height;
-        this.width = width;
-    }
+	public PadesSize(double width, double height) {
+		this.height = height;
+		this.width = width;
+	}
 
-    public double getHeight() {
-        return height;
-    }
+	public double getHeight() {
+		return height;
+	}
 
-    public double getWidth() {
-        return width;
-    }
+	public void setHeight(double height) {
+		this.height = height;
+	}
 
-    public PadesSizeModel toModel() {
-        PadesSizeModel model = new PadesSizeModel();
-        model.setWidth(width);
-        model.setHeight(height);
-        return model;
-    }
+	public double getWidth() {
+		return width;
+	}
+
+	public void setWidth(double width) {
+		this.width = width;
+	}
+
+	public PadesSizeModel toModel() {
+		PadesSizeModel model = new PadesSizeModel();
+		model.setWidth(width);
+		model.setHeight(height);
+		return model;
+	}
 }
